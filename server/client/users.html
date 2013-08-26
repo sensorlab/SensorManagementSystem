@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+            body { padding-top: 60px; padding-bottom: 40px; }
+        </style>
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="css/font-awesome.css" rel="stylesheet">
+        <link href="css/carvic.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/knockout.js"></script>
+        <script type="text/javascript" src="js/carvic.js"></script>
+        <script type="text/javascript" src="consts.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".control-label")
+                    .attr("data-bind", "css: { clear_top_padding: $root.NewUserEditing() == false }");
+                Carvic.InitUserList();
+                ko.applyBindings(Carvic.Model.Users);
+                $(".input")
+                    .attr("data-placement", "right")
+                    .tooltip();
+            });
+        </script>
+        <title>Sensorlab - users</title>
+    </head>
+    <body>
+
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="admin.html">Sensorlab</a>
+                    <div class="nav-collapse collapse">
+                        <ul id="ulNav" class="nav">
+                            <li><a href="clusters.html"><i class="icon-sitemap"></i> Clusters</a></li>
+                            <li><a href="nodes.html"><i class="icon-map-marker"></i> Nodes</a></li>
+                            <li><a href="components.html"><i class="icon-cogs"></i> Components</a></li>
+                            <li id="liUsers" class="active"><a href="users.html"><i class="icon-group"></i> Users</a></li>
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li><a href="help"><i class="icon-question-sign" title="Show help"></i> Help</a></li>
+                            <li><a href="settings.html"><i class="icon-user"></i> <span data-bind="text: $root.StdData.CurrentUserFullname, attr: { title: StdData.CurrentUserTooltip } "></span></a></li>
+                            <li><a href="logout"><i class="icon-signout"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span12 well">
+
+                    <h2><i class="icon-group"></i> Sensorlab users</h2>
+                </div>
+            </div>
+
+            <div class="row-fluid" style="padding-bottom:  10px;" data-bind="visible: NewUserEditing() == true">
+                <div class="form-horizontal">
+
+                    <div class="control-group">
+                        <label class="control-label" for="inUsername">Username </label>
+                        <div class="controls">
+                            <input id="inUsername" type="text" class="input input-medium" data-bind="value: NewUserUsername" title="Username the will be used in the system - it cannot be changed later!" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="inFullName">Full name </label>
+                        <div class="controls">
+                            <input id="inFullName" type="text" class="input input-medium" data-bind="value: NewUserFullName" title="User's full name" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="inType">Type </label>
+                        <div class="controls">
+                            <select id="inType" class="input input-medium" data-bind="options: UserTypes, optionsText: 'title', value: NewUserType" title="User's type"></select>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="inPwd1">Password </label>
+                        <div class="controls">
+                            <input id="inPwd1" type="password" class="input input-medium" data-bind="value: NewUserPwd1" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="inPwd2">Password again </label>
+                        <div class="controls">
+                            <input id="inPwd2" type="password" class="input input-medium" data-bind="value: NewUserPwd2" />
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="btnSaveNewUser"></label>
+                        <div class="controls">
+                            <button id="btnSaveNewUser" class="btn btn-primary" type="button" data-bind="click: $root.SaveNewUser"><i class="icon-save"></i> Save </button>
+                            <button id="btnCancelSaveNewUser" class="btn" type="button" data-bind="click: $root.NewUserCancelEditing">Cancel </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row-fluid" style="padding-bottom:  10px;" data-bind="visible: NewUserEditing() == false">
+                <div class="span12 text-light">
+                    Record count: <span data-bind="text: ResultCount"></span>
+                    <div class="pull-right">
+                        <button class="btn" type="button" data-bind="click: NewUserStartEditing"><i class="icon-plus"></i> Add new user </button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row-fluid" style="padding-bottom:  10px;" data-bind="visible: NewUserEditing() == false">
+                <div class="span12">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Last login</th>
+                        </tr>
+                        <tbody data-bind="foreach: $root.UserList">
+                        <tr data-bind="css: { warning: Status == 'locked', info: Status == 'inactive' }, click: $root.ShowUserDetails" style="cursor:  pointer">
+                            <td data-bind="text: Username"></td>
+                            <td data-bind="text: FullName"></td>
+                            <td data-bind="text: $root.UserStatusesMap[Status].title"></td>
+                            <td data-bind="text: $root.UserTypesMap[Type].title "></td>
+                            <td data-bind="text: Carvic.Utils.FormatDateTime(LastLogin) "></td>
+                        </tr>
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

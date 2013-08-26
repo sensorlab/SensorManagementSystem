@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+            body { padding-top: 60px; padding-bottom: 40px; }
+        </style>
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="css/font-awesome.css" rel="stylesheet">
+        <link href="css/carvic.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/knockout.js"></script>
+        <script type="text/javascript" src="js/carvic.js"></script>
+        <script type="text/javascript" src="consts.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".control-label")
+                    .attr("data-bind", "css: { clear_top_padding: $root.CurrentUserEditing() == false }");
+                Carvic.InitSingleUser();
+                ko.applyBindings(Carvic.Model.User);
+                $(".input")
+                    .attr("data-placement", "right")
+                    .tooltip();
+            });
+        </script>
+        <title>Sensorlab - user</title>
+    </head>
+    <body>
+
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="admin.html">Sensorlab</a>
+                    <div class="nav-collapse collapse">
+                        <ul id="ulNav" class="nav">
+                            <li><a href="clusters.html"><i class="icon-sitemap"></i> Clusters</a></li>
+                            <li><a href="nodes.html"><i class="icon-map-marker"></i> Nodes</a></li>
+                            <li><a href="components.html"><i class="icon-cogs"></i> Components</a></li>
+                            <li id="liUsers" class="active"><a href="users.html"><i class="icon-group"></i> Users</a></li>
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li><a href="help"><i class="icon-question-sign" title="Show help"></i> Help</a></li>
+                            <li><a href="settings.html"><i class="icon-user"></i> <span data-bind="text: $root.StdData.CurrentUserFullname, attr: { title: StdData.CurrentUserTooltip } "></span></a></li>
+                            <li><a href="logout"><i class="icon-signout"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <!--<div class="row-fluid" style="padding-bottom:  10px;">
+                <div class="span6">
+                    <button class="btn btn-primary" data-bind="click: $root.CloseUserDetails"><i class="icon-chevron-left"></i> Back </button>
+                </div>
+                <div class="span6" style="text-align: right">
+
+                </div>
+            </div>-->
+            <div class="row-fluid" data-bind="with: $root.CurrentUser()">
+                <div class="span6">
+                    <div class="well well-small">
+                        <h2><i class="icon-user"></i> User info</h2>
+
+
+                        <div class="form-horizontal">
+
+                            <div class="control-group">
+                                <label class="control-label" for="inUsername">Username </label>
+                                <div class="controls">
+                                    <span data-bind="text: Username"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inFullName">Full name </label>
+                                <div class="controls">
+                                    <span id="inFullName" data-bind="text: FullName, visible: $root.CurrentUserEditing()==false"></span>
+                                    <input type="text" class="input input-medium" data-bind="value: $root.CurrentUserEdit().FullName, visible: $root.CurrentUserEditing()==true" title="Full name of the user" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inType">Type </label>
+                                <div class="controls">
+                                    <span id="inType" data-bind="text: TypeStr, visible: $root.CurrentUserEditing()==false"></span>
+                                    <select class="input input-medium" data-bind="options: $root.UserTypes, optionsText: 'title', value: $root.CurrentUserEdit().Type, visible: $root.CurrentUserEditing()==true" title="User's type"></select>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inStatus">Status </label>
+                                <div class="controls">
+                                    <span id="inStatus" data-bind="text: StatusStr, visible: $root.CurrentUserEditing()==false"></span>
+                                    <select class="input input-medium" data-bind="options: $root.UserStatuses, optionsText: 'title', value: $root.CurrentUserEdit().Status, visible: $root.CurrentUserEditing()==true" title="User's status"></select>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inLastLogin">Last login </label>
+                                <div class="controls">
+                                    <span id="inLastLogin" data-bind="text: Carvic.Utils.FormatDateTime(LastLogin)"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group" data-bind="visible: $root.CurrentUserEditing()==true">
+                                <label class="control-label" for="btnSaveNewUser"></label>
+                                <div class="controls">
+                                    <button id="btnSaveNewUser" class="btn btn-primary" type="button" data-bind="click: $root.CurrentUserSave"><i class="icon-save"></i> Save </button>
+                                    <button id="btnCancelSaveNewUser" class="btn" type="button" data-bind="click: $root.CurrentUserCancelEditing">Cancel </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div data-bind="visible: $root.CurrentUserEditing()==false && $root.CurrentUserEditingPwd() == false">
+                                <button class="btn" data-bind="click: $root.CurrentUserStartEditing"><i class="icon-edit"></i> Edit user data </button>
+                                <button class="btn" data-bind="click: $root.CurrentUserStartEditingPwd"><i class="icon-key"></i> Change password </button>
+                                <button class="btn btn-danger" data-bind="click: $root.DeleteUser, visible: $root.StdData.CurrentUserIsAdmin() == true"><i class="icon-remove"></i> Delete user</button>
+                            </div>
+                        </div>
+
+                        <div data-bind="visible: $root.CurrentUserEditingPwd() == true">
+
+                            <div class="form-horizontal">
+
+                                <div class="control-group">
+                                    <label class="control-label" for="inPwd1">New password </label>
+                                    <div class="controls">
+                                        <input id="inPwd1" type="password" class="input-medium" data-bind="value: $root.EditUserPwd1" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="inPwd2">New password again </label>
+                                    <div class="controls">
+                                        <input id="inPwd2" type="password" class="input-medium" data-bind="value: $root.EditUserPwd2" />
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="btnSaveNewUserPwd"></label>
+                                    <div class="controls">
+                                        <button id="btnSaveNewUserPwd" class="btn btn-primary" type="button" data-bind="click: $root.CurrentUserChangePwd"><i class="icon-save"></i> Change password </button>
+                                        <button id="btnCancelEditPwd" class="btn" type="button" data-bind="click: $root.CurrentUserCancelEditingPwd">Cancel </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div>
+                        <ul class="nav nav-tabs">
+                            <li data-bind="css: {active: $root.ShowLogins()==true }">
+                                <a href="#" data-bind="click: $root.DoShowLogins">Logins</a>
+                            </li>
+                            <li data-bind="css: {active: $root.ShowChanges()==true }">
+                                <a href="#" data-bind="click: $root.DoShowChanges">Changes</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <table class="table table-hover" data-bind="visible: $root.ShowLogins()==true ">
+                        <tr>
+                            <th>When</th>
+                            <th>Ip</th>
+                            <th>Last action</th>
+                        </tr>
+                        <tbody data-bind="foreach: LoginHistory">
+                        <tr>
+                            <td data-bind="text: Carvic.Utils.FormatDateTime(Ts) "></td>
+                            <td data-bind="text: Ip"></td>
+                            <td data-bind="text: Carvic.Utils.FormatDateTime(LastAction) "></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="well well-small history" data-bind="visible: $root.ShowChanges()==true ">
+                        <div data-bind="foreach: $root.CurrentUser().History">
+                            <div class="history_border">
+                                <div class="history_icon">
+                                    <i data-bind="css: Css"></i>
+                                </div>
+                                <div class="history_t">
+                                    <div class="text-heavy" data-bind="text: Title"></div>
+                                    <div data-bind="text: Description"></div>
+                                    <div class="text-light" data-bind="text: Carvic.Utils.FormatDateTime(Ts)"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

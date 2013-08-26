@@ -1,0 +1,1 @@
+uglifyjs -o carvic.min.js carvic.js

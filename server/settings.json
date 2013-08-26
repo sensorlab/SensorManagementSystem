@@ -1,0 +1,33 @@
+{
+    "web": {
+        "port": 3000,
+        "use_auth": true
+    },
+    "database": {
+        "url": "sms"
+    },
+    "scan": {
+        "node_unreachable_after" : "2 d",
+        "autodiscover": true
+    },
+    "archive": {
+        "enabled": false,
+        "dir": "./archive",
+        "format": "json",
+        "scan_history" : "20 h",
+        "edit_history" : "20 h",
+        "measurement_history": "20 h"
+    },
+    "notify": {
+        "enabled": false,
+        "server": "localhost",
+        "port": 3345,
+        "path_after_sensor_scan" : "/",
+        "path_after_node_change" : "/",
+        "path_after_sensor_change" : "/",
+        
+        "after_node_change" : true,
+        "after_sensor_scan" : true,
+        "after_sensor_change" : true
+    }
+}

@@ -1,0 +1,115 @@
+
+/*--------------------------------------------------
+Bootstrap tweaks
+------------------------------------------------*/
+
+.form-horizontal .controls {
+    /*padding-top: 5px;*/
+}
+
+.tooltip {
+  /*padding: 10px;*/
+  font-size: 14px;
+}
+
+.clear_top_padding {
+    padding-top:  0px !important;
+}
+/*---------------------------------------------*/
+
+
+.color_error {
+    color:  #da4f49;
+}
+.color_warning {
+    color:  #faa732;
+}
+.color_ok {
+    color:  #5bb75b;
+}
+
+.max-width-form {
+    max-width: 800px;
+}
+
+.text-light {
+    color: #cccccc;
+}
+
+.text-heavy {
+    font-weight: bold;
+}
+
+.history_border {
+    background-color: #fff;
+    border: 1px solid #b9b9b9;
+    border-bottom-color: #939393;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    min-height: 18px;
+    padding: 6px 8px 1px;
+    position: relative;
+    -webkit-transition-property: background,margin-bottom,opacity;
+    transition-property: background,margin-bottom,opacity;
+    -webkit-transition-duration: 0.2s, 0.1s, 0.2s;
+    transition-duration: 0.2s, 0.1s, 0.2s;
+    -webkit-transition-timing-function: ease-out;
+    transition-timing-function: ease-out;
+    z-index: 0;
+}
+
+.history {
+    max-width: 500px;
+}
+
+.history_icon {
+    float: left;
+    font-size: 32px;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+.history_t {
+    margin-left: 45px;
+}
+
+.well-white {
+   background: #ffffff;
+} 
+
+/*-------------------------------------------------------------
+Front-page blocks
+-----------------------------------------------------------*/
+.front_block {
+    background: #305B8E;
+    color: #ffffff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 10px;
+    font-size: 56px;
+}
+.front_title {
+    padding: 0px 20px 20px 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.front_title a {
+    color: inherit;
+}
+
+.front_title a:hover {
+    text-decoration: inherit;
+    color: #dddddd;
+}
+
+.front_subtitle {
+    font-size: 16px;
+    color: Whitesmoke;
+    text-align: center;
+}
+
+/*---------------------------------------------------------*/
+
+

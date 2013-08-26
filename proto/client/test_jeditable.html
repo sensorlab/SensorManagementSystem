@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+            body { padding-top: 60px; padding-bottom: 40px; }
+        </style>
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="css/font-awesome.css" rel="stylesheet">
+        <link href="css/carvic.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/knockout.js"></script>
+        <script type="text/javascript" src="js/handlebars.js"></script>
+        <script type="text/javascript" src="js/jquery.jeditable.js"></script>
+        <script type="text/javascript" src="js/carvic.js"></script>
+        <script>
+            $(document).ready(function () {
+                Carvic.Init();
+                ko.applyBindings(Carvic.Model);
+				$('.edit').editable(
+					function(value, settings) { 
+						 alert(this);
+						 alert(this.id);
+						 alert(value);
+						 alert(JSON.stringify(settings));
+						 return(value);
+					  },
+					 {
+						 indicator : 'Saving...',
+						 tooltip   : 'Click to edit...'
+					 }
+				);
+            });
+ 
+			
+        </script>
+        <title>Sensorlab - Dashboard</title>
+    </head>
+    <body>
+
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="admin.html">Sensorlab</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="nodes.html">Nodes</a></li>
+                            <li><a href="users.html">Users</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row-fluid">
+
+
+                <div class="well">
+                    <h2>Sensorlab dashboard</h2>
+                        
+                </div>
+
+                <div class="span3 action_butons">
+                    <h2>Quick actions</h2>
+
+                    <div class="edit" id="div_1">Dolor</div>
+					<div class="edit_area" id="div_2">
+						Lorem ipsum dolor sit amet, consectetuer 
+						adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore 
+						magna aliquam erat volutpat.
+					</div>
+                </div>
+
+            </div>
+        </div>
+    </body>
+</html>

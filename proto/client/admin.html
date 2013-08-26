@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+            body { padding-top: 60px; padding-bottom: 40px; }
+        </style>
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="css/font-awesome.css" rel="stylesheet">
+        <link href="css/carvic.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/knockout.js"></script>
+        <script type="text/javascript" src="js/handlebars.js"></script>
+        <script type="text/javascript" src="js/carvic.js"></script>
+        <script>
+            $(document).ready(function () {
+                Carvic.Init();
+                ko.applyBindings(Carvic.Model);
+            });
+        </script>
+        <title>Sensorlab - Dashboard</title>
+    </head>
+    <body>
+
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="admin.html">Sensorlab</a>
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="stats.html">Performance</a></li>
+                            <li><a href="nodes.html">Nodes</a></li>
+                            <li><a href="users.html">Users</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid" style="max-width: 1000px;   margin-left: auto ;  margin-right: auto ;">
+            <div class="row-fluid">
+
+
+                <div class="well" style="text-align:  center">
+                    <h2>Sensorlab dashboard</h2>
+
+                </div>
+            </div>
+            <div class="row-fluid">
+
+                <div class="span4 front_block">
+                    <div class="row-fluid">
+                        <div class="span3" style="text-align: center; padding: 10px;">
+                            <i class="icon-dashboard"></i>
+                        </div>
+                        <div class="span9">
+                            <div class="front_title"><a href="stats.html">Performance</a></div>
+                            <div class="front_subtitle">View system's performance and  statistics.</div></td>
+                        </div>
+                    </div>
+                </div>                
+
+                <div class="span4 front_block">
+                    <div class="row-fluid">
+                        <div class="span4" style="text-align: center; vertical-align: middle; padding: 10px;">
+                            <i class="icon-sitemap"></i>
+                        </div>
+                        <div class="span8">
+                            <div class="front_title"><a href="nodes.html">Nodes</a></div>
+                            <div class="front_subtitle"> Browse and edit existing nodes or add a new one. </div></td>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span4 front_block">
+                    <div class="row-fluid">
+                        <div class="span4" style="text-align: center; vertical-align: middle; padding: 10px;">
+                            <i class="icon-group"></i>
+                        </div>
+                        <div class="span8">
+                            <div class="front_title"><a href="users.html">Users</a></div>
+                            <div class="front_subtitle"> Browse and edit existing users or add a new one. </div></td>
+                        </div> 
+                    </div>
+                </div>
+                <!--
+
+                <div class="span3 action_butons">
+                    <h2>Quick actions</h2>
+
+                    <div>
+                        <button class="btn fat" data-toggle="collapse" data-target="#demo"><i class="icon-plus"></i> <i class="icon-map-marker"></i> Add new node </button>
+                        <div id="demo" class="collapse out">
+                            <h2>New node</h2>
+                            <table style="width:  100%">
+                                <tr>
+                                    <td>Name</td>
+                                    <td><select class="input-medium" data-bind="options: $root.Users, value: $root.pay_user"></select></td>
+                                </tr>
+                                <tr>
+                                    <td>LON</td>
+                                    <td><input type="date" class="input-medium" name="bday" data-bind="value: $root.pay_date"></td>
+                                </tr>
+                                <tr>
+                                    <td>LAT</td>
+                                    <td><input type="text" class="input-medium" data-bind="value: $root.pay_amt" /></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>
+                                        <button class="btn btn-primary" data-bind="click: $root.InsertNew"><i class="icon-save"></i> Save </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn" data-bind="click: $root.CloseMonth"><i class="icon-plus"></i> <i class="icon-user"></i> Add new user </button>
+                    </div>
+
+                    <h2>Quick Links</h2>
+                    <div>
+                        <button class="btn" data-bind="click: $root.SendMails"><i class="icon-search"></i> Search nodes </button>
+                    </div>
+                    <div>
+                        <button class="btn" data-bind="click: $root.SyncUsers"><i class="icon-group"></i> Search users </button>
+                    </div>
+                </div>
+
+                <div class="span3">
+                    <h2>Node stats</h2>
+
+                    <dl class="dl-horizontal">
+                        <dt>Nodes</dt>
+                        <dd>254</dd>
+                        <dt>Active nodes</dt>
+                        <dd>221</dd>
+                        <dt>Inactive nodes</dt>
+                        <dd>33</dd>
+                        <dt>Unreachable</dt>
+                        <dd>5</dd>
+                    </dl>
+                </div>
+
+                <div class="span3">
+                    <h2>New node</h2>
+                    <table style="width:  100%">
+                        <tr>
+                            <td>Name</td>
+                            <td><select class="input-medium" data-bind="options: $root.Users, value: $root.pay_user"></select></td>
+                        </tr>
+                        <tr>
+                            <td>LON</td>
+                            <td><input type="date" class="input-medium" name="bday" data-bind="value: $root.pay_date"></td>
+                        </tr>
+                        <tr>
+                            <td>LAT</td>
+                            <td><input type="text" class="input-medium" data-bind="value: $root.pay_amt" /></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>
+                                <button class="btn btn-primary" data-bind="click: $root.InsertNew"><i class="icon-save"></i> Save </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                -->
+            </div>
+        </div>
+    </body>
+</html>

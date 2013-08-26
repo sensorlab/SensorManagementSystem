@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+            body { padding-top: 60px; padding-bottom: 40px; }
+        </style>
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="css/font-awesome.css" rel="stylesheet">
+        <link href="css/carvic.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/knockout.js"></script>
+        <script type="text/javascript" src="js/handlebars.js"></script>
+        <script type="text/javascript" src="js/carvic.js"></script>
+        <script type="text/javascript" src="consts.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".control-label")
+                    .attr("data-bind", "css: { clear_top_padding: $root.Editing() == false }");
+                Carvic.InitSingleCluster();
+                ko.applyBindings(Carvic.Model.Cluster);
+                $(".input")
+                    .attr("data-placement", "right")
+                    .tooltip();
+            });
+        </script>
+        <title>Sensorlab - cluster</title>
+    </head>
+    <body>
+
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="admin.html">Sensorlab</a>
+                    <div class="nav-collapse collapse">
+                        <ul id="ulNav" class="nav">
+                            <li class="active"><a href="clusters.html"><i class="icon-sitemap"></i> Clusters</a></li>
+                            <li><a href="nodes.html"><i class="icon-map-marker"></i> Nodes</a></li>
+                            <li><a href="components.html"><i class="icon-cogs"></i> Components</a></li>
+                            <!--<li><a href="users.html"><i class="icon-group"></i> Users</a></li>-->
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li><a href="help"><i class="icon-question-sign" title="Show help"></i> Help</a></li>
+                            <li><a href="settings.html"><i class="icon-user"></i> <span data-bind="text: $root.StdData.CurrentUserFullname, attr: { title: StdData.CurrentUserTooltip } "></span></a></li>
+                            <li><a href="logout"><i class="icon-signout"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+
+            <div class="row-fluid">
+                <div class="span12 well">
+                    <h2><i class="icon-sitemap"></i>
+                        <span data-bind="text: Name"></span></h2>
+                </div>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <div class="well well-small form-horizontal">
+
+                        <div style="padding-bottom:  10px;">
+                            <button class="btn " data-bind="click: $root.StartEditing, visible: $root.Editing() == false"><i class="icon-edit"></i> Edit cluster</button>
+                            <button class="btn" type="button" data-bind="click: $root.ScanCluster, visible: $root.StdData.CurrentUserIsAdmin() == true && $root.Editing() == false"><i class="icon-search"></i> Scan cluster </button>
+                            <div class="pull-right">
+                                <button class="btn btn-danger" data-bind="click: $root.DeleteCluster, visible: $root.Editing() == true && $root.StdData.CurrentUserIsAdmin() == true"><i class="icon-remove"></i> Delete cluster</button>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inName"> Name </label>
+                            <div class="controls">
+                                <span data-bind="text: Name, visible: $root.Editing() == false"></span>
+                                <input class="input" id="inName" type="text" data-bind="value: Name, visible: $root.Editing() == true" title="Name for this cluster - it will appear in lists and search results" />
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inId"> Id </label>
+                            <div class="controls">
+                                <span data-bind="text: Id, visible: $root.Editing() == false" title="ID of this cluster"></span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inTag"> Tag </label>
+                            <div class="controls">
+                                <span data-bind="text: Tag, visible: $root.Editing() == false"></span>
+                                <input class="input" id="inTag" type="text" data-bind="value: Tag, visible: $root.Editing() == true" title="Tag of this cluster - important for zigbee networks!" />
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="inType "> Type  </label>
+                            <div class="controls">
+                                <span data-bind="text: TypeStr , visible: $root.Editing() == false"></span>
+                                <select class="input" id="inType" data-bind="options: ClusterTypes, value: Type, optionsText: 'title', optionsValue: 'code', visible: $root.Editing() == true" title="Type of this cluster"></select>
+                            </div>
+                        </div>
+
+
+                        <div class="control-group">
+                            <label class="control-label" for="inScan"> Perform scan? </label>
+                            <div class="controls">
+                                <input class="input" type="checkbox" id="inScan" data-bind="checked: Scan, enable: $root.Editing() == true" title="Should this cluster be scanned automatically?"></select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inLastScan"> Last scan </label>
+                            <div class="controls">
+                                <span data-bind="text: Carvic.Utils.FormatDateTime(LastScan())"></span>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inUrl"> Url </label>
+                            <div class="controls">
+                                <span data-bind="text: Url, visible: $root.Editing() == false"></span>
+                                <input class="input input-xlarge" id="inUrl" type="text" data-bind="value: Url, visible: $root.Editing() == true" title="URL of communicator for this cluster, if it uses one." />
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inComment"> Comment </label>
+                            <div class="controls">
+                                <span data-bind="text: Comment, visible: $root.Editing() == false"></span>
+                                <textarea class="input input-xlarge" id="inComment" data-bind="value: Comment, visible: $root.Editing() == true" rows="5" title="Optional comment for this cluster."></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="control-group" data-bind="visible: $root.Editing() == true">
+                            <label class="control-label" for="btnSaveCluster"></label>
+                            <div class="controls">
+                                <button id="btnSaveCluster" class="btn btn-primary" type="button" data-bind="click: $root.SaveCluster"><i class="icon-save"></i> Save </button>
+                                <button id="btnCancelEdit" class="btn" type="button" data-bind="click: $root.CancelEditing">Cancel </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="span6">
+
+                    <ul class="nav nav-tabs">
+                        <li data-bind="css: {active: $root.ShowNodes()==true }">
+                            <a href="#" data-bind="click: $root.DoShowNodes">Nodes</a>
+                        </li>
+                        <li data-bind="css: {active: $root.ShowHistory()==true }">
+                            <a href="#" data-bind="click: $root.DoShowHistory">Cluster history</a>
+                        </li>
+                    </ul>
+
+                    <div class="well well-small history" data-bind="visible: $root.ShowHistory()==true ">
+                        <div data-bind="foreach: $root.History">
+                            <div class="history_border">
+                                <div class="history_icon">
+                                    <i data-bind="css: Css"></i>
+                                </div>
+                                <div class="history_t">
+                                    <div class="text-heavy" data-bind="text: Title"></div>
+                                    <div data-bind="text: Description"></div>
+                                    <div class="text-light">
+                                        <span data-bind="text: Carvic.Utils.FormatDateTime(Ts)"></span> by <span data-bind="text: User"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="well well-small history" data-bind="visible: $root.ShowNodes()==true ">
+                        <div data-bind="foreach: $root.Nodes">
+                            <div class="history_border">
+                                <div class="history_icon">
+                                    <span data-bind="css: { color_error: Status() == 'unknown', color_ok: Status() == 'active', color_warning: Status() == 'inactive' }"><i class="icon-circle"></i></span>
+                                </div>
+                                <div class="history_t">
+                                    <div class="text-heavy">
+                                        <a href="#" data-bind="attr: {href: Url}"><span data-bind="text: Name"></span></a>
+                                    </div>
+                                    <div>
+                                        ID=<span data-bind="text: ID"></span>,
+                                        Status=<span data-bind="text: Status"></span>
+                                    </div>
+                                    <div class="text-light">
+                                         Lon=<span data-bind="text: LON"></span>, Lat=<span data-bind="text: LAT"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </body>
+</html>

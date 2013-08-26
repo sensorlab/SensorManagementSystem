@@ -1,0 +1,130 @@
+********************************
+** OBSOLETE!!!!!!!!!
+********************************
+
+{
+   "cluster": {
+      "type": "zigbee",
+      "id": "10005",
+      "url": "http://194.249.231.26:9004/communicator"
+   },
+   "node_ids": [
+      "62",
+      "61"
+   ],
+   "nodes": [
+    {
+      "id": "61",
+      "data": {
+        "id": "61",
+        "mac": "62",
+        "firmware": "2.11",
+        "location": null,
+        "description": "OPCOMM node weather station"
+      },
+      "sensor_ids": [
+        "vantagepro2-windspeed-avg",
+        "vantagepro2-windspeed-max",
+        "vantagepro2-winddirection",
+        "vantagepro2-temperature",
+        "vantagepro2-rh",
+        "vantagepro2-rain",
+        "TSL2561-illuminance"
+      ],
+      "sensors": [
+        {
+          "id": "vantagepro2-windspeed-avg",
+          "data": {
+            "1366496533": "0.0"
+          }
+        },
+        {
+          "id": "vantagepro2-windspeed-max",
+          "data": {
+            "1366496537": "0.0"
+          }
+        },
+        {
+          "id": "vantagepro2-winddirection",
+          "data": {
+            "1366496540": "127.4"
+          }
+        },
+        {
+          "id": "vantagepro2-temperature",
+          "data": {
+            "1366496543": "11.7"
+          }
+        },
+        {
+          "id": "vantagepro2-rh",
+          "data": {
+            "1366496547": "81.2"
+          }
+        },
+        {
+          "id": "vantagepro2-rain",
+          "data": {
+            "1366496550": "44.5"
+          }
+        },
+        {
+          "id": "TSL2561-illuminance",
+          "data": {
+            "1366496553": "0.0"
+          }
+        }
+      ]
+    },
+      {
+         "id": "62",
+         "data": {
+            "id": "62",
+            "mac": "63",
+            "firmware": "1.00",
+            "location": {
+               "lon": 46.660187,
+               "lat": 15.958939
+            },
+            "description": "Globtel indoor node with temperature , humidity sensor and RFID reader."
+         },
+         "sensor_ids": [
+            "SHT21-temperature",
+            "SHT21-humidity",
+            "PN532-rfid"
+         ],
+         "sensors": [
+            {
+               "id": "SHT21-temperature",
+               "data": {
+                  "type": "SHT21",
+                  "measured-phenomenon": "temperature",
+                  "unit": "degrees celsium",
+                  "sampling-rate": "0",
+                  "description": "No description available."
+               }
+            },
+            {
+               "id": "SHT21-humidity",
+               "data": {
+                  "type": "SHT21",
+                  "measured-phenomenon": "humidity",
+                  "unit": "percent",
+                  "sampling-rate": "0",
+                  "description": "No description available."
+               }
+            },
+            {
+               "id": "PN532-rfid",
+               "data": {
+                  "type": "pn532",
+                  "measured-phenomenon": "rfid",
+                  "unit": "none",
+                  "sampling-rate": "cannot be set",
+                  "description": "rfid reader for access managment"
+               }
+            }
+         ]
+      }
+   ]
+}

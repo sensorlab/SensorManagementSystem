@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <title>Node location</title>
+        <style>
+            html, body {
+              height: 100%;
+              margin: 0;
+              padding: 0;
+            }
+            
+            #map-canvas, #map_canvas {
+              height: 100%;
+            }
+            
+            @media print {
+              html, body {
+                height: auto;
+              }
+            
+              #map-canvas, #map_canvas {
+                height: 650px;
+              }
+            }
+            
+            #panel {
+              position: absolute;
+              top: 5px;
+              left: 50%;
+              margin-left: -180px;
+              z-index: 5;
+              background-color: #fff;
+              padding: 5px;
+              border: 1px solid #999;
+            }	
+        </style>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script>
+            function getParameterByName(name) {
+                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+                var results = regex.exec(location.search);
+                return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+
+            function initialize() {
+                var lat = getParameterByName("lat") || 46.660187;
+                var lon = getParameterByName("lon") || 15.958939;
+                var title = getParameterByName("title") || "Target node";
+                var myLatlng = new google.maps.LatLng(lat, lon);
+                var mapOptions = { zoom: 19, center: myLatlng, mapTypeId: google.maps.MapTypeId.SATELLITE };
+                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                var marker = new google.maps.Marker({ position: myLatlng, map: map, title: title });
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);            
+        </script>
+    </head>
+    <body>
+        <div id="map-canvas"></div>
+    </body>
+</html>

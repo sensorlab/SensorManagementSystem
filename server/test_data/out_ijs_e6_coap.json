@@ -1,0 +1,65 @@
+{
+  "cluster": {
+    "_id": "5194c432683791e54d000034",
+    "id": "11001",
+    "last_scan": "2013-05-24T13:28:47.423Z",
+    "name": "Cluster 1",
+    "type": "ipv6",
+    "url": "e6hermes.ijs.si",
+    "xnodes": [
+      {
+        "id": 0,
+        "network_addr": "2001:1470:ff80:e61:212:4b00:6:7670",
+        "xsensors": [
+          {
+            "id": "temperature/1",
+            "title": "Temperature SHT21"
+          },
+          {
+            "id": "humidity/1",
+            "title": "Rhumidity SHT21"
+          }
+        ]
+      }
+    ]
+  },
+  "node_ids": [
+    0
+  ],
+  "nodes": [
+    {
+		"node_id": 0,
+		"node_addr": 0,
+      "data": {
+        "id": 0,
+        "network_addr": 0
+      },
+      "sensor_ids": [
+        "temperature/1",
+        "humidity/1"
+      ],
+      "sensors": [
+        {
+          "id": "temperature/1",
+          "data": {
+            "type": "SHT21",
+            "measured-phenomenon": "temperature",
+            "unit": "degrees celsius",
+            "description": "temperature in N403"
+          },
+          "data_val": 24.772202
+        },
+        {
+          "id": "humidity/1",
+          "data": {
+            "type": "SHT21",
+            "measured-phenomenon": "RHumiditiy",
+            "unit": " percent",
+            "description": "humidity in N403"
+          },
+          "data_val": 38.662476
+        }
+      ]
+    }
+  ]
+}

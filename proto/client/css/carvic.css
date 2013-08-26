@@ -1,0 +1,166 @@
+/*@import url(http://fonts.googleapis.com/css?family=Karla);
+@import url(http://fonts.googleapis.com/css?family=Montserrat);*/
+
+/*body, html {
+	margin:0;
+	padding:0;
+	font-size: 16px;
+	font-family: 'Karla', sans-serif;
+}*/
+
+
+/*.dashboard {
+	padding: 15px;
+	margin: 15px;
+		
+	background: #EEE;
+	box-shadow: 3px 3px 5px #222;
+}*/
+
+.front_block {
+    background: #305B8E;
+    color: #ffffff;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 10px;
+    font-size: 56px;
+}
+/*
+.well {
+   background: #305B8E;
+    color: #ffffff;
+ }
+*/
+.front_title {
+    padding: 0px 20px 20px 20px;
+    text-align: center;
+    font-size:  24px;
+}
+.front_title a {
+    color: inherit;
+}
+.front_title a:hover {
+    text-decoration:  inherit;
+    color: #dddddd;
+}
+.front_subtitle {
+    font-size:  16px;
+    color: Whitesmoke;
+    text-align: center;
+}
+
+
+.edit, .edit-area {
+	cursor:pointer;	
+}
+
+
+.search_text_area {
+    width: 100%;
+}
+
+.side_item {
+    padding: 5px;
+}
+
+.side_item :hover {
+    background: #cccccc;
+    color: #eeeeee;
+}
+
+.single_item {
+    margin-top:  10px;
+    padding: 15px;
+    border: 1px solid #cccccc;
+    /*background-color: whiteSmoke;*/
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+
+.action_butons div {
+    padding-bottom: 10px;
+}
+.action_butons div button {
+    width: 100%
+}
+
+
+
+
+
+
+
+
+
+
+
+h4{    
+    border-top: 1px solid #cccccc;
+    padding-top:  10px;
+}
+
+.open_bal_table {
+    width:  100%;
+}
+.open_bal_table tr th {
+    padding-right:  10px;
+    text-align:  center;
+}
+
+.open_bal_table tbody tr td,
+.open_bal_table tr td {
+    padding-right:  5px;
+    vertical-align: middle;
+}
+
+.ralign {
+    text-align: right;
+}
+
+.open_bal_table tbody tr td select,
+.open_bal_table tr td select {
+    vertical-align: middle;
+}
+
+.field_desc_tab tr th {
+    text-align:  right;
+}
+.field_desc_tab tr td {
+    padding-left:  10px;
+}
+
+.icon, .bicon {
+    display: inline-block;
+    border: 1px solid #cccccc;
+    background-color: whiteSmoke;
+    padding: 4px;
+    text-align: center;
+    vertical-align: middle;
+    
+    width: 21px;
+    height: 21px;
+    min-width: 16px;
+    line-height: 24px;
+  
+    font-size: 24px;
+    font-weight: normal;
+    border-radius: 4px;    
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+
+.icon-small{
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    line-height: 14px;
+}
+
+.icon-color {
+    color: #666666;
+}

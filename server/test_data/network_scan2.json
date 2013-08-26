@@ -1,0 +1,175 @@
+{
+  "cluster": {
+    "_id": "5199fb54abc274d818000035",
+    "id": "10005",
+    "last_scan": "2013-05-27T11:03:19.837Z",
+    "name": "Polica",
+    "type": "zigbee",
+    "url": "http://194.249.231.26:9004/communicator",
+    "xnodes": [
+      {
+        "id": 17,
+        "network_addr": "61"
+      },
+      {
+        "id": 16,
+        "network_addr": "0"
+      },
+      {
+        "id": 18,
+        "network_addr": "62"
+      }
+    ]
+  },
+  "node_addresses": [
+    "61",
+    "62",
+    "0"
+  ],
+  "nodes": [
+    {
+      "node_addr": "61",
+      "node_id": 17,
+      "data": {
+        "id": null,
+        "mac": "62",
+        "firmware": "2.11",
+        "location": null,
+        "description": "OPCOMM node weather station",
+        "network_addr": "61"
+      },
+      "sensor_ids": [
+        "vantagepro2-windspeed-avg",
+        "vantagepro2-windspeed-max",
+        "vantagepro2-winddirection",
+        "vantagepro2-temperature",
+        "vantagepro2-rh",
+        "vantagepro2-rain",
+        "TSL2561-illuminance"
+      ],
+      "sensors": [
+        {
+          "id": "vantagepro2-windspeed-avg",
+          "data": {
+            "1369652620": "1.8"
+          },
+          "data_val": 1.8
+        },
+        {
+          "id": "vantagepro2-windspeed-max",
+          "data": {
+            "1369652627": "1.8"
+          },
+          "data_val": 1.8
+        },
+        {
+          "id": "vantagepro2-winddirection",
+          "data": {
+            "1369652634": "347.4"
+          },
+          "data_val": 348.8
+        },
+        {
+          "id": "vantagepro2-temperature",
+          "data": {
+            "1369652640": "14.3"
+          },
+          "data_val": 14.3
+        },
+        {
+          "id": "vantagepro2-rh",
+          "data": {
+            "1369652647": "68.8"
+          },
+          "data_val": 67.8
+        },
+        {
+          "id": "vantagepro2-rain",
+          "data": {
+            "1369652653": "110.7"
+          },
+          "data_val": 110.7
+        },
+        {
+          "id": "TSL2561-illuminance",
+          "data": {
+            "1369652660": "7749.5"
+          },
+          "data_val": 7744.1
+        }
+      ]
+    },
+    {
+      "node_addr": "62",
+      "node_id": 18,
+      "data": {
+        "id": null,
+        "mac": "63",
+        "firmware": "1.00",
+        "location": {
+          "lat": 46.660187,
+          "lon": 15.958939
+        },
+        "description": "Globtel indoor node with temperature , humidity sensor and RFID reader.",
+        "network_addr": "62"
+      },
+      "sensor_ids": [
+        "SHT21-temperature",
+        "SHT21-humidity",
+        "PN532-rfid"
+      ],
+      "sensors": [
+        {
+          "id": "SHT21-temperature",
+          "data": {
+            "type": "SHT21",
+            "measured-phenomenon": "temperature",
+            "unit": "degrees celsium",
+            "sampling-rate": "0",
+            "description": "No description available."
+          },
+          "data_val": 26
+        },
+        {
+          "id": "SHT21-humidity",
+          "data": {
+            "type": "SHT21",
+            "measured-phenomenon": "humidity",
+            "unit": "percent",
+            "sampling-rate": "0",
+            "description": "No description available."
+          },
+          "data_val": 31
+        },
+        {
+          "id": "PN532-rfid",
+          "data": {
+            "type": "pn532",
+            "measured-phenomenon": "rfid",
+            "unit": "none",
+            "sampling-rate": "cannot be set",
+            "description": "rfid reader for access managment"
+          },
+          "data_val_err": {}
+        }
+      ]
+    },
+    {
+      "node_addr": "0",
+      "node_id": 16,
+      "data": {
+        "id": null,
+        "mac": "1",
+        "firmware": "1.00",
+        "location": {
+          "lat": 46.660187,
+          "lon": 15.958939
+        },
+        "description": "opcomm coordinator",
+        "network_addr": "0"
+      },
+      "sensor_ids": [],
+      "sensors": []
+    }
+  ]
+}

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <style type="text/css">
+            body { padding-top: 60px; padding-bottom: 40px; }
+        </style>
+        <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href="css/font-awesome.css" rel="stylesheet">
+        <link href="css/carvic.css" rel="stylesheet">
+
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/knockout.js"></script>
+        <script type="text/javascript" src="js/carvic.js"></script>
+        <script type="text/javascript" src="consts.js"></script>
+        <script>
+            $(document).ready(function () {
+                Carvic.InitComponentList();
+                ko.applyBindings(Carvic.Model.Components);
+                $(".input")
+                    .attr("data-placement", "right")
+                    .tooltip();
+                $("input").keyup(function (event) {
+                    if (event.keyCode == 13) {
+                        $("#btnSearch").click();
+                    }
+                });
+            });
+        </script>
+        <title>Sensorlab - components</title>
+    </head>
+    <body>
+
+
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-fluid">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="admin.html">Sensorlab</a>
+                    <div class="nav-collapse collapse">
+                        <ul id="ulNav" class="nav">
+                            <li><a href="clusters.html"><i class="icon-sitemap"></i> Clusters</a></li>
+                            <li><a href="nodes.html"><i class="icon-map-marker"></i> Nodes</a></li>
+                            <li class="active"><a href="components.html"><i class="icon-cogs"></i> Components</a></li>
+                            <!--<li><a href="users.html"><i class="icon-group"></i> Users</a></li>-->
+                        </ul>
+                        <ul class="nav pull-right">
+                            <li><a href="help"><i class="icon-question-sign" title="Show help"></i> Help</a></li>
+                            <li><a href="settings.html"><i class="icon-user"></i> <span data-bind="text: $root.StdData.CurrentUserFullname, attr: { title: StdData.CurrentUserTooltip } "></span></a></li>
+                            <li><a href="logout"><i class="icon-signout"></i> Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+
+            <div class="row-fluid">
+                <div class="span12 well">
+                    <h2><i class="icon-cogs"></i> Sensorlab components</h2>
+
+                    <div class="row-fluid form-horizontal max-width-form" data-bind="visible: $root.PageMode() == 'search'">
+                        <div class="span6">
+
+                            <div class="control-group">
+                                <label class="control-label" for="inPn">Product number</label>
+                                <div class="controls">
+                                    <input type="text" id="inPn" placeholder="Whole or partial product number" data-bind="value: SearchPN" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inS">Series</label>
+                                <div class="controls">
+                                    <input type="text" id="inS" placeholder="Exact series" data-bind="value: SearchS" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inP">Production</label>
+                                <div class="controls">
+                                    <input type="text" id="inP" placeholder="Exact production" data-bind="value: SearchP" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inSN">Serial number</label>
+                                <div class="controls">
+                                    <input type="text" id="inSN" placeholder="Exact serial number" data-bind="value: SearchSN" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span6">
+
+                            <div class="control-group">
+                                <label class="control-label" for="inType">Type</label>
+                                <div class="controls">
+                                    <select id="inType" data-bind="options: ComponentTypes, value: SearchType, optionsCaption: 'Choose ...', optionsText: 'title', optionsValue: 'code'"></select>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inStatus">Status</label>
+                                <div class="controls">
+                                    <select id="inStatus" data-bind="options: ComponentStatuses, value: SearchStatus,  optionsCaption: 'Choose ...', optionsText: 'title', optionsValue: 'code'"></select>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inProject">Project</label>
+                                <div class="controls">
+                                    <input type="text" id="inProject" placeholder="Whole or partial project name" data-bind="value: SearchProject" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="inComment">Comment</label>
+                                <div class="controls">
+                                    <input type="text" id="inComment" placeholder="Search for string in comments" data-bind="value: SearchComment" />
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="btnSearch"></label>
+                                <div class="controls">
+                                    <button id="btnSearch" class="btn btn-primary" data-bind="click: $root.Search"><i class="icon-search"></i> Search </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-fluid" data-bind="visible: $root.PageMode() == 'new_batch'">
+                <div class="span12">
+                    <div class="form-horizontal">
+                        <div class="well well-small">
+                            Enter new batch of components
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inType">Type </label>
+                            <div class="controls">
+                                <select class="input" id="inType" data-bind="options: ComponentTypes, value: NewType, optionsText: 'title', optionsValue: 'code'"
+                                        title="Component type for the whole batch"></select>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inPn">Product number </label>
+                            <div class="controls">
+                                <input type="text" class="input input-large" data-bind="value: NewPN" title="Product number for this new batch of components"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inP">Production date</label>
+                            <div class="controls">
+                                <input type="text" class="input input-small" data-bind="value: NewP" title="Production date for the whole batch of components (e.g. 240413 - ddMMyy)"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inS">Series </label>
+                            <div class="controls">
+                                <input type="text" class="input input-small" data-bind="value: NewS" title="Series number for the whole batch of components"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="inSN">Serial number </label>
+                            <div class="controls">
+                                <input type="text" class="input input-mini" data-bind="value: NewSN1" title="Serial numbers in the batch start with this number" />
+                                -
+                                <input type="text" class="input input-mini" data-bind="value: NewSN2" title="Serial numbers in the batch end with this number (inclusive)" />
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" for="btnSaveNewBatch"></label>
+                            <div class="controls">
+                                <button id="btnSaveNewBatch" class="btn btn-primary" type="button" data-bind="click: $root.SaveNewComponents"><i class="icon-save"></i> Save </button>
+                                <button id="btnCancelNewBatch" class="btn" type="button" data-bind="click: $root.CancelAddingNewBatch">Cancel </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row-fluid" style="padding-bottom:  10px;" data-bind="visible: $root.PageMode() == 'search'">
+                <div class="span7 text-light">
+                    <button data-bind="click: $root.DecPage, enable: $root.DecPageEnabled"><i class="icon-arrow-left"></i>  </button>
+                    Current page: <span data-bind="text: CurrPage() + 1 "></span> of <span data-bind="text: PageCount() + 1 "></span>
+                    <button data-bind="click: $root.IncPage, enable: $root.IncPageEnabled"><i class="icon-arrow-right"></i>  </button>
+                </div>
+                <div class="span2 text-light">
+                    Record count: <span data-bind="text: RecCount"></span>
+                </div>
+                <div class="span3 text-light">
+                    <button class="btn" type="button" data-bind="click: $root.StartAddingNewBatch"><i class="icon-plus"></i> Add new components </button>
+                </div>
+            </div>
+            <div class="row-fluid" data-bind="visible: $root.PageMode() == 'search'">
+                <div class="span12">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Type</th>
+                            <th>Product number</th>
+                            <th>Production</th>
+                            <th>Series</th>
+                            <th>Serial number</th>
+                            <th>Project</th>
+                            <th>Status</th>
+                        </tr>
+                        <tbody data-bind="foreach: $root.SearchResult">
+                        <tr data-bind="css: { error: Status() == 'error', warning: Status() == 'in_repair' }, click: $root.ShowDetails" style="cursor:  pointer">
+                            <td data-bind="text: Type"></td>
+                            <td data-bind="text: PN"></td>
+                            <td data-bind="text: P"></td>
+                            <td data-bind="text: S"></td>
+                            <td data-bind="text: SN"></td>
+                            <td data-bind="text: Project"></td>
+                            <td data-bind="text: StatusStr"></td>
+                        </tr>
+						</tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
