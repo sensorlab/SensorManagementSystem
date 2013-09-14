@@ -355,34 +355,33 @@ exports.delete_user = function (req, callback) {
 
 exports.add_node = function (req, callback) {
     db.get_max_node_id(function (err, max_id) {
-        if (err) {
-            callback(err);
-        } else {
-            var rec = req.data;
-            rec.id = Number(max_id) + 1;
-            db.add_node(req.data, function (err, data2) {
-                var h = {
-                    node: rec.id,
-                    cluster: rec.cluster,
-                    user: req.session.user,
-                    status: rec.status,
-                    code: "node_change",
-                    ts: new Date(),
-                    title: "Node '" + rec.name + "' (" + rec.id + ") created",
-                    description: "Node '" + rec.name + "' (" + rec.id + ") was successfully created.",
-                    sys_data: rec
-                };
+        if (err) return callback(err);
+        
+		var rec = req.data;
+		rec.id = Number(max_id) + 1;
+		db.add_node(req.data, function (err2, data2) {
+			if (err2) return callback(err2);
+			var h = {
+				node: rec.id,
+				cluster: rec.cluster,
+				user: req.session.user,
+				status: rec.status,
+				code: "node_change",
+				ts: new Date(),
+				title: "Node '" + rec.name + "' (" + rec.id + ") created",
+				description: "Node '" + rec.name + "' (" + rec.id + ") was successfully created.",
+				sys_data: rec
+			};
 
-                db.new_history(h, function (err) {
-                    if (err) return callback(err);
-                    callback(null, { id: rec.id });
-                });
-                if (notify_after_node_change) {
-                    notify_after_node_change(rec.id);
-                }
-                load_node_map();
-            });
-        }
+			db.new_history(h, function (err) {
+				if (err) return callback(err);
+				callback(null, { id: rec.id });
+			});
+			if (notify_after_node_change) {
+				notify_after_node_change(rec.id);
+			}
+			load_node_map();
+		});
     });
 };
 
@@ -954,7 +953,7 @@ exports.add_cluster = function (req, callback) {
 
     db.add_cluster(req.data, function (err) {
         if (err) return callback(err);
-
+		
         load_cluster_map();
 
         var h = {
@@ -971,7 +970,7 @@ exports.add_cluster = function (req, callback) {
         exports.new_history(h, function (err2) {
             if (err2) return callback(err2);
 
-            if (req.data.type != "zigbee") return callback();
+            if (req.data.type != "zigbee") return callback(null, h);
 
             // for zigbee cluster already define first node with network address 0
             var zero_node = {

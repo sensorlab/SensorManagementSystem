@@ -221,7 +221,10 @@ Carvic.Utils = {
             data: JSON.stringify(obj),
             contentType: "application/json; charset=utf-8",
             success: function (result) {
-                var result_data = JSON.parse(result);
+                var result_data = {};
+				if (result && result != "") {
+					result_data = JSON.parse(result);
+				}
                 if (result_data.error == null) {
                     Carvic.Model.HasErrors(false);
                     callback(result_data);
@@ -1594,7 +1597,9 @@ Carvic.Model.ClustersModel = function () {
 
     self.SaveNewCluster = function (curr_component) {
         var errors = [];
-        Carvic.Utils.CheckIfEmpty(self.NewType() == "zigbee" && self.NewTag() == "", "Zigbee cluster must have a tag", errors);
+        if (self.NewType() == "zigbee") {
+			Carvic.Utils.CheckIfEmpty(self.NewTag(), "Zigbee cluster must have a tag", errors);
+		}
         Carvic.Utils.CheckIfEmpty(self.NewName(), "Cluster must have a name", errors);
         if (errors.length > 0) {
             var s = "Cannot save cluster:";
