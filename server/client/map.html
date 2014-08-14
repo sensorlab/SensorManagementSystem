@@ -33,31 +33,181 @@
               background-color: #fff;
               padding: 5px;
               border: 1px solid #999;
-            }	
-        </style>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-        <script>
-            function getParameterByName(name) {
-                name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-                var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
-                var results = regex.exec(location.search);
-                return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
             }
+            
+            .map {
+              line-height:1.35;
+              overflow:hidden;
+              white-space:nowrap;
+            }
+        </style>
+                <script type="text/javascript" src="js/knockout.js"></script>   
+        <script type="text/javascript" src="js/carvic.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script type="text/javascript" src="js/bootstrap.min.js"></script>
+     
+        
+        <script type="text/javascript" src="js/handlebars.js"></script>
+        <script type="text/javascript" src="consts.js"></script>
+        </head>
+        <body>
+            <div class="map" id="map" style="width: 100%; height: 100%;"></div>
+        <script type="text/javascript">
+       
+        $(document).ready(function () {
+            if (getParameterByName("type") == "cluster"){
+                    Carvic.InitSingleCluster();
+                    ko.applyBindings(Carvic.Model.Cluster);
+                    start = new Date().getTime();
+                    checkLength();
+            } else {
+                DisplayNode();
+            }
+        });
 
-            function initialize() {
-                var lat = getParameterByName("lat") || 46.660187;
-                var lon = getParameterByName("lon") || 15.958939;
+        function DisplayCluster() {
+
+            // Setup the different icons and shadows
+            var iconURLPrefix = 'http://maps.google.com/mapfiles/ms/icons/';
+
+            var icons = [
+              iconURLPrefix + 'red-dot.png',
+              iconURLPrefix + 'green-dot.png'
+            ]
+            var icons_length = icons.length;
+
+            var shadow = {
+              url: iconURLPrefix + 'msmarker.shadow.png'
+            };
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+              mapTypeId: google.maps.MapTypeId.HYBRID,
+              mapTypeControl: true,
+              streetViewControl: true,
+              panControl: true
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+              maxWidth: 500
+            });
+
+            var marker;
+            var markers = new Array();
+
+            for (var i = 0; i < Carvic.Model.Cluster.Nodes().length; i++) {
+                if (Carvic.Model.Cluster.Nodes()[i]().Status() == "active"){
+                    var iconValue = 1;
+                }
+                else{var iconValue = 0;}
+               if(Carvic.Model.Cluster.Nodes()[i]().LAT == 0 || Carvic.Model.Cluster.Nodes()[i]().LON == 0 ||     Carvic.Model.Cluster.Nodes()[i]().LAT == null || Carvic.Model.Cluster.Nodes()[i]().LON == null){
+                    continue;
+                }
+                marker = new google.maps.Marker({
+                position: new google.maps.LatLng(Carvic.Model.Cluster.Nodes()[i]().LAT, Carvic.Model.Cluster.Nodes()[i]().LON),
+                map: map,
+                icon : icons[iconValue],
+                shadow: shadow,
+                title: Carvic.Model.Cluster.Nodes()[i]().Name
+                });
+
+                markers.push(marker);
+
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                return function() {
+                  infowindow.setContent('<h3>' + Carvic.Model.Cluster.Nodes()[i]().Name + '</h3>'
+                                       + '<p>' + 'Status: ' + nodeStatus(i) + '</p>');
+                  infowindow.open(map, marker);
+                }
+                })(marker, i));
+            }
+            if(markers.length == 0){
+                DisplayDefault();
+            } else{
+                //  Create a new viewpoint bound
+                var bounds = new google.maps.LatLngBounds();
+                //  Go through each...
+                $.each(markers, function (index, marker) {
+                bounds.extend(marker.position);
+                });
+                //  Fit these bounds to the map
+                map.fitBounds(bounds);
+            }
+        }
+
+        function nodeStatus(id){
+            switch((getParameterByName("type") == "cluster" ? Carvic.Model.Cluster.Nodes()[id]().Status() : getParameterByName("status"))){
+                case "active":
+                    return '<font color="green"><b>active</font></b>'
+                    break;
+                case "unknown":
+                    return '<font color="red"><b>unknown</font></b>'
+                    break;
+                case "inactive":
+                    return '<font color="red"><b>inactive</font></b>'
+                    break;
+                default:
+                    return 'no data available'
+            }
+        }
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+            var results = regex.exec(location.search);
+            return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function DisplayNode() {
+            var lat = getParameterByName("lat");
+            var lon = getParameterByName("lon");
+            if (lat == 0 || lon == 0 || lat == "null" || lon == "null"){
+                DisplayDefault();
+            } else {
                 var title = getParameterByName("title") || "Target node";
                 var myLatlng = new google.maps.LatLng(lat, lon);
-                var mapOptions = { zoom: 19, center: myLatlng, mapTypeId: google.maps.MapTypeId.SATELLITE };
-                var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-                var marker = new google.maps.Marker({ position: myLatlng, map: map, title: title });
+                var mapOptions = { zoom: 16, center: myLatlng, mapTypeId: google.maps.MapTypeId.HYBRID };
+                var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+                var marker = new google.maps.Marker({ position: myLatlng, map: map, title: title, icon: "http://maps.google.com/mapfiles/ms/icons/" + (getParameterByName("status") == "active" ? "green-dot.png" : "red-dot.png")});
+                var infowindow = new google.maps.InfoWindow({
+                    maxWidth: 500
+                });
+                google.maps.event.addListener(marker, 'click', function() {
+                      infowindow.setContent('<h3>' + "Node " + getParameterByName("id") + '</h3>'
+                                           + '<p>' + 'Status: ' + nodeStatus(getParameterByName("id")) + '</p>');
+                      infowindow.open(map, marker);
+                });
             }
+        }
+            
+        function DisplayDefault() {
+            var lat = 46.042193;
+            var lon = 14.487761;
+            var title = getParameterByName("title") || "Target node";
+            var myLatlng = new google.maps.LatLng(lat, lon);
+            var mapOptions = { zoom: 9, center: myLatlng, mapTypeId: google.maps.MapTypeId.HYBRID };
+            var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            var marker = new google.maps.Marker({ position: myLatlng, map: map, title: title });
+            var infowindow = new google.maps.InfoWindow({
+              maxWidth: 500
+            });
+            google.maps.event.addListener(marker, 'click', function() {
+                  infowindow.setContent('<h3>' + "Institut Jožef Stefan" + '</h3>'
+                                       + '<p>' + "Jamova cesta 39, 1000 Ljubljana, Slovenija" + '</p>');
+                  infowindow.open(map, marker);
+            });
+        }
 
-            google.maps.event.addDomListener(window, 'load', initialize);            
+        function checkLength() {
+            if ((new Date().getTime() - start) > 1000) {
+                DisplayDefault();
+            } else if (Carvic.Model.Cluster.Nodes().length == 0 && (new Date().getTime() - start) < 1000) { 
+                setTimeout("checkLength();", 50);
+                return;
+            } else {
+                DisplayCluster();
+            }
+        }
         </script>
-    </head>
-    <body>
-        <div id="map-canvas"></div>
     </body>
 </html>

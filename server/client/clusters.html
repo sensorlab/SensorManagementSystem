@@ -173,7 +173,7 @@
                 <div class="span12">
                     <table class="table table-hover">
                         <tr>
-                            <th>&nbsp;</th>
+                            <th><input type="checkbox" id="checkAll" style="cursor: default" data-bind="checked: $root.SelectAll"></th>
                             <th>Type</th>
                             <th>Id</th>
                             <th>Tag</th>
@@ -182,14 +182,14 @@
                         </tr>
                         <tbody data-bind="foreach: $root.SearchResult">
                         <tr style="cursor:  pointer">
-                            <td><input type="checkbox" id="checkbox" style="cursor: default" data-bind="click: $root.ToggleChecked"></td>
+                            <td><input type="checkbox" id="checkbox" style="cursor: default" data-bind="checked: $root.CheckedClusters, value: Id"></td>
                             <td data-bind="text: TypeStr, click: $root.ShowDetails"></td>
                             <td data-bind="text: Id, click: $root.ShowDetails"></td>
                             <td data-bind="text: Tag, click: $root.ShowDetails"></td>
                             <td data-bind="text: Name, click: $root.ShowDetails"></td>
                             <td data-bind="text: Url, click: $root.ShowDetails"></td>
                         </tr>
-                        <div class="span3 text-light"><button data-bind="click: $root.DeleteClusterList"><i class="icon-trash"></i> Delete selected clusters </button>
+                        <div class="span3 text-light"><button data-bind="click: $root.DeleteClusterList, visible: $root.CheckedClusters().length > 0"><i class="icon-trash"></i> Delete selected clusters </button>
                         </div>
 						</tbody>
                     </table>

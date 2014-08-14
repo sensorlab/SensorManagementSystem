@@ -205,7 +205,7 @@
                 <div class="span12">
                     <table class="table table-hover">
                         <tr>
-                            <th>&nbsp;</th>
+                            <th><input type="checkbox" id="checkAll" style="cursor: default" data-bind="checked: $root.SelectAll"></th>
                             <th>ID</th>
                             <th>Name</th>
                             <th>Status</th>
@@ -213,8 +213,8 @@
                             <th>Sensors</th>
                         </tr>
                         <tbody data-bind="foreach: $root.SearchResult">
-                        <tr style="cursor:  pointer">
-                            <td><input type="checkbox" id="checkbox" style="cursor: default" data-bind="click: $root.ToggleChecked"></td>
+                        <tr style="cursor: pointer">
+                            <td><input type="checkbox" id="checkbox" style="cursor: default" data-bind="checked: $root.CheckedNodes, value: ID"></td>
                             <td data-bind="text: ID, click: $root.ShowNodeDetails"></td>
                             <td data-bind="text: Name, click: $root.ShowNodeDetails"></td>
                             <td>
@@ -224,7 +224,7 @@
                             <td data-bind="text: ClusterName, click: $root.ShowNodeDetails"></td>
                             <td data-bind="text: Sensors, click: $root.ShowNodeDetails"></td>
                         </tr>
-                        <div class="span3 text-light"><button data-bind="click: $root.DeleteNodeList, visible: $root.SomethingToDelete"><i class="icon-trash"></i> Delete selected nodes </button>
+                        <div class="span3 text-light"><button data-bind="click: $root.DeleteNodeList, visible: $root.CheckedNodes().length > 0"><i class="icon-trash"></i> Delete selected nodes </button>
                         </div>
 						</tbody>
                     </table>

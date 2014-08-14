@@ -112,8 +112,13 @@
                             </tr>
                         </table>
                     </div>
-                    <div style="padding: 10px">
-                        <a class="btn" data-bind="attr: { href: $root.NodeMapUrl() } " target="_blank">Show on map</a>
+                    <div class="well well-small" >
+                        <iframe
+                                width="100%"
+                                height="400"
+                                data-bind="attr: { src: $root.NodeMapUrl() }">
+                        </iframe>
+                        <a class="btn" data-bind="attr: { href: $root.NodeMapUrl() } " target="_blank">Open map</a>
                     </div>
                 </div>
                 <div class="span8">

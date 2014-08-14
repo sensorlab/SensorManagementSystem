@@ -213,7 +213,7 @@
                 <div class="span12">
                     <table class="table table-hover">
                         <tr>
-                            <th>&nbsp;</th>
+                            <th><input type="checkbox" id="checkAll" style="cursor: default" data-bind="checked: $root.SelectAll"></th>
                             <th>Type</th>
                             <th>Product number</th>
                             <th>Production</th>
@@ -224,7 +224,7 @@
                         </tr>
                         <tbody data-bind="foreach: $root.SearchResult">
                         <tr data-bind="css: { error: Status() == 'error', warning: Status() == 'in_repair' }" style="cursor:  pointer">
-                            <td><input type="checkbox" id="checkbox" style="cursor: default" data-bind="click: $root.ToggleChecked"></td>
+                            <td><input type="checkbox" id="checkbox" style="cursor: default" data-bind="checked: $root.CheckedComponents, value: ID"></td>
                             <td data-bind="text: Type, click: $root.ShowDetails"></td>
                             <td data-bind="text: PN, click: $root.ShowDetails"></td>
                             <td data-bind="text: P, click: $root.ShowDetails"></td>
@@ -233,7 +233,7 @@
                             <td data-bind="text: Project, click: $root.ShowDetails"></td>
                             <td data-bind="text: StatusStr, click: $root.ShowDetails"></td>
                         </tr>
-                        <div class="span3 text-light"><button data-bind="click: $root.DeleteComponentList"><i class="icon-trash"></i> Delete selected components </button>
+                        <div class="span3 text-light"><button data-bind="click: $root.DeleteComponentList, visible: $root.CheckedComponents().length > 0"><i class="icon-trash"></i> Delete selected components </button>
                         </div>
 						</tbody>
                     </table>
