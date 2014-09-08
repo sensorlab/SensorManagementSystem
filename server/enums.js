@@ -20,11 +20,11 @@ var Enums = {
         { code: "oth", title: "Other" }
     ],
 
-    ComponentStatusesArray: [
+    /*ComponentStatusesArray: [
         { code: "ok", title: "OK" },                   // componenty is "healthy"
         {code: "error", title: "Error" },             // permanent malfunction
         {code: "in_repair", title: "In repair"}      // reparable malfunction
-    ],
+    ],*/
 
     NodeStatusesArray: [
         { code: "active", title: "Active" },           // normal state
@@ -57,7 +57,7 @@ var Enums = {
 };
 
 Enums.ComponentTypesMap = xutil.create_map(Enums.ComponentTypesArray);
-Enums.ComponentStatusesMap = xutil.create_map(Enums.ComponentStatusesArray);
+//Enums.ComponentStatusesMap = xutil.create_map(Enums.ComponentStatusesArray);
 Enums.NodeStatusesMap = xutil.create_map(Enums.NodeStatusesArray);
 Enums.NodeRolesMap = xutil.create_map(Enums.NodeRolesArray);
 Enums.UserTypesMap = xutil.create_map(Enums.UserTypesArray);
