@@ -1354,9 +1354,9 @@ Carvic.Model.ComponentsModel = function () {
             self.ComponentStatusesMap = {};
             self.ComponentStatuses().forEach(function (item) {
                 self.ComponentStatusesMap[item.code] = item;
-            });
-            
+            });  
         });
+        self.Search();
     }
 
     self.UpdatePageButtons = function () {
@@ -1365,6 +1365,8 @@ Carvic.Model.ComponentsModel = function () {
     }
     self.Search = function () {
         self.SearchInner(true);
+    }
+    self.abc= function (){
     }
 
     self.SearchInner = function (reset_page) {
@@ -1385,27 +1387,29 @@ Carvic.Model.ComponentsModel = function () {
         if (self.SearchProject() != "") { query.project = self.SearchProject(); }
         if (self.SearchComment() != "") { query.comment = self.SearchComment(); }
         if (self.SearchStatus() != undefined) { query.status = self.SearchStatus(); }
-
+        
         Carvic.Utils.Post({ action: "get_components2", data: query }, function (data) {
             self.RecCount(data.count);
             self.PageCount(Math.floor(data.count / data.page_size));
             self.UpdatePageButtons();
             for (var i = 0; i < data.records.length; i++) {
                 var obj = data.records[i];
-
-                self.SearchResult.push(ko.observable({
-                    Type: ko.observable(obj.type),
-                    PN: ko.observable(obj.product_number),
-                    Status: ko.observable(obj.status),
-                    StatusStr: ko.observable(self.ComponentStatusesMap[obj.status].title),
-                    P: ko.observable(obj.production),
-                    S: ko.observable(obj.series),
-                    SN: ko.observable(obj.serial_number),
-                    Project: ko.observable(obj.project),
-                    Responsible: ko.observable(obj.responsible),
-                    Comment: ko.observable(obj.comment),
-                    ID: ko.observable(obj.id)
-                }));
+                if (typeof(self.ComponentStatusesMap[obj.status]) == "undefined") self.SearchInner();
+                else {
+                    self.SearchResult.push(ko.observable({
+                        Type: ko.observable(obj.type),
+                        PN: ko.observable(obj.product_number),
+                        Status: ko.observable(obj.status),
+                        StatusStr: ko.observable(self.ComponentStatusesMap[obj.status].title),
+                        P: ko.observable(obj.production),
+                        S: ko.observable(obj.series),
+                        SN: ko.observable(obj.serial_number),
+                        Project: ko.observable(obj.project),
+                        Responsible: ko.observable(obj.responsible),
+                        Comment: ko.observable(obj.comment),
+                        ID: ko.observable(obj.id)
+                    }));
+                }
             }
         });
     };
@@ -1523,34 +1527,34 @@ Carvic.Model.ComponentModel = function () {
     self.Load = function (id) {
         var query = { id: id };
         Carvic.Utils.Post({ action: "get_component", data: query }, function (data) {
-
             var obj = data;
-            self.Type(obj.type);
-            self.PN(obj.product_number);
-            self.Status(obj.status);
-            self.StatusStr(self.ComponentStatusesMap[obj.status].title);
-            self.P(obj.production);
-            self.S(obj.series);
-            self.SN(obj.serial_number);
-            self.Project(obj.project);
-            self.Responsible(obj.responsible);
-            self.Comment(obj.comment);
-            self.ID(obj.id);
-            self.LastData = obj;
-            for (var j = 0; j < obj.nodes.length; j++) {
-                var node = obj.nodes[j];
-                self.Nodes.push({
-                    Id: node.id,
-                    Name: node.name,
-                    Cluster: node.cluster,
-                    ClusterName: node.cluster_name,
-                    Url: "node.html?id=" + encodeURI(node.id),
-                    ClusterUrl: "cluster.html?id=" + encodeURI(node.cluster)
-                });
+            if (typeof(self.ComponentStatusesMap[obj.status]) == "undefined") self.Load(id);
+            else {
+                self.Type(obj.type);
+                self.PN(obj.product_number);
+                self.Status(obj.status);
+                self.StatusStr(self.ComponentStatusesMap[obj.status].title);
+                self.P(obj.production);
+                self.S(obj.series);
+                self.SN(obj.serial_number);
+                self.Project(obj.project);
+                self.Responsible(obj.responsible);
+                self.Comment(obj.comment);
+                self.ID(obj.id);
+                self.LastData = obj;
+                for (var j = 0; j < obj.nodes.length; j++) {
+                    var node = obj.nodes[j];
+                    self.Nodes.push({
+                        Id: node.id,
+                        Name: node.name,
+                        Cluster: node.cluster,
+                        ClusterName: node.cluster_name,
+                        Url: "node.html?id=" + encodeURI(node.id),
+                        ClusterUrl: "cluster.html?id=" + encodeURI(node.cluster)
+                    });
+                }
+                self.LoadHistory();
             }
-            
-            
-            self.LoadHistory();
         });
     };
     
@@ -1570,6 +1574,8 @@ Carvic.Model.ComponentModel = function () {
                 self.ComponentStatusesMap[item.code] = item;
             });
         });
+        window.setTimeout(function(){ var id = Carvic.Utils.GetUrlParam("id"); self.Load(id)},30);
+
     }
 
     self.LoadHistory = function () {
@@ -2103,7 +2109,6 @@ Carvic.Model.SettingsModel = function () {
             document.form.pwd1.value = "";
             document.form.pwd2.value = "";
         });
-        
     };
 }
 

@@ -18,6 +18,7 @@ data.components = [];
 data.sensor_history = [];
 data.users = [];
 data.logins = [];
+data.statuses = [];
 
 //////////////////////////////////////////////////
 // users
@@ -109,6 +110,19 @@ data.clusters.forEach(function (item) {
     cluster_map[item.name] = item;
 });
 
+//////////////////////////////////////////////////////////////////////////////////////////
+data.statuses.push({
+    code: "ok",
+    title: "OK"
+});
+data.statuses.push({
+    code: "error",
+    title: "Error"
+});
+data.statuses.push({
+    code: "in_reapir",
+    title: "In repair"
+});
 //////////////////////////////////////////////////////////////////////////////////////////
 // import excel data
 
