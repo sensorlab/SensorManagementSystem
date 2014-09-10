@@ -253,7 +253,7 @@ function delete_component(id, callback) {
     db[collection_components].remove({ id: id }, callback);
 };
 
-function get_all_component_statuses(callback){
+function get_statuses(callback){
     db[collection_component_statuses].find({}, { _id: 0 }).toArray(function (err, docs) {
         if (err) return callback(err);
         callback(null, docs);
@@ -761,7 +761,7 @@ exports.add_component = add_component;
 exports.update_component = update_component;
 exports.delete_component = delete_component;
 exports.get_component = get_component;
-exports.get_all_component_statuses = get_all_component_statuses;
+exports.get_statuses = get_statuses;
 exports.get_component_history = get_component_history;
 exports.get_components = get_components;
 exports.get_components2 = get_components2;

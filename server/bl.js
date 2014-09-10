@@ -722,8 +722,8 @@ exports.get_component = function (req, callback) {
     })
 };
 
-exports.get_all_component_statuses = function (res, callback) {
-    db.get_all_component_statuses( function(err, data) {
+exports.get_statuses = function (res, callback) {
+    db.get_statuses( function(err, data) {
         if (err) return callback(err);
         return callback(null, data)
     });
