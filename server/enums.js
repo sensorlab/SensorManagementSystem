@@ -26,13 +26,13 @@ var Enums = {
         {code: "in_repair", title: "In repair"}      // reparable malfunction
     ],
 
-    NodeStatusesArray: [
+    /*NodeStatusesArray: [
         { code: "active", title: "Active" },           // normal state
         {code: "inactive", title: "Inactive" },        // manual disabled from scanning
         {code: "unreachable", title: "Unreachable" },  // node was working but is now not accessible
         {code: "unknown", title: "Unknown" },          // node has never been contacted yet
         {code: "in_repair", title: "In repair"}        // node was unmounted and is in repair
-    ],
+    ],*/
 
     NodeRolesArray: [
         { code: "device", title: "Device" },
@@ -58,7 +58,7 @@ var Enums = {
 
 Enums.ComponentTypesMap = xutil.create_map(Enums.ComponentTypesArray);
 Enums.ComponentStatusesMap = xutil.create_map(Enums.ComponentStatusesArray);
-Enums.NodeStatusesMap = xutil.create_map(Enums.NodeStatusesArray);
+//Enums.NodeStatusesMap = xutil.create_map(Enums.NodeStatusesArray);
 Enums.NodeRolesMap = xutil.create_map(Enums.NodeRolesArray);
 Enums.UserTypesMap = xutil.create_map(Enums.UserTypesArray);
 Enums.UserStatusesMap = xutil.create_map(Enums.UserStatusesArray);

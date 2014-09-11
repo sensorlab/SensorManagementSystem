@@ -24,6 +24,7 @@ data.clusters = [];
 data.nodes = [];
 data.components = [];
 data.sensor_history = [];
+data.node_statuses = [];
 
 data.users = [];
 data.logins = [];
