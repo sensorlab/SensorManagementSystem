@@ -788,7 +788,9 @@ Carvic.Model.SingleNodeModel = function () {
     self.NodeID = ko.observable("");
     self.NodeName = ko.observable("");
     self.NodeStatus = ko.observable("unknown");
-    self.NodeStatusStr = ko.observable("");
+    self.NodeStatusStr = ko.computed(function () {
+        return (typeof(self.NodeStatusesMap[self.NodeStatus()]) === "undefined") ? self.NodeStatus() :  self.NodeStatusesMap[self.NodeStatus()].title;
+    }, this);
     self.NodeCluster = ko.observable();
     self.NodeClusterName = ko.observable();
     self.NodeClusterUrl = ko.observable();
@@ -846,7 +848,6 @@ Carvic.Model.SingleNodeModel = function () {
         self.NodeID(data.id);
         self.NodeName(data.name);
         self.NodeStatus(data.status);
-        self.NodeStatusStr(self.NodeStatusesMap[self.NodeStatus()].title);
         self.NodeCluster(data.cluster);
         self.NodeClusterName(data.cluster_name);
         self.NodeClusterUrl("cluster.html?id=" + encodeURI(data.cluster));
@@ -1156,14 +1157,29 @@ Carvic.Model.NewNodeModel = function () {
     self.NodeHistory = ko.observableArray();
     self.NodeComponentToAdd = ko.observable("");
 
-    self.NodeStatusesArray = Carvic.Consts.NodeStatusesArray;
-    self.NodeStatuses = ko.observableArray(self.NodeStatusesArray);
-    self.NodeStatusesMap = Carvic.Consts.NodeStatusesMap;
+    //self.NodeStatusesArray = Carvic.Consts.NodeStatusesArray;
+    self.NodeStatuses = ko.observableArray();
+    self.NodeStatusesMap = {};
 
     self.NodeRolesArray = Carvic.Consts.NodeRolesArray;
     self.NodeRoles = ko.observableArray(self.NodeRolesArray);
     self.NodeRolesMap = Carvic.Consts.NodeRolesMap;
 
+    self.getNodeStatuses = function (callback) {
+        var d = {}
+        self.NodeStatuses.removeAll();
+        self.NodeStatusesMap = {};
+        Carvic.Utils.Post({ action: "get_node_statuses", data: d }, function (data) {
+            data.forEach( function (item){
+                self.NodeStatuses.push({
+                    title: item.title,
+                    code: item.code
+                });
+                self.NodeStatusesMap[item.code] = item;
+            });;
+            if(callback) callback();
+        });
+    }
 
     self.RemoveComponent = function (id) {
         self.Components.remove(function (item) {
@@ -1282,6 +1298,8 @@ Carvic.Model.NewNodeModel = function () {
             window.location = "node.html?id=" + encodeURI(data.id);
         });
     };
+    
+    self.getNodeStatuses();
 }
 
 function ComponentLookup(s, callback) {
