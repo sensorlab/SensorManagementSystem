@@ -12,13 +12,13 @@ var xutil = require("./xutil");
 
 var Enums = {
 
-    ComponentTypesArray: [
+    /*ComponentTypesArray: [
         { code: "snr", title: "SNR" },
         { code: "snc", title: "SNC" },
         { code: "sne", title: "SNE" },
         { code: "rpi", title: "Raspberry PI" },
         { code: "oth", title: "Other" }
-    ],
+    ],*/
 
     ComponentStatusesArray: [
         { code: "ok", title: "OK" },                   // componenty is "healthy"
@@ -56,7 +56,7 @@ var Enums = {
     ]
 };
 
-Enums.ComponentTypesMap = xutil.create_map(Enums.ComponentTypesArray);
+//Enums.ComponentTypesMap = xutil.create_map(Enums.ComponentTypesArray);
 Enums.ComponentStatusesMap = xutil.create_map(Enums.ComponentStatusesArray);
 //Enums.NodeStatusesMap = xutil.create_map(Enums.NodeStatusesArray);
 Enums.NodeRolesMap = xutil.create_map(Enums.NodeRolesArray);

@@ -19,6 +19,7 @@ data.sensor_history = [];
 data.users = [];
 data.logins = [];
 data.node_statuses = [];
+data.types = [];
 
 //////////////////////////////////////////////////
 // users
@@ -130,6 +131,23 @@ data.node_statuses.push({
     code: "in_repair",
     title: "In repair"
 });
+
+
+//////////////////////
+
+data.types.push({
+    code: "snr",
+    title: "SNR"
+});
+data.types.push({
+    code: "sne",
+    title: "SNE"
+});
+data.types.push({
+    code: "snc",
+    title: "SNC"
+});
+
 //////////////////////////////////////////////////////////////////////////////////////////
 // import excel data
 
