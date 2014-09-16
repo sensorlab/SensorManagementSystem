@@ -36,13 +36,13 @@ var Enums = {
 
     NodeRolesArray: [
         { code: "device", title: "Device" },
-        { code: "gateway", title: "Gateway" },
+        { code: "gateway", title: "Gateway" }
     ],
 
-    UserTypesArray: [
+    /*UserTypesArray: [
         { code: "admin", title: "Administrator" },
         { code: "normal", title: "Normal user" }
-    ],
+    ],*/
 
     UserStatusesArray: [
         { code: "active", title: "Active" },
@@ -60,7 +60,7 @@ var Enums = {
 Enums.ComponentStatusesMap = xutil.create_map(Enums.ComponentStatusesArray);
 Enums.NodeStatusesMap = xutil.create_map(Enums.NodeStatusesArray);
 Enums.NodeRolesMap = xutil.create_map(Enums.NodeRolesArray);
-Enums.UserTypesMap = xutil.create_map(Enums.UserTypesArray);
+//Enums.UserTypesMap = xutil.create_map(Enums.UserTypesArray);
 Enums.UserStatusesMap = xutil.create_map(Enums.UserStatusesArray);
 Enums.ClusterTypesMap = xutil.create_map(Enums.ClusterTypesArray);
 

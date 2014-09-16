@@ -283,9 +283,9 @@ Carvic.Model.UsersModel = function () {
     self.NewUserPwd2 = ko.observable("");
     self.NewUserType = ko.observable();
 
-    self.UserTypesArray = Carvic.Consts.UserTypesArray;
-    self.UserTypes = ko.observableArray(self.UserTypesArray);
-    self.UserTypesMap = Carvic.Consts.UserTypesMap;
+    //self.UserTypesArray = Carvic.Consts.UserTypesArray;
+    self.UserTypes = ko.observableArray();
+    self.UserTypesMap = {};
 
     self.NewUserType(self.UserTypes()[1]);
 
@@ -309,6 +309,22 @@ Carvic.Model.UsersModel = function () {
         document.form.NewUserFullName.value = "new user";
         document.form.NewUserUsername.value = "New1"; 
         self.NewUserEditing(false);
+    }
+    
+    self.getUserTypes = function (callback) {
+        var d = {}
+        self.UserTypes.removeAll();
+        self.UserTypesMap = {};
+        Carvic.Utils.Post({ action: "get_user_types", data: d }, function (data) {
+            data.forEach( function (item){
+                self.UserTypes.push({
+                    title: item.title,
+                    code: item.code
+                });
+                self.UserTypesMap[item.code] = item;
+            });;
+            if(callback) callback();
+        });
     }
 
     self.LoadUsers = function () {
@@ -378,9 +394,9 @@ Carvic.Model.UserModel = function () {
     self.EditUserPwd1 = ko.observable("");
     self.EditUserPwd2 = ko.observable("");
 
-    self.UserTypesArray = Carvic.Consts.UserTypesArray;
-    self.UserTypes = ko.observableArray(self.UserTypesArray);
-    self.UserTypesMap = Carvic.Consts.UserTypesMap;
+    //self.UserTypesArray = Carvic.Consts.UserTypesArray;
+    self.UserTypes = ko.observableArray();
+    self.UserTypesMap = {};
 
     self.UserStatusesArray = Carvic.Consts.UserStatusesArray;
     self.UserStatuses = ko.observableArray(self.UserStatusesArray);
@@ -393,6 +409,22 @@ Carvic.Model.UserModel = function () {
         Status: ko.observable(""),
         Type: ko.observable("")
     });
+    
+    self.getUserTypes = function (callback) {
+        var d = {}
+        self.UserTypes.removeAll();
+        self.UserTypesMap = {};
+        Carvic.Utils.Post({ action: "get_user_types", data: d }, function (data) {
+            data.forEach( function (item){
+                self.UserTypes.push({
+                    title: item.title,
+                    code: item.code
+                });
+                self.UserTypesMap[item.code] = item;
+            });;
+            if(callback) callback();
+        });
+    }
 
     self.CurrentUserStartEditing = function () {
         self.CurrentUserEdit().FullName(self.CurrentUser().FullName());
@@ -2267,17 +2299,21 @@ Carvic.InitAdminPage = function () {
 
 Carvic.InitUserList = function () {
     Carvic.Model.Users = new Carvic.Model.UsersModel();
-    Carvic.Model.Users.LoadUsers(); // here it is ok to perform search on page load
+    Carvic.Model.Users.getUserTypes(function () {
+    Carvic.Model.Users.LoadUsers();// here it is ok to perform search on page load
+    });
     Carvic.Utils.SetCurrentUser(Carvic.Model.Users);
 }
 
 Carvic.InitSingleUser = function () {
     Carvic.Model.User = new Carvic.Model.UserModel();
+    Carvic.Model.User.getUserTypes(function () {
     var id = Carvic.Utils.GetUrlParam("u");
     if (id)
         Carvic.Model.User.LoadUser(id);
     else
         Carvic.Model.User.LoadUser(5);
+    });
     Carvic.Utils.SetCurrentUser(Carvic.Model.User);
 }
 
