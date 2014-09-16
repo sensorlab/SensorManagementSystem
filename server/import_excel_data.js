@@ -18,6 +18,7 @@ data.components = [];
 data.sensor_history = [];
 data.users = [];
 data.logins = [];
+data.node_statuses = [];
 data.types = [];
 
 //////////////////////////////////////////////////
@@ -108,6 +109,27 @@ data.clusters.forEach(function (item) {
     item.tag = (item.type == "zigbee" ? item.id : "");
     cluster_map[item.id] = item;
     cluster_map[item.name] = item;
+});
+//////////////////////////////////////////////////////////////////////////////////////////
+data.node_statuses.push({
+    code: "active",
+    title: "Active"
+});
+data.node_statuses.push({
+    code: "inactive",
+    title: "Inactive"
+});
+data.node_statuses.push({
+    code: "unreachable",
+    title: "Unreachable"
+});
+data.node_statuses.push({
+    code: "unknown",
+    title: "Unknown"
+});
+data.node_statuses.push({
+    code: "in_repair",
+    title: "In repair"
 });
 
 

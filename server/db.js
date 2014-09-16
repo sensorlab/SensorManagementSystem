@@ -26,6 +26,7 @@ var collection_clusters = "clusters";
 var collection_nodes = "nodes";
 var collection_history = "history";
 var collection_sensor_history = "sensor_history";
+var collection_node_statuses = "node_statuses"
 var collection_components_type = "components_type";
 
 var collections = [
@@ -36,6 +37,7 @@ var collections = [
     collection_nodes,
     collection_history,
     collection_sensor_history,
+    collection_node_statuses,
     collection_components_type
 ];
 
@@ -110,6 +112,7 @@ function fill_dummy_data(callback) {
     loop(data.users, collection_users, true);
     loop(data.logins, collection_logins);
     loop(data.history, collection_history);
+    loop(data.node_statuses,collection_node_statuses);
     loop(data.types, collection_components_type);
 
     var calls = [];
@@ -372,6 +375,13 @@ function get_node(id, callback) {
         } else {
             callback(null, docs[0]);
         }
+    });
+};
+
+function get_node_statuses(callback){
+    db[collection_node_statuses].find({}, { _id: 0 }).toArray(function (err, docs) {
+        if (err) return callback(err);
+        callback(null, docs);
     });
 };
 
@@ -807,6 +817,7 @@ exports.add_node = add_node;
 exports.update_node = update_node;
 exports.delete_node = delete_node;
 exports.get_node = get_node;
+exports.get_node_statuses = get_node_statuses;
 exports.get_node_history = get_node_history;
 exports.get_nodes = get_nodes;
 exports.get_nodes2 = get_nodes2;

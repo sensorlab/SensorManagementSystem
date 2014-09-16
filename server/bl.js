@@ -409,6 +409,13 @@ exports.get_last_node = function (req, callback) {
     });
 }
 
+exports.get_node_statuses = function (res, callback) {
+    db.get_node_statuses( function(err, data) {
+        if (err) return callback(err);
+        return callback(null, data)
+    });
+}
+
 exports.get_nodes = function (req, callback) {
     db.get_nodes(req.data, function (err, data) {
         if (err) return callback(err);
