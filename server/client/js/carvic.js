@@ -2300,7 +2300,7 @@ Carvic.InitAdminPage = function () {
 Carvic.InitUserList = function () {
     Carvic.Model.Users = new Carvic.Model.UsersModel();
     Carvic.Model.Users.getUserTypes(function () {
-    Carvic.Model.Users.LoadUsers();// here it is ok to perform search on page load
+        Carvic.Model.Users.LoadUsers();// here it is ok to perform search on page load
     });
     Carvic.Utils.SetCurrentUser(Carvic.Model.Users);
 }
@@ -2308,11 +2308,11 @@ Carvic.InitUserList = function () {
 Carvic.InitSingleUser = function () {
     Carvic.Model.User = new Carvic.Model.UserModel();
     Carvic.Model.User.getUserTypes(function () {
-    var id = Carvic.Utils.GetUrlParam("u");
-    if (id)
-        Carvic.Model.User.LoadUser(id);
-    else
-        Carvic.Model.User.LoadUser(5);
+        var id = Carvic.Utils.GetUrlParam("u");
+        if (id)
+            Carvic.Model.User.LoadUser(id);
+        else
+            Carvic.Model.User.LoadUser(5);
     });
     Carvic.Utils.SetCurrentUser(Carvic.Model.User);
 }
