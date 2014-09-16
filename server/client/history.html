@@ -106,6 +106,14 @@
                                     <input class="typeahead" type="text" id="inP" placeholder="Type parts of component's id" data-bind="value: Component" />
                                 </div>
                             </div>
+                            
+                            <div class="control-group">
+                                <label class="control-label" for="inType">Type</label>
+                                <div class="controls">
+                                    <input type="text" id="inType" placeholder="Type Code" data-bind="value: Type" />
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="span6">
 
@@ -163,6 +171,7 @@
                             <th>Description</th>
                             <th>Node</th>
                             <th>Component</th>
+                            <th>Type</th>
                             <th>Cluster</th>
                         </tr>
                         <tbody data-bind="foreach: $root.SearchResult">
@@ -172,6 +181,7 @@
                             <td data-bind="text: description"></td>
                             <td><a data-bind="attr: { href: node_url }"> <span data-bind="text: node"></span> </a></td>
                             <td><a data-bind="attr: { href: component_url }"> <span data-bind="text: component"></span> </a></td>
+                            <td> <span data-bind="text: type"></span> </td>
                             <td><a data-bind="attr: { href: cluster_url }"> <span data-bind="text: cluster_name"></span> </a></td>
                         </tr>
 						</tbody>

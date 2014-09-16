@@ -91,8 +91,6 @@ function upgrade(callback) {
     });
 }
 
-
-
 function load_username_map(callback) {
     db.get_users({}, function (err, data) {
         if (err) {
@@ -223,7 +221,6 @@ exports.get_cluster_stats = function (req, callback) {
         callback(err, data);
     });
 };
-
 
 exports.change_pwd = function (req, callback) {
     var username = req.session.user;
@@ -689,8 +686,6 @@ exports.get_components2 = function (req, callback) {
     });
 };
 
-
-
 exports.get_component = function (req, callback) {
     db.get_component(req.data.id, function (err, data) {
         if (err) {
@@ -722,6 +717,7 @@ exports.get_component = function (req, callback) {
     })
 };
 
+
 exports.get_statuses = function (res, callback) {
     db.get_statuses( function(err, data) {
         if (err) return callback(err);
@@ -729,8 +725,39 @@ exports.get_statuses = function (res, callback) {
     });
 }
 
+exports.get_component_types = function (res, callback) {
+    db.get_all_component_type( function(err, data) {
+        if (err) return callback(err);
+        return callback(null, data)
+    });
+}
+
 exports.get_component_history = function (req, callback) {
     db.get_component_history(req.data.id, callback)
+};
+
+exports.update_components_type = function(req, callback) {
+    var rec = req.data;
+    db.get_component_type(rec.code, function (err, data) {
+        if (err) return callback(err);
+        var rec2 = {
+            code: rec.code.toLowerCase(),
+            title: rec.title.toUpperCase()
+        }
+        db.update_component_type(rec.code, rec2, function (err2, data2) {
+            if (err2) return callback(err2);
+            var h = {
+                type: rec2.code,
+                user: req.session.user,
+                code: "type_change",
+                ts: new Date(),
+                title: "Type '" + rec2.code  + "' updated to '" + rec.title + "'",
+                description: "Type '" + rec2.code + "' was updated by '" + req.session.user + "'",
+                sys_data: rec
+            };
+            exports.new_history(h, callback);
+        });
+    });
 };
 
 exports.update_component = function (req, callback) {
@@ -813,9 +840,74 @@ exports.delete_component = function (req, callback) {
     });
 };
 
+exports.delete_component_type = function (req, callback) {
+    var code = req.data.code;
+    db.get_component_type(code, function (err, data) {
+        if (err) return callback(err);
+        db.get_components2_count({ type: code }, function (err2, data2) {
+            if (err2) return callback(err);
+            if (data2 > 0) return callback(new Error("Cannot delete type - components are assigned to it."));
+            db.delete_component_type(code, function (err, data2) {
+            var user_full_name = username_map[req.session.user].full_name;
+                var h = {
+                    type: code,
+                    user: req.session.user,
+                    code: "type_change",
+                    ts: new Date(),
+                    title: "Type '" + code + "' deleted",
+                    description: "Type '" + code + "' was deleted by " + user_full_name,
+                    sys_data: req
+                };
+                db.new_history(h, callback);
+            });
+        });
+    });
+};
+
 function create_component_id(pn, type, p, s, sn) {
     return [pn, type, p, s, sn].join("-");
 }
+
+exports.add_new_component_type = function (req, callback) {
+    var data = req.data
+    if (data.title === "" || /^\s*$/.test(data.title)) {
+            callback(new Error("Title cannot be empty"),{});
+    }
+    if (/^\w+$/.test(data.code)) {
+        var new_type = {
+            code: data.code.toLowerCase(),
+            title: data.title.toUpperCase()
+        };
+        db.get_component_type(new_type.code, function(err, res){
+                if (err) {
+                    db.add_component_type(new_type, function(err, res) {
+                        callback(err, {});
+                        if (err) {
+                            callback(err, {});
+                        } else {
+                            var h = {
+                                type: new_type.code,
+                                user: req.session.user,
+                                code: "type_change",
+                                ts: new Date(),
+                                title: "Type '" + new_type.code + "' created",
+                                description: "Type '" + new_type.code + "' was created.",
+                                sys_data: req
+                            };
+                            db.new_history(h, function (err, res) { });
+                        }
+                            });
+                    }
+                else {
+                    callback(new Error("That type already exists"),{});
+                }
+        });
+    }
+    else {
+        callback(new Error("Code cannot be empty and need to use only alphanumerical characters"),{});
+    }
+}
+
 exports.add_components = function (req, callback) {
     var data = req.data;
     data.sn_to = Number(data.sn_to);
@@ -824,7 +916,6 @@ exports.add_components = function (req, callback) {
     var ok_comps = [];
     var err_comps = [];
     var new_comp_count = data.sn_to - data.sn_from + 1;
-
     for (var i = data.sn_from; i <= data.sn_to; i++) {
         (function (i){
 			var sn = xutil.pad(i, sn_len);
@@ -1162,6 +1253,7 @@ exports.get_history = function (req, callback) {
     if (req.data.node) query.node = req.data.node;
     if (req.data.component) query.component = req.data.component;
     if (req.data.user) query.user = req.data.user;
+    if (req.data.type) query.type = req.data.type;
     if (req.data.cluster) query.cluster = req.data.cluster;
     if (req.data.keywords) query.description = create_regexp(req.data.keywords, true);
 

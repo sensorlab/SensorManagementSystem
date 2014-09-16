@@ -35,8 +35,6 @@
         <title>Sensor Management System - components</title>
     </head>
     <body>
-
-
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="navbar-inner">
                 <div class="container-fluid">
@@ -105,7 +103,7 @@
                             <div class="control-group">
                                 <label class="control-label" for="inType">Type</label>
                                 <div class="controls">
-                                    <select id="inType" data-bind="options: ComponentTypes, value: SearchType, optionsCaption: 'Choose ...', optionsText: 'title', optionsValue: 'code'"></select>
+                                    <select id= "inType" data-bind="options: ComponentTypes, value: SearchType, optionsCaption: 'Choose ...', optionsText: 'title', optionsValue: 'code'"></select>
                                 </div>
                             </div>
 
@@ -144,58 +142,119 @@
             <div class="row-fluid" data-bind="visible: $root.PageMode() == 'new_batch'">
                 <div class="span12">
                     <div class="form-horizontal">
-                        <div class="well well-small">
-                            Enter new batch of components
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label" for="inType">Type </label>
-                            <div class="controls">
-                                <select class="input" id="inType" data-bind="options: ComponentTypes, value: NewType, optionsText: 'title', optionsValue: 'code'"
-                                        title="Component type for the whole batch"></select>
+                        <form name="form">
+                            <div class="well well-small">
+                                Enter new batch of components
                             </div>
-                        </div>
-
-                        <div class="control-group">
-                            <label class="control-label" for="inPn">Product number </label>
-                            <div class="controls">
-                                <input type="text" class="input input-large" data-bind="value: NewPN" title="Product number for this new batch of components"/>
+                            <div class="control-group">
+                                <label class="control-label" for="inType">Type </label>
+                                <div  id="type", class="controls">
+                                    <select class="input" name="NewType" id="inType" data-bind="options: ComponentTypes, value: NewType, optionsCaption: 'Choose ...', optionsText: 'title', optionsValue: 'code'" title="Component type for the whole batch"></select>
+                                    <button id="btnSaveNewType" class="btn btn-primary" type="button" data-bind="click: $root.StartManageTypes, visible: $root.StdData.CurrentUserIsAdmin() == true"><i class="icon-save"></i> Manage Types </button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="control-group">
-                            <label class="control-label" for="inP">Production date</label>
-                            <div class="controls">
-                                <input type="text" class="input input-small" data-bind="value: NewP" title="Production date for the whole batch of components (e.g. 240413 - ddMMyy)"/>
+                            <div class="control-group">
+                                <label class="control-label" for="inPn">Product number </label>
+                                <div class="controls">
+                                    <input type="text" name="NewPN" class="input input-large" data-bind="value: NewPN" title="Product number for this new batch of components"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="control-group">
-                            <label class="control-label" for="inS">Series </label>
-                            <div class="controls">
-                                <input type="text" class="input input-small" data-bind="value: NewS" title="Series number for the whole batch of components"/>
+                            <div class="control-group">
+                                <label class="control-label" for="inP">Production date</label>
+                                <div class="controls">
+                                    <input type="text" name="NewP" class="input input-small" data-bind="value: NewP" title="Production date for the whole batch of components (e.g. 240413 - ddMMyy)"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="control-group">
-                            <label class="control-label" for="inSN">Serial number </label>
-                            <div class="controls">
-                                <input type="text" class="input input-mini" data-bind="value: NewSN1" title="Serial numbers in the batch start with this number" />
-                                -
-                                <input type="text" class="input input-mini" data-bind="value: NewSN2" title="Serial numbers in the batch end with this number (inclusive)" />
+                            <div class="control-group">
+                                <label class="control-label" for="inS">Series </label>
+                                <div class="controls">
+                                    <input type="text" name="NewS" class="input input-small" data-bind="value: NewS" title="Series number for the whole batch of components"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="control-group">
-                            <label class="control-label" for="btnSaveNewBatch"></label>
-                            <div class="controls">
-                                <button id="btnSaveNewBatch" class="btn btn-primary" type="button" data-bind="click: $root.SaveNewComponents"><i class="icon-save"></i> Save </button>
-                                <button id="btnCancelNewBatch" class="btn" type="button" data-bind="click: $root.CancelAddingNewBatch">Cancel </button>
+                            <div class="control-group">
+                                <label class="control-label" for="inSN">Serial number </label>
+                                <div class="controls">
+                                    <input type="text" name="NewSN1" class="input input-mini" data-bind="value: NewSN1" title="Serial numbers in the batch start with this number" />
+                                    -
+                                    <input type="text" name="NewSN2" class="input input-mini" data-bind="value: NewSN2" title="Serial numbers in the batch end with this number (inclusive)" />
+                                </div>
                             </div>
-                        </div>
+                            <div class="control-group">
+                                <label class="control-label" for="btnSaveNewBatch"></label>
+                                <div class="controls">
+                                    <button id="btnSaveNewBatch" class="btn btn-primary" type="button" data-bind="click: $root.SaveNewComponents"><i class="icon-save"></i> Save </button>
+                                    <button id="btnCancelNewBatch" class="btn" type="button" data-bind="click: $root.CancelAddingNewBatch">Cancel </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
+            
+            <div class="row-fluid" data-bind="visible: $root.PageMode() == 'manageType'">
+                <div class="span12">
+                    <div class="form-horizontal">
+                        <div class="well well-small">
+                                Manage components types
+                        </div>
+                        <div class="row-fluid" style="padding-bottom:  10px;">
+                            <div class="pull-right">
+                                <button class="btn" type="button" data-bind="click: $root.StartAddingNewType"><i class="icon-plus"></i> Add new Type </button>
+                            </div>
+                        </div>
+                        <table class="table table-hover">
+                            <tr>
+                                <th><input type="checkbox" id="checkAllTypes" style="cursor: default" data-bind="checked: $root.SelectAllTypes"></th>
+                                <th style="text-align:center;">Code</th>
+                                <th style="text-align:center;">Title</th>
+                                 <th style="text-align:Center;">Edit</th>
+                            </tr>
+                            <tbody data-bind="foreach: $root.ComponentTypes">
+                                <tr style="cursor: pointer">
+                                    <td><input type="checkbox" id="checkbox" style="cursor: default" data-bind="checked: $root.CheckedComponentsTypes, value: code"></td>
+                                    <td data-bind="text: code", style="text-align:center;"></td>
+                                    <td data-bind="text: title", style="text-align:center;"></td>
+                                    <td style="text-align:center;"><button id="btnEdit" class="btn btn-primary" data-bind="click: $root.EditTypeTitle"><i class="icon-edit"></i> Edit </button></td>
+                                </tr>
+                                <div class="span3 text-light"><button data-bind="click: $root.DeleteComponentTypesList, visible: $root.CheckedComponentsTypes().length > 0"><i class="icon-trash"></i> Delete selected types</button>
+                                </div>
+                            </tbody>
+                        </table>
+                        <button id="btnCancelManageTypes" class="btn" type="button" data-bind="click: $root.CancelManageTypes">Cancel </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row-fluid" style="padding-bottom:  10px;" data-bind="visible: $root.PageMode() == 'addType'">
+                <div class="form-horizontal">
+                    <form name="formType">
+                        <div class="control-group">
+                            <label class="control-label" for="inCode">Code </label>
+                            <div class="controls">
+                                <input id="inCode" title="Short name, only alphanumeric characters" type="text" data-bind="value: NewCode" class="input input-medium" name="newCode" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="inTitle">Title </label>
+                            <div class="controls">
+                                <input id="inTitle" title="Type name" type="text" data-bind="value: NewTitle" class="input input-medium" name="newTitle" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label" for="btnSaveNewType"></label>
+                            <div class="controls">
+                                <button id="btnSaveNewType" class="btn btn-primary" type="button" data-bind="click: $root.SaveNewComponentType"><i class="icon-save"></i> Save </button>
+                                <button id="btnCancelSaveNewType" class="btn" type="button" data-bind="click: $root.CancelAddingNewType">Cancel </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
             <div class="row-fluid" style="padding-bottom:  10px;" data-bind="visible: $root.PageMode() == 'search'">
                 <div class="span7 text-light">
                     <button data-bind="click: $root.DecPage, enable: $root.DecPageEnabled"><i class="icon-arrow-left"></i>  </button>

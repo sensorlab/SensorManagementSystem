@@ -1289,6 +1289,7 @@ Carvic.Model.ComponentsModel = function () {
 
     self.SearchResult = ko.observableArray();
     self.CheckedComponents = ko.observableArray();
+    self.CheckedComponentsTypes = ko.observableArray();
     self.SearchType = ko.observable();
     self.SearchProject = ko.observable("");
     self.SearchComment = ko.observable("");
@@ -1305,6 +1306,7 @@ Carvic.Model.ComponentsModel = function () {
     self.PageCount = ko.observable(0);
     self.IncPageEnabled = ko.observable(false);
     self.DecPageEnabled = ko.observable(false);
+    self.EditType = ko.observable("editFalse");
     self.RecCount = ko.observable(0);
 
     self.PageMode = ko.observable("search"); // values: search, new_batch, edit
@@ -1314,21 +1316,47 @@ Carvic.Model.ComponentsModel = function () {
     self.NewS = ko.observable("");
     self.NewSN1 = ko.observable("");
     self.NewSN2 = ko.observable("");
-    self.NewType = ko.observable();
+    self.NewType = ko.observable("");
 
-    self.ComponentTypesArray = Carvic.Consts.ComponentTypesArray;
-    self.ComponentTypes = ko.observableArray(self.ComponentTypesArray);
-    self.ComponentTypesMap = Carvic.Consts.ComponentTypesMap;
 
     //self.ComponentStatusesArray = Carvic.Consts.ComponentStatusesArray;
     self.ComponentStatuses = ko.observableArray();
     self.ComponentStatusesMap = {};
+
+    //self.ComponentTypesArray = Carvic.Consts.ComponentTypesArray;
+    self.ComponentTypes = ko.observableArray();
+    self.ComponentTypesMap = {};
+    
+    self.ComponentStatusesArray = Carvic.Consts.ComponentStatusesArray;
+    self.ComponentStatuses = ko.observableArray(self.ComponentStatusesArray);
+    self.ComponentStatusesMap = Carvic.Consts.ComponentStatusesMap;
+    
+    self.NewCode = ko.observable("");
+    self.NewTitle = ko.observable("");
 
     self.IncPage = function () {
         if (self.CurrPage() < self.PageCount()) {
             self.CurrPage(self.CurrPage() + 1);
             self.SearchInner(false);
         }
+    }
+    
+    self.getComponentTypes = function () {
+        self.ComponentTypes.removeAll();
+        var d = {}
+        Carvic.Utils.Post({ action: "get_component_types", data: d }, function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var obj = data[i];
+                self.ComponentTypes.push({
+                    title: obj.title,
+                    code: obj.code
+                });
+            }
+            self.ComponentTypesMap = {};
+            self.ComponentTypes().forEach(function (item) {
+                self.ComponentTypesMap[item.code] = item;
+            });
+        });
     }
 
     self.DecPage = function () {
@@ -1409,9 +1437,25 @@ Carvic.Model.ComponentsModel = function () {
     self.ShowDetails = function (curr_component) {
         document.location = "component.html?id=" + encodeURI(curr_component.ID());
     };
-
+    
+    
+    self.EditTypeTitle = function (curr_component) {
+        var title = prompt("Enter new type title");
+        if( title != null ) {
+            var code = curr_component.code;
+            var d = {
+                code: code,
+                title: title
+            };
+            Carvic.Utils.Post({ action: "update_components_type", data: d }, function (data) {
+                self.getComponentTypes();
+            });
+        }
+    };
+    
     self.SaveNewComponents = function (curr_component) {
         var errors = [];
+        Carvic.Utils.CheckIfEmpty(self.NewType(), "Type cannot be empty", errors);
         Carvic.Utils.CheckIfEmpty(self.NewPN(), "Product number cannot be empty", errors);
         Carvic.Utils.CheckIfEmpty(self.NewP(), "Production date cannot be empty", errors);
         Carvic.Utils.CheckIfEmpty(self.NewS(), "Series cannot be empty", errors);
@@ -1433,8 +1477,27 @@ Carvic.Model.ComponentsModel = function () {
         };
         Carvic.Utils.Post({ action: "add_components", data: d }, function (data) {
             self.PageMode("search");
+            self.NewPN("");
+            self.NewP("");
+            self.NewS("");
+            self.NewSN1("");
+            self.NewSN2("");
+            self.NewType("Choose ...");
         });
     };
+    
+    self.SaveNewComponentType = function (curr_component){ 
+        var d = {
+            code: self.NewCode(),
+            title: self.NewTitle()
+        };
+        Carvic.Utils.Post({ action: "add_new_component_type", data: d }, function (data) {
+            self.getComponentTypes();
+            self.PageMode("manageType");
+            self.NewCode("");
+            self.NewTitle("");
+        });      
+    }
     
     self.ToggleAll = function () {
         self.CheckedComponents.removeAll();
@@ -1452,13 +1515,61 @@ Carvic.Model.ComponentsModel = function () {
             self.CheckedComponents(self.CheckedComponents().length === self.SearchResult().length ? [] : self.ToggleAll());
         },
         owner: self
-    });    
+    });
+    
+    self.ToggleAllTypes = function () {
+        self.CheckedComponentsTypes.removeAll();
+            for(i = 0; i < self.ComponentTypes().length; i++) {
+                self.CheckedComponentsTypes().push(self.ComponentTypes()[i].code);
+            }
+        return self.CheckedComponentsTypes();
+    };
+    
+    self.SelectAllTypes = ko.dependentObservable({
+        read: function() {
+            return self.CheckedComponentsTypes().length === self.ComponentTypes().length;
+        },
+        write: function() {
+            self.CheckedComponentsTypes(self.CheckedComponentsTypes().length === self.ComponentTypes().length ? [] : self.ToggleAllTypes());
+        },
+        owner: self
+    }); 
 
     self.StartAddingNewBatch = function () {
         self.PageMode("new_batch");
     }
+    
+    self.StartManageTypes = function () {
+        self.PageMode("manageType");
+    }
+    
+    self.StartEditType = function () {
+        self.EditType("editTrue");
+    }
+    
+    self.StartAddingNewType = function () {
+        self.PageMode("addType");
+    }
+    
+    self.CancelAddingNewType = function () {
+        self.PageMode("manageType");
+        self.NewCode("");
+        self.NewTitle("");
+    }
+    
+    self.CancelManageTypes = function () {
+        self.PageMode("new_batch");
+        self.CheckedComponentsTypes.removeAll();
+    }
+    
     self.CancelAddingNewBatch = function () {
         self.PageMode("search");
+        self.NewPN("");
+        self.NewP("");
+        self.NewS("");
+        self.NewSN1("");
+        self.NewSN2("");
+        self.NewType("");
     }
 
     self.DeleteComponentList = function () {
@@ -1484,11 +1595,11 @@ Carvic.Model.ComponentsModel = function () {
                 break;
         }
     };
+
     self.getComponentStatuses( function() {
         self.Search();
     });
 }
-
 Carvic.Model.ComponentModel = function () {
 
     var self = this;
@@ -1510,9 +1621,9 @@ Carvic.Model.ComponentModel = function () {
     self.Nodes = ko.observableArray();
     self.LastData = {};
 
-    self.ComponentTypesArray = Carvic.Consts.ComponentTypesArray;
-    self.ComponentTypes = ko.observableArray(self.ComponentTypesArray);
-    self.ComponentTypesMap = Carvic.Consts.ComponentTypesMap;
+    //self.ComponentTypesArray = Carvic.Consts.ComponentTypesArray;
+    self.ComponentTypes = ko.observableArray();
+    self.ComponentTypesMap = {};
 
     //self.ComponentStatusesArray = Carvic.Consts.ComponentStatusesArray;
     self.ComponentStatuses = ko.observableArray();
@@ -1584,6 +1695,24 @@ Carvic.Model.ComponentModel = function () {
                     Css: (obj.code === "component_change" ? "icon-edit" : "icon-check")
                 }));
             }
+        });
+    }
+    
+    self.getComponentTypes = function () {
+        var d = {}
+        self.ComponentTypes.removeAll();
+        Carvic.Utils.Post({ action: "get_component_types", data: d }, function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var obj = data[i];
+                self.ComponentTypes.push({
+                    title: obj.title,
+                    code: obj.code
+                });
+            }
+            self.ComponentTypesMap = {};
+            self.ComponentTypes().forEach(function (item) {
+                self.ComponentTypesMap[item.code] = item;
+            });
         });
     }
 
@@ -1986,6 +2115,7 @@ Carvic.Model.HistoryModel = function () {
     self.UserList = ko.observableArray();
     self.Component = ko.observable("");
     self.Node = ko.observable("");
+    self.Type = ko.observable("");
     self.Cluster = ko.observable("");
     self.ClusterList = ko.observableArray();
     self.Keywords = ko.observable("");
@@ -2038,6 +2168,7 @@ Carvic.Model.HistoryModel = function () {
         if (self.Node() != "") query.node = Number(self.Node());
         if (self.Cluster() != "") query.cluster = self.Cluster();
         if (self.Keywords() != "") query.keywords = self.Keywords();
+        if (self.Type() != "") query.type = self.Type();
         var d1 = self.From();
         if (d1 && d1 != "") query.ts_from = Carvic.Utils.ParseDate(d1);
         var d2 = self.To();
@@ -2050,6 +2181,7 @@ Carvic.Model.HistoryModel = function () {
             for (var i = 0; i < data.records.length; i++) {
                 var obj = data.records[i];
                 obj.component = obj.component || "";
+                obj.type = obj.type || "";
                 obj.component_url = (obj.component ? "component.html?id=" + encodeURI(obj.component) : null);
                 obj.cluster = obj.cluster || "";
                 obj.cluster_name = obj.cluster_name || "";
@@ -2164,6 +2296,7 @@ Carvic.InitSingleUser = function () {
 Carvic.InitComponentList = function () {
     Carvic.Model.Components = new Carvic.Model.ComponentsModel();
     //Carvic.Model.Components.Search(); // this is too expensive
+    Carvic.Model.Components.getComponentTypes();
     Carvic.Utils.SetCurrentUser(Carvic.Model.Components);
     
 }
@@ -2175,6 +2308,8 @@ Carvic.InitHistoryList = function () {
 
 Carvic.InitSingleComponentList = function () {
     Carvic.Model.Component = new Carvic.Model.ComponentModel();
+    Carvic.Model.Component.getComponentTypes();
+    Carvic.Model.Component.Load(id);
     Carvic.Utils.SetCurrentUser(Carvic.Model.Component);
 }
 
