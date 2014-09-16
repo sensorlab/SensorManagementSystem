@@ -1327,10 +1327,6 @@ Carvic.Model.ComponentsModel = function () {
     self.ComponentTypes = ko.observableArray();
     self.ComponentTypesMap = {};
     
-    self.ComponentStatusesArray = Carvic.Consts.ComponentStatusesArray;
-    self.ComponentStatuses = ko.observableArray(self.ComponentStatusesArray);
-    self.ComponentStatusesMap = Carvic.Consts.ComponentStatusesMap;
-    
     self.NewCode = ko.observable("");
     self.NewTitle = ko.observable("");
 
@@ -1341,22 +1337,20 @@ Carvic.Model.ComponentsModel = function () {
         }
     }
     
-    self.getComponentTypes = function () {
-        self.ComponentTypes.removeAll();
+     self.getComponentTypes = function (callback) {
         var d = {}
+        self.ComponentTypes.removeAll();
+        self.ComponentTypesMap = {};
         Carvic.Utils.Post({ action: "get_component_types", data: d }, function (data) {
-            for (var i = 0; i < data.length; i++) {
-                var obj = data[i];
+            data.forEach( function (item){
                 self.ComponentTypes.push({
-                    title: obj.title,
-                    code: obj.code
+                    title: item.title,
+                    code: item.code
                 });
-            }
-            self.ComponentTypesMap = {};
-            self.ComponentTypes().forEach(function (item) {
                 self.ComponentTypesMap[item.code] = item;
             });
         });
+        if(callback) callback();
     }
 
     self.DecPage = function () {
@@ -1595,11 +1589,13 @@ Carvic.Model.ComponentsModel = function () {
                 break;
         }
     };
-
-    self.getComponentStatuses( function() {
-        self.Search();
+    self.getComponentTypes ( function () {
+        self.getComponentStatuses( function() {
+            self.Search();
+        });
     });
 }
+
 Carvic.Model.ComponentModel = function () {
 
     var self = this;
@@ -1698,22 +1694,20 @@ Carvic.Model.ComponentModel = function () {
         });
     }
     
-    self.getComponentTypes = function () {
+    self.getComponentTypes = function (callback) {
         var d = {}
         self.ComponentTypes.removeAll();
+        self.ComponentTypesMap = {};
         Carvic.Utils.Post({ action: "get_component_types", data: d }, function (data) {
-            for (var i = 0; i < data.length; i++) {
-                var obj = data[i];
+            data.forEach( function (item){
                 self.ComponentTypes.push({
-                    title: obj.title,
-                    code: obj.code
+                    title: item.title,
+                    code: item.code
                 });
-            }
-            self.ComponentTypesMap = {};
-            self.ComponentTypes().forEach(function (item) {
                 self.ComponentTypesMap[item.code] = item;
             });
         });
+        if(callback) callback();
     }
 
     self.ShowDetails = function (curr_component) {
@@ -1781,9 +1775,11 @@ Carvic.Model.ComponentModel = function () {
             });
         }
     };
-    self.getComponentStatuses( function () {
-        var id = Carvic.Utils.GetUrlParam("id");
-        self.Load(id);
+    self.getComponentTypes ( function () {
+        self.getComponentStatuses( function() {
+            var id = Carvic.Utils.GetUrlParam("id");
+            self.Load(id);
+        });
     });
 }
 
@@ -2296,7 +2292,6 @@ Carvic.InitSingleUser = function () {
 Carvic.InitComponentList = function () {
     Carvic.Model.Components = new Carvic.Model.ComponentsModel();
     //Carvic.Model.Components.Search(); // this is too expensive
-    Carvic.Model.Components.getComponentTypes();
     Carvic.Utils.SetCurrentUser(Carvic.Model.Components);
     
 }
@@ -2308,8 +2303,6 @@ Carvic.InitHistoryList = function () {
 
 Carvic.InitSingleComponentList = function () {
     Carvic.Model.Component = new Carvic.Model.ComponentModel();
-    Carvic.Model.Component.getComponentTypes();
-    Carvic.Model.Component.Load(id);
     Carvic.Utils.SetCurrentUser(Carvic.Model.Component);
 }
 
