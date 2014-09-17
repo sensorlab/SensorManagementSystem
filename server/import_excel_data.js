@@ -19,6 +19,7 @@ data.sensor_history = [];
 data.users = [];
 data.logins = [];
 data.types = [];
+data.user_types = [];
 
 //////////////////////////////////////////////////
 // users
@@ -124,6 +125,17 @@ data.types.push({
 data.types.push({
     code: "snc",
     title: "SNC"
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////
+data.user_types.push({
+    code: "admin",
+    title: "Administrator"
+});
+
+data.user_types.push({
+    code: "normal",
+    title: "Normal user"
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////

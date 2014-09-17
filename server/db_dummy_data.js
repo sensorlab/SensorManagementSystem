@@ -25,6 +25,7 @@ data.nodes = [];
 data.components = [];
 data.sensor_history = [];
 data.types = [];
+data.user_types = [];
 
 data.users = [];
 data.logins = [];

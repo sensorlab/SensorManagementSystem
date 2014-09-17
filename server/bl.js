@@ -319,6 +319,13 @@ exports.new_user = function (req, callback) {
     });
 };
 
+exports.get_user_types = function (res, callback) {
+    db.get_user_types( function(err, data) {
+        if (err) return callback(err);
+        return callback(null, data)
+    });
+}
+
 exports.update_user = function (req, callback) {
     var rec = req.data;
     var rec2 = { full_name: "", status: "", type: "" };

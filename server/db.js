@@ -27,6 +27,7 @@ var collection_nodes = "nodes";
 var collection_history = "history";
 var collection_sensor_history = "sensor_history";
 var collection_components_type = "components_type";
+var collection_user_types = "user_types";
 
 var collections = [
     collection_users,
@@ -36,7 +37,8 @@ var collections = [
     collection_nodes,
     collection_history,
     collection_sensor_history,
-    collection_components_type
+    collection_components_type,
+    collection_user_types
 ];
 
 
@@ -111,6 +113,7 @@ function fill_dummy_data(callback) {
     loop(data.logins, collection_logins);
     loop(data.history, collection_history);
     loop(data.types, collection_components_type);
+    loop(data.user_types, collection_user_types);
 
     var calls = [];
     inserts.forEach(function (item) {
@@ -504,6 +507,13 @@ function get_user(username, callback) {
     });
 };
 
+function get_user_types(callback){
+    db[collection_user_types].find({}, { _id: 0 }).toArray(function (err, docs) {
+        if (err) return callback(err);
+        callback(null, docs);
+    });
+};
+
 function get_user_pwd(username, callback) {
     var query = { username: username, status: "active" };
     db[collection_users].find(query, function (err, docs) {
@@ -827,6 +837,7 @@ exports.new_user = new_user;
 exports.update_user = update_user;
 exports.delete_user = delete_user;
 exports.get_user = get_user;
+exports.get_user_types = get_user_types;
 exports.get_username_map = get_username_map;
 exports.get_user_pwd = get_user_pwd;
 exports.get_user_history = get_user_history;
