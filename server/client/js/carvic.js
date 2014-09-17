@@ -429,7 +429,7 @@ Carvic.Model.UserModel = function () {
     self.CurrentUserStartEditing = function () {
         self.CurrentUserEdit().FullName(self.CurrentUser().FullName());
         self.CurrentUserEdit().Status(Carvic.Utils.GetMatches({ code: self.CurrentUser().Status() }, self.UserStatusesArray)[0]);
-        self.CurrentUserEdit().Type(Carvic.Utils.GetMatches({ code: self.CurrentUser().Type() }, self.UserTypesArray)[0]);
+        self.CurrentUserEdit().Type(Carvic.Utils.GetMatches({ code: self.CurrentUser().Type() }, self.UserTypes())[0]);
         self.CurrentUserEditing(true);
     }
     self.CurrentUserStartEditingPwd = function () {
