@@ -26,6 +26,7 @@ var collection_clusters = "clusters";
 var collection_nodes = "nodes";
 var collection_history = "history";
 var collection_sensor_history = "sensor_history";
+var collection_component_statuses = "component_statuses";
 var collection_components_type = "components_type";
 
 var collections = [
@@ -36,6 +37,7 @@ var collections = [
     collection_nodes,
     collection_history,
     collection_sensor_history,
+    collection_component_statuses,
     collection_components_type
 ];
 
@@ -110,6 +112,7 @@ function fill_dummy_data(callback) {
     loop(data.users, collection_users, true);
     loop(data.logins, collection_logins);
     loop(data.history, collection_history);
+    loop(data.statuses,collection_component_statuses);
     loop(data.types, collection_components_type);
 
     var calls = [];
@@ -265,6 +268,14 @@ function update_component(id, rec, callback) {
 function delete_component(id, callback) {
     db[collection_components].remove({ id: id }, callback);
 };
+
+
+function get_statuses(callback){
+    db[collection_component_statuses].find({}, { _id: 0 }).toArray(function (err, docs) {
+        if (err) return callback(err);
+        callback(null, docs);
+    });
+}
 
 function delete_component_type(code, callback) {
     db[collection_components_type].remove({ code: code }, callback);
@@ -794,6 +805,7 @@ exports.update_component_type = update_component_type;
 exports.delete_component = delete_component;
 exports.delete_component_type = delete_component_type;
 exports.get_component = get_component;
+exports.get_statuses = get_statuses;
 exports.get_component_history = get_component_history;
 exports.get_components = get_components;
 exports.get_components2 = get_components2;

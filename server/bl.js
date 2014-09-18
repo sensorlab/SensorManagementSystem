@@ -717,11 +717,18 @@ exports.get_component = function (req, callback) {
     })
 };
 
+
+exports.get_statuses = function (res, callback) {
+    db.get_statuses( function(err, data) {
+        if (err) return callback(err);
+        return callback(null, data)
+    });
+}
+
 exports.get_component_types = function (res, callback) {
     db.get_all_component_type( function(err, data) {
         if (err) return callback(err);
         return callback(null, data)
-        
     });
 }
 
@@ -731,6 +738,9 @@ exports.get_component_history = function (req, callback) {
 
 exports.update_components_type = function(req, callback) {
     var rec = req.data;
+    if (rec.title === "" || /^\s*$/.test(rec.title)) {
+        return callback(new Error("Title cannot be empty"),{});
+    }
     db.get_component_type(rec.code, function (err, data) {
         if (err) return callback(err);
         var rec2 = {
