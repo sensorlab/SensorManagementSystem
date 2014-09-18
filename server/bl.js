@@ -738,6 +738,9 @@ exports.get_component_history = function (req, callback) {
 
 exports.update_components_type = function(req, callback) {
     var rec = req.data;
+    if (rec.title === "" || /^\s*$/.test(rec.title)) {
+        return callback(new Error("Title cannot be empty"),{});
+    }
     db.get_component_type(rec.code, function (err, data) {
         if (err) return callback(err);
         var rec2 = {

@@ -1589,6 +1589,31 @@ Carvic.Model.ComponentsModel = function () {
                 break;
         }
     };
+    
+    self.DeleteComponentTypesList = function () {
+        switch (self.CheckedComponentsTypes().length > 0) {
+            case false:
+                alert("There are no components chosen to delete!");
+                break;
+            default:
+                if (confirm("You chose:\n" + self.CheckedComponentsTypes() + "\n" + "\n" + "Are you sure you want to delete these components types?")) {
+                    for (i in self.CheckedComponentsTypes()) {
+                        if(confirm("Some components can use that type:\n" + self.CheckedComponentsTypes()[i] + "\n" + "\n" + "Are you sure you want to delete this type?")) {
+                            var req = {
+                                action: "delete_component_type",
+                                data: { code: self.CheckedComponentsTypes()[i] }
+                            };
+                            Carvic.Utils.Post(req, function (data) {
+                            });
+                        }
+                    }
+                    self.CheckedComponentsTypes.removeAll();
+                    self.getComponentTypes();
+                }
+                break;
+        }
+    };
+    
     self.getComponentTypes ( function () {
         self.getComponentStatuses( function() {
             self.Search();
