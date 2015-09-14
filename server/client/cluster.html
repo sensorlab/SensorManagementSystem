@@ -1,253 +1,283 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <style type="text/css">
-            body { padding-top: 60px }
-        </style>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/carvic.css" rel="stylesheet">
-        <link href="css/jquery-clockpicker.min.css" rel="stylesheet">
 
-        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+        body {
+            padding-top: 60px
+        }
+    </style>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/carvic.css" rel="stylesheet">
+    <link href="css/jquery-clockpicker.min.css" rel="stylesheet">
 
-        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
-        <script type="text/javascript" src="js/carvic.js"></script>
-        <script type="text/javascript" src="js/jquery-clockpicker.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(".control-label")
-                    .attr("data-bind", "css: { clear_top_padding: $root.Editing() == false }");
-                Carvic.InitSingleCluster();
-                ko.applyBindings(Carvic.Model.Cluster);
-                $(".input")
-                    .attr("data-placement", "right")
-                    .tooltip();
-                $('#inTime')
-                    .clockpicker({
-                        align: 'left',
-                        donetext: 'Done',
-                        minutestep: 5
-                    });
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+    <script type="text/javascript" src="js/carvic.js"></script>
+    <script type="text/javascript" src="js/jquery-clockpicker.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="js/jquery.bootpag.js"></script>
+    <script type="text/javascript" src="js/pagination.js"></script>
+
+
+
+    <script>
+        $(document).ready(function() {
+            $(".control-label")
+                .attr("data-bind", "css: { clear_top_padding: $root.Editing() == false }");
+            Carvic.InitSingleCluster();
+            ko.applyBindings(Carvic.Model.Cluster);
+            $(".input").attr("data-placement", "right")
+                .tooltip();
+
+            $('#inTime').clockpicker({
+                align: 'left',
+                donetext: 'Done',
+                minutestep: 5
             });
-        </script>
-        <title>Sensor Management System - cluster</title>
-    </head>
-    <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                          <span class="sr-only">Toggle navigation</span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="admin.html"><img src="img/sensorlab-only-logo-white-21px.png"> SensorLab</a>
-                    </div>
-                    <div class="navbar-collapse collapse" style="top: 20">
-                        <ul class="nav navbar-nav" id="navRight">
-                            <li class="active"><a href="clusters.html"><i class="glyphicon glyphicon-th"></i> Clusters</a></li>
-                            <li><a href="nodes.html"><i class="glyphicon glyphicon-map-marker"></i> Nodes</a></li>
-                            <li><a href="components.html"><i class="glyphicon glyphicon-tasks"></i> Components</a></li>
-                            <!--<li><a href="users.html"><i class="glyphicon glyphicon-user"></i> Users</a></li>-->
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="help"><i class="glyphicon glyphicon-question-sign" title="Show help"></i> Help</a></li>
-                            <li><a data-bind="click: $root.StdData.CurrentUserPage", style="cursor: pointer"><i class="glyphicon glyphicon-user"></i> <span data-bind="text: $root.StdData.CurrentUserFullname, attr: { title: StdData.CurrentUserTooltip }"></span></a></li>
-                            <li><a href="#" onclick="javascript: Carvic.Utils.Logout(); "><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-        </div>
 
+
+
+        });
+    </script>
+
+
+    <title>Sensor Management System - cluster</title>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
-
-            <div class="row">
-                <div class="col-md-12 well">
-                    <h2><i class="glyphicon glyphicon-th"></i>
-                        <span data-bind="text: Name"></span></h2>
-                </div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="admin.html"><img src="img/sensorlab-only-logo-white-21px.png"> SensorLab</a>
             </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="well well-small form-horizontal">
-
-                        <div style="padding-bottom: 10px;">
-                            <button class="btn btn-default" data-bind="click: $root.StartEditing, visible: $root.Editing() == false"><i class="glyphicon glyphicon-edit"></i> Edit cluster</button>
-                            <button class="btn btn-default" type="button" data-bind="click: $root.ScanCluster, visible: $root.StdData.CurrentUserIsAdmin() == true && $root.Editing() == false"><i class="glyphicon glyphicon-search"></i> Scan cluster </button>
-                            <button id="btnCancelEdit" class="btn btn-default" type="button" data-bind="click: $root.CancelEditing, visible: $root.Editing() == true"><i class="glyphicon glyphicon-remove"></i> Cancel editing </button>
-                        </div>
-                        <div class="list-group">
-                            <label class="control-label" for="inName"> NAME </label>
-                            <div>
-                                <span data-bind="text: Name, visible: $root.Editing() == false"></span>
-                                <input class="form-control" id="inName" type="text" data-bind="value: Name, visible: $root.Editing() == true" title="Name for this cluster - it will appear in lists and search results" />
-                            </div>
-                        </div>
-
-                        <div class="list-group">
-                            <label class="control-label" for="inId"> ID </label>
-                            <div>
-                                <span data-bind="text: Id, visible: $root.Editing() == false" title="ID of this cluster"></span>
-                            </div>
-                        </div>
-
-                        <div class="list-group">
-                            <label class="control-label" for="inTag"> TAG </label>
-                            <div>
-                                <span data-bind="text: Tag, visible: $root.Editing() == false"></span>
-                                <input class="form-control" id="inTag" type="text" data-bind="value: Tag, visible: $root.Editing() == true" title="Tag of this cluster - important for zigbee networks!" />
-                            </div>
-                        </div>
-
-
-                        <div class="list-group">
-                            <label class="control-label" for="inType "> TYPE  </label>
-                            <div>
-                                <span data-bind="text: TypeStr , visible: $root.Editing() == false"></span>
-                                <select class="form-control" id="inType" data-bind="options: ClusterTypes, value: Type, optionsText: 'title', optionsValue: 'code', visible: $root.Editing() == true" title="Type of this cluster"></select>
-                            </div>
-                        </div>
-
-
-                        <div class="list-group">
-                            <label class="control-label" for="inScan"> PEFORM SCAN? </label>
-                            <div>
-                                <input type="checkbox" id="inScan" data-bind="checked: Scan, enable: $root.Editing() == true" title="Should this cluster be scanned automatically?"></select>
-                            </div>
-                        </div>
-
-                        <div class="list-group" data-bind="visible: $root.Scan() == true">
-                            <label class="control-label" for="inScheduling"> SCHEDULING </label>
-                            <div>
-                                <input type="radio" id="inScheduling" name="inScheduling" value="recur_scheduling" data-bind="checked: Scheduling, enable: $root.Editing() == true" title="Interval scaning"> Recur scheduling
-                                <input type="radio" id="inScheduling" name="inScheduling" value="time_scheduling" data-bind="checked: Scheduling, enable: $root.Editing() == true" title="Scan once per day"> Time scheduling
-                            </div>
-                        </div>
-
-                        <div class="list-group" data-bind="visible: $root.Scheduling() == 'recur_scheduling' && $root.Scan() == true">
-                            <label class="control-label" for="inScheduling"> INTERVAL UNIT </label>
-                            <div>
-                                <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="seconds" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Second
-                                <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="minutes" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Minute
-                                <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="hours" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Hour
-                                <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="days" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Day
-                                <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="weeks" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Week
-                                <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="months" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Month
-                            </div>
-                        </div>
-
-                        <div class="list-group" data-bind="visible: $root.Scheduling() == 'recur_scheduling' && $root.Scan() == true">
-                            <label class="control-label" for="inScheduling"> INTERVAL </label>
-                            <span data-bind="text: Interval, visible: $root.Editing() == false"></span>
-                            <input class="form-control" type="text" id="inInterval" data-bind="value: Interval, visible: $root.Editing() == true" title="Type interval">
-                        </div>
-
-                        <div class="list-group" data-bind="visible: $root.Scheduling() == 'time_scheduling' && $root.Scan() == true">
-                            <label class="control-label" for="inScheduling"> EXACT TIME </label>
-                            <span data-bind="text: Time, visible: $root.Editing() == false"></span>
-                            <input class="form-control" id="inTime" data-bind="value: Time, visible: $root.Editing() == true" title="Insert time when cluster need to be scaned">
-                        </div>
-
-                        <div class="list-group">
-                            <label class="control-label" for="inLastScan"> LAST SCAN </label>
-                            <div class="controls">
-                                <span data-bind="text: Carvic.Utils.FormatDateTime(LastScan())"></span>
-                            </div>
-                        </div>
-
-                        <div class="list-group">
-                            <label class="control-label" for="inUrl"> URL </label>
-                            <div>
-                                <span data-bind="text: Url, visible: $root.Editing() == false"></span>
-                                <input class="form-control" id="inUrl" type="text" data-bind="value: Url, visible: $root.Editing() == true" title="URL of communicator for this cluster, if it uses one." />
-                            </div>
-                        </div>
-
-                        <div class="list-group">
-                            <label class="control-label" for="inComment"> COMMENT </label>
-                            <div>
-                                <span data-bind="text: Comment, visible: $root.Editing() == false"></span>
-                                <textarea class="form-control" id="inComment" data-bind="value: Comment, visible: $root.Editing() == true" rows="5" title="Optional comment for this cluster."></textarea>
-                            </div>
-                        </div>
-                        <!---->
-                        <div data-bind="visible: $root.Editing() == true">
-                            <label class="control-label" for="btnSaveCluster"></label>
-                            <div>
-                                <button id="btnSaveCluster" class="btn btn-default btn-primary" type="button" data-bind="click: $root.SaveCluster"><i class="glyphicon glyphicon-floppy-disk"></i> Save changes </button>
-                                <button class="btn btn-danger" data-bind="click: $root.DeleteCluster, visible: $root.Editing() == true && $root.StdData.CurrentUserIsAdmin() == true"><i class="glyphicon glyphicon-trash"></i> Delete cluster</button>
-                            </div>
-                        </div>
-                    </div>                
-                    <div class="well well-small form-horizontal" >
-                        <iframe
-                                width="100%"
-                                height="400"
-                                data-bind="attr: { src: $root.ClusterMapUrl() }">
-                        </iframe>
-                        <a class="btn btn-default" data-bind="attr: { href: $root.ClusterMapUrl() } " target="_blank"><i class="glyphicon glyphicon-map-marker"></i> Open map</a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <ul class="nav nav-tabs">
-                        <li data-bind="css: {active: $root.ShowNodes()==true }">
-                            <a href="#" data-bind="click: $root.DoShowNodes">Nodes</a>
-                        </li>
-                        <li data-bind="css: {active: $root.ShowHistory()==true }">
-                            <a href="#" data-bind="click: $root.DoShowHistory">Cluster history</a>
-                        </li>
-                    </ul>
-
-                    <div class="well well-small history" data-bind="visible: $root.ShowHistory()==true ">
-                        <div data-bind="foreach: $root.History">
-                            <div class="history_border">
-                                <div class="history_icon">
-                                    <i data-bind="css: Css"></i>
-                                </div>
-                                <div class="history_t">
-                                    <div class="text-heavy" data-bind="text: Title"></div>
-                                    <div data-bind="text: Description"></div>
-                                    <div class="text-light">
-                                        <span data-bind="text: Carvic.Utils.FormatDateTime(Ts)"></span> by <span data-bind="text: User"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="well well-small history" data-bind="visible: $root.ShowNodes()==true ">
-                        <div data-bind="foreach: $root.Nodes">
-                            <div class="history_border">
-                                <div class="history_icon">
-                                    <span data-bind="css: { color_error: Status() == 'unknown', color_ok: Status() == 'active', color_warning: Status() == 'inactive' }"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                </div>
-                                <div class="history_t">
-                                    <div class="text-heavy">
-                                        <a href="#" data-bind="attr: {href: Url}"><span data-bind="text: Name"></span></a>
-                                    </div>
-                                    <div>
-                                        ID=<span data-bind="text: ID"></span>,
-                                        Status=<span data-bind="text: Status"></span>
-                                    </div>
-                                    <div class="text-light">
-                                         Lon=<span data-bind="text: LON"></span>, Lat=<span data-bind="text: LAT"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="navbar-collapse collapse" style="top: 20">
+                <ul class="nav navbar-nav" id="navRight">
+                    <li class="active"><a href="clusters.html"><i class="glyphicon glyphicon-th"></i> Clusters</a></li>
+                    <li><a href="nodes.html"><i class="glyphicon glyphicon-map-marker"></i> Nodes</a></li>
+                    <li><a href="components.html"><i class="glyphicon glyphicon-tasks"></i> Components</a></li>
+                    <!--<li><a href="users.html"><i class="glyphicon glyphicon-user"></i> Users</a></li>-->
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="help"><i class="glyphicon glyphicon-question-sign" title="Show help"></i> Help</a></li>
+                    <li><a data-bind="click: $root.StdData.CurrentUserPage" , style="cursor: pointer"><i class="glyphicon glyphicon-user"></i> <span data-bind="text: $root.StdData.CurrentUserFullname, attr: { title: StdData.CurrentUserTooltip }"></span></a></li>
+                    <li><a href="#" onclick="javascript: Carvic.Utils.Logout(); "><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+                </ul>
             </div>
-
-
-
         </div>
-    </body>
+    </div>
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12 well">
+                <h2><i class="glyphicon glyphicon-th"></i>
+                        <span data-bind="text: Name"></span></h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="well well-small form-horizontal">
+
+                    <div style="padding-bottom: 10px;">
+                        <button class="btn btn-default" data-bind="click: $root.StartEditing, visible: $root.Editing() == false"><i class="glyphicon glyphicon-edit"></i> Edit cluster</button>
+                        <button class="btn btn-default" type="button" data-bind="click: $root.ScanCluster, visible: $root.StdData.CurrentUserIsAdmin() == true && $root.Editing() == false"><i class="glyphicon glyphicon-search"></i> Scan cluster </button>
+                        <button id="btnCancelEdit" class="btn btn-default" type="button" data-bind="click: $root.CancelEditing, visible: $root.Editing() == true"><i class="glyphicon glyphicon-remove"></i> Cancel editing </button>
+                    </div>
+                    <div class="list-group">
+                        <label class="control-label" for="inName"> NAME </label>
+                        <div>
+                            <span data-bind="text: Name, visible: $root.Editing() == false"></span>
+                            <input class="form-control" id="inName" type="text" data-bind="value: Name, visible: $root.Editing() == true" title="Name for this cluster - it will appear in lists and search results" />
+                        </div>
+                    </div>
+
+                    <div class="list-group">
+                        <label class="control-label" for="inId"> ID </label>
+                        <div>
+                            <span data-bind="text: Id, visible: $root.Editing() == false" title="ID of this cluster"></span>
+                        </div>
+                    </div>
+
+                    <div class="list-group">
+                        <label class="control-label" for="inTag"> TAG </label>
+                        <div>
+                            <span data-bind="text: Tag, visible: $root.Editing() == false"></span>
+                            <input class="form-control" id="inTag" type="text" data-bind="value: Tag, visible: $root.Editing() == true" title="Tag of this cluster - important for zigbee networks!" />
+                        </div>
+                    </div>
+
+
+                    <div class="list-group">
+                        <label class="control-label" for="inType "> TYPE </label>
+                        <div>
+                            <span data-bind="text: TypeStr , visible: $root.Editing() == false"></span>
+                            <select class="form-control" id="inType" data-bind="options: ClusterTypes, value: Type, optionsText: 'title', optionsValue: 'code', visible: $root.Editing() == true" title="Type of this cluster"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="list-group">
+                        <label class="control-label" for="inScan"> PEFORM SCAN? </label>
+                        <div>
+                            <input type="checkbox" id="inScan" data-bind="checked: Scan, enable: $root.Editing() == true" title="Should this cluster be scanned automatically?">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="list-group" data-bind="visible: $root.Scan() == true">
+                        <label class="control-label" for="inScheduling"> SCHEDULING </label>
+                        <div>
+                            <input type="radio" id="inScheduling" name="inScheduling" value="recur_scheduling" data-bind="checked: Scheduling, enable: $root.Editing() == true" title="Interval scaning"> Recur scheduling
+                            <input type="radio" id="inScheduling" name="inScheduling" value="time_scheduling" data-bind="checked: Scheduling, enable: $root.Editing() == true" title="Scan once per day"> Time scheduling
+                        </div>
+                    </div>
+
+                    <div class="list-group" data-bind="visible: $root.Scheduling() == 'recur_scheduling' && $root.Scan() == true">
+                        <label class="control-label" for="inScheduling"> INTERVAL UNIT </label>
+                        <div>
+                            <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="seconds" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Second
+                            <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="minutes" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Minute
+                            <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="hours" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Hour
+                            <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="days" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Day
+                            <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="weeks" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Week
+                            <input type="radio" id="inIntervalUnit" name="inIntervalUnit" value="months" data-bind="checked: IntervalUnit, enable: $root.Editing() == true"> Month
+                        </div>
+                    </div>
+
+                    <div class="list-group" data-bind="visible: $root.Scheduling() == 'recur_scheduling' && $root.Scan() == true">
+                        <label class="control-label" for="inScheduling"> INTERVAL </label>
+                        <span data-bind="text: Interval, visible: $root.Editing() == false"></span>
+                        <input class="form-control" type="text" id="inInterval" data-bind="value: Interval, visible: $root.Editing() == true" title="Type interval">
+                    </div>
+
+                    <div class="list-group" data-bind="visible: $root.Scheduling() == 'time_scheduling' && $root.Scan() == true">
+                        <label class="control-label" for="inScheduling"> EXACT TIME </label>
+                        <span data-bind="text: Time, visible: $root.Editing() == false"></span>
+                        <input class="form-control" id="inTime" data-bind="value: Time, visible: $root.Editing() == true" title="Insert time when cluster need to be scaned">
+                    </div>
+
+                    <div class="list-group">
+                        <label class="control-label" for="inLastScan"> LAST SCAN </label>
+                        <div class="controls">
+                            <span data-bind="text: Carvic.Utils.FormatDateTime(LastScan())"></span>
+                        </div>
+                    </div>
+
+                    <div class="list-group">
+                        <label class="control-label" for="inUrl"> URL </label>
+                        <div>
+                            <span data-bind="text: Url, visible: $root.Editing() == false"></span>
+                            <input class="form-control" id="inUrl" type="text" data-bind="value: Url, visible: $root.Editing() == true" title="URL of communicator for this cluster, if it uses one." />
+                        </div>
+                    </div>
+
+                    <div class="list-group">
+                        <label class="control-label" for="inComment"> COMMENT </label>
+                        <div>
+                            <span data-bind="text: Comment, visible: $root.Editing() == false"></span>
+                            <textarea class="form-control" id="inComment" data-bind="value: Comment, visible: $root.Editing() == true" rows="5" title="Optional comment for this cluster."></textarea>
+                        </div>
+                    </div>
+                    <!---->
+                    <div data-bind="visible: $root.Editing() == true">
+                        <label class="control-label" for="btnSaveCluster"></label>
+                        <div>
+                            <button id="btnSaveCluster" class="btn btn-default btn-primary" type="button" data-bind="click: $root.SaveCluster"><i class="glyphicon glyphicon-floppy-disk"></i> Save changes </button>
+                            <button class="btn btn-danger" data-bind="click: $root.DeleteCluster, visible: $root.Editing() == true && $root.StdData.CurrentUserIsAdmin() == true"><i class="glyphicon glyphicon-trash"></i> Delete cluster</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="well well-small form-horizontal">
+                    <iframe width="100%" height="400" data-bind="attr: { src: $root.ClusterMapUrl() }">
+                    </iframe>
+                    <a class="btn btn-default" data-bind="attr: { href: $root.ClusterMapUrl() } " target="_blank"><i class="glyphicon glyphicon-map-marker"></i> Open map</a>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <ul class="nav nav-tabs">
+                    <li data-bind="css: {active: $root.ShowNodes()==true }">
+                        <a href="#" data-bind="click: $root.DoShowNodes">Nodes</a>
+                    </li>
+                    <li data-bind="css: {active: $root.ShowHistory()==true }">
+                        <a href="#" data-bind="click: $root.DoShowHistory">Cluster history</a>
+                    </li>
+                </ul>
+
+
+                <div class="well well-small history" data-bind="visible: $root.ShowHistory()==true ">
+
+
+                    <div data-bind="foreach: $root.History">
+                        <div class="history_border">
+                            <div class="history_icon">
+                                <i data-bind="css: Css"></i>
+                            </div>
+                            <div class="history_t">
+                                <div class="text-heavy" data-bind="text: Title"></div>
+                                <div data-bind="text: Description"></div>
+                                <div class="text-light">
+                                    <span data-bind="text: Carvic.Utils.FormatDateTime(Ts)"></span> by <span data-bind="text: User"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div id="page-selection-history" style="text-align: center"></div>
+
+
+                </div>
+
+
+                <div class="well well-small history" data-bind="visible: $root.ShowNodes()==true ">
+
+
+
+                    <div data-bind="foreach: $root.Nodes">
+
+
+
+                        <div class="history_border">
+
+                            <div class="history_icon">
+                                <span data-bind="css: { color_error: Status() == 'unknown', color_ok: Status() == 'active', color_warning: Status() == 'inactive' }"><i class="glyphicon glyphicon-map-marker"></i></span>
+                            </div>
+                            <div class="history_t">
+                                <div class="text-heavy">
+                                    <a href="#" data-bind="attr: {href: Url}"><span data-bind="text: Name"></span></a>
+                                </div>
+                                <div>
+                                    ID=<span data-bind="text: ID"></span>, Status=
+                                    <span data-bind="text: Status"></span>
+                                </div>
+                                <div class="text-light">
+                                    Lon=<span data-bind="text: LON"></span>, Lat=<span data-bind="text: LAT"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div id="page-selection-nodes" style="text-align: center"></div>
+
+
+                </div>
+
+            </div>
+        </div>
+</body>
+
 </html>

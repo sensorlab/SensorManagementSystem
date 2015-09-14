@@ -1,466 +1,476 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <style type="text/css">
-            body { padding-top: 60px }
-        </style>
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-        <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" rel="stylesheet">
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/carvic.css" rel="stylesheet">
 
-        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <style type="text/css">
+        body {
+            padding-top: 60px
+        }
+    </style>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/carvic.css" rel="stylesheet">
 
-        <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="//cdn.socket.io/socket.io-1.3.5.js"></script>
-        <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap3-typeahead.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
-        <script type="text/javascript" src="js/carvic.js"></script>
-        <script>
-            $(document).ready(function () {
-                $(".control-label")
-                    .attr("data-bind", "css: { clear_top_padding: $root.CurrentNodeEditing() == false }");
-                Carvic.InitSingleNode();
-                ko.applyBindings(Carvic.Model.SingleNode);
-                $('.typeahead').typeahead({
-                    source: Carvic.Utils.ComponentLookup,
-                    minLength: 3,
-                    matcher: function () { return true; }
-                });
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="//cdn.socket.io/socket.io-1.3.5.js"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap3-typeahead.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/knockout/3.1.0/knockout-min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    <script type="text/javascript" src="js/carvic.js"></script>
+    <script type="text/javascript" src="js/jquery.bootpag.js"></script>
+    <script type="text/javascript" src="js/pagination.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $(".control-label")
+                .attr("data-bind", "css: { clear_top_padding: $root.CurrentNodeEditing() == false }");
+            Carvic.InitSingleNode();
+            ko.applyBindings(Carvic.Model.SingleNode);
+            $('.typeahead').typeahead({
+                source: Carvic.Utils.ComponentLookup,
+                minLength: 3,
+                matcher: function() {
+                    return true;
+                }
             });
-        </script>
-        <title>Sensor Management System - node</title>
-    </head>
-    <body>
+        });
+    </script>
+    <title>Sensor Management System - node</title>
+</head>
+
+<body>
 
 
-        <div class="navbar navbar-inverse navbar-fixed-top">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                          <span class="sr-only">Toggle navigation</span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                          <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="admin.html"><img src="img/sensorlab-only-logo-white-21px.png"> SensorLab</a>
-                    </div>
-                    <div class="navbar-collapse collapse" style="top: 20">
-                        <ul class="nav navbar-nav" id="navRight">
-                            <li><a href="clusters.html"><i class="glyphicon glyphicon-th"></i> Clusters</a></li>
-                            <li class="active"><a href="nodes.html"><i class="glyphicon glyphicon-map-marker"></i> Nodes</a></li>
-                            <li><a href="components.html"><i class="glyphicon glyphicon-tasks"></i> Components</a></li>
-                            <!--<li><a href="users.html"><i class="glyphicon glyphicon-user"></i> Users</a></li>-->
-                        </ul>
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="help"><i class="glyphicon glyphicon-question-sign" title="Show help"></i> Help</a></li>
-                            <li><a data-bind="click: $root.StdData.CurrentUserPage", style="cursor: pointer"><i class="glyphicon glyphicon-user"></i> <span data-bind="text: $root.StdData.CurrentUserFullname, attr: { title: StdData.CurrentUserTooltip }"></span></a></li>
-                            <li><a href="#" onclick="javascript: Carvic.Utils.Logout(); "><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
-        </div>
-
+    <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container-fluid">
-                            <!--<div class="row" style="padding-bottom:  10px;">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="admin.html"><img src="img/sensorlab-only-logo-white-21px.png"> SensorLab</a>
+            </div>
+            <div class="navbar-collapse collapse" style="top: 20">
+                <ul class="nav navbar-nav" id="navRight">
+                    <li><a href="clusters.html"><i class="glyphicon glyphicon-th"></i> Clusters</a></li>
+                    <li class="active"><a href="nodes.html"><i class="glyphicon glyphicon-map-marker"></i> Nodes</a></li>
+                    <li><a href="components.html"><i class="glyphicon glyphicon-tasks"></i> Components</a></li>
+                    <!--<li><a href="users.html"><i class="glyphicon glyphicon-user"></i> Users</a></li>-->
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="help"><i class="glyphicon glyphicon-question-sign" title="Show help"></i> Help</a></li>
+                    <li><a data-bind="click: $root.StdData.CurrentUserPage" , style="cursor: pointer"><i class="glyphicon glyphicon-user"></i> <span data-bind="text: $root.StdData.CurrentUserFullname, attr: { title: StdData.CurrentUserTooltip }"></span></a></li>
+                    <li><a href="#" onclick="javascript: Carvic.Utils.Logout(); "><i class="glyphicon glyphicon-log-out"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <!--<div class="row" style="padding-bottom:  10px;">
                                 <div class="col-md-6">
                                     <button class="btn btn-default btn-primary" data-bind="click: $root.CloseNodeDetails"><i class="glyphicon glyphicon-chevron-left"></i> Back </button>
                                 </div>
                                 <div class="col-md-6" style="text-align: right">
                                 </div>
                             </div>-->
-            <div class="row">
-                <div class="col-md-12 well">
-                    <h2><i class="glyphicon glyphicon-map-marker"></i>
+        <div class="row">
+            <div class="col-md-12 well">
+                <h2><i class="glyphicon glyphicon-map-marker"></i>
                         <span data-bind="text: NodeName"></span></h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="well well-small">
+                    <h2>Node info</h2>
+
+                    <table class="table">
+                        <tr>
+                            <th>ID</th>
+                            <td data-bind="text: NodeID"></td>
+                        </tr>
+                        <tr>
+                            <th>Name </th>
+                            <td data-bind="text: NodeName"></td>
+                        </tr>
+                        <tr>
+                            <th>Cluster </th>
+                            <td><a data-bind="attr: { href: NodeClusterUrl }"><span data-bind="text: NodeClusterName"></span></a></td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                <span data-bind="css: { color_error: NodeStatus() == 'unknown', color_ok: NodeStatus() == 'active', color_warning: NodeStatus() == 'inactive' }"><i class="glyphicon glyphicon-map-marker"></i></span>
+                                <span data-bind="text: NodeStatusStr"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>LON </th>
+                            <td data-bind="text: NodeLON" id="tdLon"></td>
+                        </tr>
+                        <tr>
+                            <th>LAT </th>
+                            <td data-bind="text: NodeLAT" id="tdLat"></td>
+                        </tr>
+                        <tr>
+                            <th>Last scan </th>
+                            <td data-bind="text: Carvic.Utils.FormatDateTime(NodeLastScan())" id="tdLastScan"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="well well-small">
+                    <iframe width="100%" height="400" data-bind="attr: { src: $root.NodeMapUrl() }">
+                    </iframe>
+                    <a class="btn btn-default" data-bind="attr: { href: $root.NodeMapUrl() } " target="_blank"><i class="glyphicon glyphicon-map-marker"></i> Open map</a>
                 </div>
             </div>
+            <div class="col-md-8">
+                <ul class="nav nav-tabs">
+                    <li data-bind="css: {active: $root.ShowNodeData()==true }">
+                        <a href="#" data-bind="click: $root.DoShowData">Node data</a>
+                    </li>
+                    <li data-bind="css: {active: $root.ShowHistory()==true }">
+                        <a href="#" data-bind="click: $root.DoShowHistory">Node history</a>
+                    </li>
+                    <li data-bind="css: {active: $root.ShowSensorList()==true }">
+                        <a href="#" data-bind="click: $root.DoShowSensorList">Sensors</a>
+                    </li>
+                </ul>
 
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="well well-small">
-                        <h2>Node info</h2>
-
-                        <table class="table">
-                            <tr>
-                                <th>ID</th>
-                                <td data-bind="text: NodeID"></td>
-                            </tr>
-                            <tr>
-                                <th>Name </th>
-                                <td data-bind="text: NodeName"></td>
-                            </tr>
-                            <tr>
-                                <th>Cluster </th>
-                                <td><a data-bind="attr: { href: NodeClusterUrl }"><span data-bind="text: NodeClusterName"></span></a></td>
-                            </tr>
-                            <tr>
-                                <th>Status</th>
-                                <td>
-                                    <span data-bind="css: { color_error: NodeStatus() == 'unknown', color_ok: NodeStatus() == 'active', color_warning: NodeStatus() == 'inactive' }"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                    <span data-bind="text: NodeStatusStr"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th>LON </th>
-                                <td data-bind="text: NodeLON" id="tdLon"></td>
-                            </tr>
-                            <tr>
-                                <th>LAT </th>
-                                <td data-bind="text: NodeLAT" id="tdLat"></td>
-                            </tr>
-                            <tr>
-                                <th>Last scan </th>
-                                <td data-bind="text: Carvic.Utils.FormatDateTime(NodeLastScan())" id="tdLastScan"></td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div class="well well-small" >
-                        <iframe
-                                width="100%"
-                                height="400"
-                                data-bind="attr: { src: $root.NodeMapUrl() }">
-                        </iframe>
-                        <a class="btn btn-default" data-bind="attr: { href: $root.NodeMapUrl() } " target="_blank"><i class="glyphicon glyphicon-map-marker"></i> Open map</a>
-                    </div>
-                </div>
-                <div class="col-md-8">
-                    <ul class="nav nav-tabs">
-                        <li data-bind="css: {active: $root.ShowNodeData()==true }">
-                            <a href="#" data-bind="click: $root.DoShowData">Node data</a>
-                        </li>
-                        <li data-bind="css: {active: $root.ShowHistory()==true }">
-                            <a href="#" data-bind="click: $root.DoShowHistory">Node history</a>
-                        </li>
-                        <li data-bind="css: {active: $root.ShowSensorList()==true }">
-                            <a href="#" data-bind="click: $root.DoShowSensorList">Sensors</a>
-                        </li>
-                    </ul>
-
-                    <div class="well well-small history" data-bind="visible: $root.ShowHistory()==true ">
-                        <div data-bind="foreach: $root.NodeHistory">
-                            <div class="history_border">
-                                <div class="history_icon">
-                                    <i data-bind="css: Css"></i>
-                                </div>
-                                <div class="history_t">
-                                    <div class="text-heavy" data-bind="text: Title"></div>
-                                    <div data-bind="text: Description"></div>
-                                    <div class="text-light">
-                                        <span data-bind="text: Carvic.Utils.FormatDateTime(Ts)"></span> by <span data-bind="text: UserFullName"></span>
-                                    </div>
+                <div class="well well-small history" data-bind="visible: $root.ShowHistory()==true ">
+                    <div data-bind="foreach: $root.NodeHistory">
+                        <div class="history_border">
+                            <div class="history_icon">
+                                <i data-bind="css: Css"></i>
+                            </div>
+                            <div class="history_t">
+                                <div class="text-heavy" data-bind="text: Title"></div>
+                                <div data-bind="text: Description"></div>
+                                <div class="text-light">
+                                    <span data-bind="text: Carvic.Utils.FormatDateTime(Ts)"></span> by <span data-bind="text: UserFullName"></span>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div id="page-selection-nodeHistory" style="text-align: center"></div>
+                </div>
 
-                    <div data-bind="visible: $root.ShowSensorList()==true ">
-                        <ul class="nav nav-pills" data-bind="foreach: $root.Sensors">
-                            <li data-bind="css: {active: IsActive()==true }"><a href="#" data-bind="click: Show"> <span data-bind="text: Name"></span> (<span data-bind="text: ID"></span>)</a></li>
-                        </ul>
+                <div data-bind="visible: $root.ShowSensorList()==true ">
+                    <ul class="nav nav-pills" data-bind="foreach: $root.Sensors">
+                        <li data-bind="css: {active: IsActive()==true }">
+                            <a href="#" data-bind="click: Show"> <span data-bind="text: Name"></span> (<span data-bind="text: ID"></span>)</a>
+                        </li>
+                    </ul>
 
-                        <div class="well well-small " data-bind=" visible: $root.Sensors().length == 0">
-                            This node contains no sensors.
+                    <div class="well well-small " data-bind=" visible: $root.Sensors().length == 0">
+                        This node contains no sensors.
+                    </div>
+                    <div class="well well-small " data-bind=" visible: $root.Sensors().length > 0, with: $root.CurrentSensor()">
+                        <h2><i class="glyphicon glyphicon-signal"></i> Sensor info</h2>
+                        <table class="table">
+                            <tr>
+                                <th>ID</th>
+                                <td data-bind="text: ID"></td>
+                            </tr>
+                            <tr>
+                                <th>Type </th>
+                                <td data-bind="text: Type"></td>
+                            </tr>
+                            <tr>
+                                <th>Quantity </th>
+                                <td data-bind="text: Quantity"></td>
+                            </tr>
+                            <tr>
+                                <th>Unit </th>
+                                <td data-bind="text: Unit"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <ul class="nav nav-tabs">
+                        <li data-bind="css: {active: $root.ShowRawSensorData()==true }">
+                            <a href="#" data-bind="click: $root.DoShowRawSensorData">Raw data</a>
+                        </li>
+                        <li data-bind="css: {active: $root.ShowSensorChart()==true }">
+                            <a href="#" data-bind="click: $root.DoShowSensorChart">Chart</a>
+                        </li>
+                        <li data-bind="css: {active: $root.ShowDownloadSensorData()==true }">
+                            <a href="#" data-bind="click: $root.DoShowDownloadSensorData">Download</a>
+                        </li>
+                    </ul>
+                    <div data-bind="visible: $root.ShowRawSensorData()==true ">
+                        <div data-bind="with: $root.CurrentSensor()">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Value</th>
+                                </tr>
+                                <tbody data-bind="foreach: History">
+                                    <tr>
+                                        <td><span data-bind="text: Carvic.Utils.FormatDateTime(Ts)"></span></td>
+                                        <td><span data-bind="text: Value"></span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="well well-small " data-bind=" visible: $root.Sensors().length > 0, with: $root.CurrentSensor()">
-                            <h2><i class="glyphicon glyphicon-signal"></i> Sensor info</h2>
-                            <table class="table">
+                    </div>
+                    <div data-bind="visible: $root.ShowSensorChart()==true ">
+                        <div class="span12">
+                            <canvas class="sensor_chart" id="sensorChart"></canvas>
+                        </div>
+                    </div>
+                    <div data-bind="visible: $root.ShowDownloadSensorData()==true ">
+                        <div class="well well-small" data-bind="with: $root.CurrentSensor()">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Start date:</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="begindate" placeholder="From" data-bind="value: From">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">End date:</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="enddate" placeholder="To" data-bind="value: To">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Limit results:</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" id="limit" placeholder="10000 (0 means no limit!)" data-bind="value: DownloadLimit">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button class="btn btn-default btn-primary" data-bind="click: DownloadMeasurements">Download</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div data-bind="visible: $root.ShowNodeData()==true ">
+
+                    <div class="alert alert-danger" data-bind="visible: $root.ComponentsError() ">
+                        This node contains components that are associated with multiple nodes.
+                    </div>
+
+                    <div class="well well-small max-width-form">
+                        <div style="padding-bottom:  10px;">
+                            <button class="btn btn-default" data-bind="click: $root.CancelEditNode, visible: $root.CurrentNodeEditing() == true"><i class="glyphicon glyphicon-remove"></i> Cancel editing</button>
+                            <button class="btn btn-default " data-bind="click: $root.StartEditNode, visible: $root.CurrentNodeEditing() == false"><i class="glyphicon glyphicon-edit"></i> Edit node</button>
+                        </div>
+
+                        <div class="alert alert-info" data-bind="visible: $root.CurrentNodeEditing() == true">
+                            <h4 style="padding-bottom: 10px;">Legend:</h4>
+                            <table>
                                 <tr>
-                                    <th>ID</th>
-                                    <td data-bind="text: ID"></td>
+                                    <td style="text-align: right"><span class="badge alert-info">auto</span></td>
+                                    <td style="padding-left: 10px">- this field can be automatically changed during network scan. Depending on the cluster capabilities.</td>
                                 </tr>
                                 <tr>
-                                    <th>Type </th>
-                                    <td data-bind="text: Type"></td>
-                                </tr>
-                                <tr>
-                                    <th>Quantity </th>
-                                    <td data-bind="text: Quantity"></td>
-                                </tr>
-                                <tr>
-                                    <th>Unit </th>
-                                    <td data-bind="text: Unit"></td>
+                                    <td style="text-align: right"><span class="badge alert-warning">*</span></td>
+                                    <td style="padding-left: 10px">- this field is mandatory.</td>
                                 </tr>
                             </table>
                         </div>
 
-                        <ul class="nav nav-tabs">
-                            <li data-bind="css: {active: $root.ShowRawSensorData()==true }">
-                                <a href="#" data-bind="click: $root.DoShowRawSensorData">Raw data</a>
-                            </li>
-                            <li data-bind="css: {active: $root.ShowSensorChart()==true }">
-                                <a href="#" data-bind="click: $root.DoShowSensorChart">Chart</a>
-                            </li>
-                            <li data-bind="css: {active: $root.ShowDownloadSensorData()==true }">
-                                <a href="#" data-bind="click: $root.DoShowDownloadSensorData">Download</a>
-                            </li>
-                        </ul>
-                        <div data-bind="visible: $root.ShowRawSensorData()==true ">
-                          <div data-bind="with: $root.CurrentSensor()">
-                              <table class="table table-hover">
-                                  <tr>
-                                      <th>Timestamp</th>
-                                      <th>Value</th>
-                                  </tr>
-                                  <tbody data-bind="foreach: History">
-                                  <tr>
-                                      <td><span data-bind="text: Carvic.Utils.FormatDateTime(Ts)"></span></td>
-                                      <td><span data-bind="text: Value"></span></td>
-                                  </tr>
-  									              </tbody>
-                              </table>
-                          </div>
-                        </div>
-                        <div data-bind="visible: $root.ShowSensorChart()==true ">
-                          <div class="span12">
-                            <canvas class="sensor_chart" id="sensorChart"></canvas>
-                          </div>
-                        </div>
-                        <div data-bind="visible: $root.ShowDownloadSensorData()==true ">
-                            <div class="well well-small" data-bind="with: $root.CurrentSensor()">
-                                <form class="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Start date:</label>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" id="begindate" placeholder="From" data-bind="value: From">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">End date:</label>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" id="enddate" placeholder="To" data-bind="value: To">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">Limit results:</label>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" id="limit" placeholder="10000 (0 means no limit!)" data-bind="value: DownloadLimit">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                      <div class="col-sm-offset-2 col-sm-10">
-                                        <button class="btn btn-default btn-primary" data-bind="click: DownloadMeasurements">Download</button>
-                                      </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-bind="visible: $root.ShowNodeData()==true ">
+                        <div class="form-horizontal">
+                            <h2>Basic data</h2>
 
-                        <div class="alert alert-danger" data-bind="visible: $root.ComponentsError() ">
-                            This node contains components that are associated with multiple nodes.
-                        </div>
-
-                        <div class="well well-small max-width-form">
-                            <div style="padding-bottom:  10px;">
-                                <button class="btn btn-default" data-bind="click: $root.CancelEditNode, visible: $root.CurrentNodeEditing() == true"><i class="glyphicon glyphicon-remove"></i> Cancel editing</button>
-                                <button class="btn btn-default " data-bind="click: $root.StartEditNode, visible: $root.CurrentNodeEditing() == false"><i class="glyphicon glyphicon-edit"></i> Edit node</button>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeName"> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Name </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeName, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeName" type="text" data-bind="value: NodeName, visible: $root.CurrentNodeEditing() == true" title="Human friendly name given to a node" />
+                                </div>
                             </div>
 
-                            <div class="alert alert-info" data-bind="visible: $root.CurrentNodeEditing() == true">
-                                <h4 style="padding-bottom: 10px;">Legend:</h4>
-                                <table>
-                                    <tr>
-                                        <td style="text-align: right"><span class="badge alert-info">auto</span></td>
-                                        <td style="padding-left: 10px">- this field can be automatically changed during network scan. Depending on the cluster capabilities.</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: right"><span class="badge alert-warning">*</span></td>
-                                        <td style="padding-left: 10px">- this field is mandatory.</td>
-                                    </tr>
-                                </table>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeCluster"> Cluster </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeClusterName, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <select class="input form-control" id="inNodeCluster" data-bind="options: NodeClusterList, optionsText: 'title', optionsValue: 'code', value: NodeCluster, visible: $root.CurrentNodeEditing() == true" title="Cluster where this node is installed"></select>
+                                </div>
                             </div>
 
-                            <div class="form-horizontal">
-                                <h2>Basic data</h2>
-
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeName"> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Name </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeName, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeName" type="text" data-bind="value: NodeName, visible: $root.CurrentNodeEditing() == true" title="Human friendly name given to a node" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeLON"> <span class="badge alert-info">auto</span> LON </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeLON, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeLON" type="text" data-bind="value: NodeLON, visible: $root.CurrentNodeEditing() == true" title="Longitude of this node" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeCluster"> Cluster </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeClusterName, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <select class="input form-control" id="inNodeCluster" data-bind="options: NodeClusterList, optionsText: 'title', optionsValue: 'code', value: NodeCluster, visible: $root.CurrentNodeEditing() == true" title="Cluster where this node is installed"></select>
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeLAT"> <span class="badge alert-info">auto</span> LAT </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeLAT, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeLAT" type="text" data-bind="value: NodeLAT, visible: $root.CurrentNodeEditing() == true" title="Latitude of this node" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeLON"> <span class="badge alert-info">auto</span> LON </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeLON, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeLON" type="text" data-bind="value: NodeLON, visible: $root.CurrentNodeEditing() == true" title="Longitude of this node" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeLocation"> Location </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeLocation, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeLocation" type="text" data-bind="value: NodeLocation, visible: $root.CurrentNodeEditing() == true" title="Location of this node" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeLAT"> <span class="badge alert-info">auto</span> LAT </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeLAT, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeLAT" type="text" data-bind="value: NodeLAT, visible: $root.CurrentNodeEditing() == true" title="Latitude of this node" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeStatus"> <span class="badge alert-info">auto</span> Status </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeStatusStr, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <select class="input form-control" id="inNodeStatus" data-bind="options: $root.NodeStatuses, optionsText: 'title', optionsValue: 'code', value: $root.NodeStatus, visible: $root.CurrentNodeEditing() == true" title="Status of this node"></select>
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeLocation"> Location </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeLocation, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeLocation" type="text" data-bind="value: NodeLocation, visible: $root.CurrentNodeEditing() == true" title="Location of this node" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeRole"> Role </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeRoleStr, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <!--<input class="input" id="inNodeRole" type="text" data-bind="value: NodeRole, visible: $root.CurrentNodeEditing() == true" title="Flag if this node is a gateway or regular node" />-->
+                                    <select class="input form-control" id="inNodeRole" data-bind="options: $root.NodeRoles, optionsText: 'title', optionsValue: 'code', value: $root.NodeRole, visible: $root.CurrentNodeEditing() == true" title="Flag if this node is a gateway or regular node"></select>
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeStatus"> <span class="badge alert-info">auto</span>  Status </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeStatusStr, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <select class="input form-control" id="inNodeStatus" data-bind="options: $root.NodeStatuses, optionsText: 'title', optionsValue: 'code', value: $root.NodeStatus, visible: $root.CurrentNodeEditing() == true" title="Status of this node"></select>
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeScope"> Scope </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeScope, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeScope" type="text" data-bind="value: NodeScope, visible: $root.CurrentNodeEditing() == true" title="Scope for this node" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeRole"> Role </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeRoleStr, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <!--<input class="input" id="inNodeRole" type="text" data-bind="value: NodeRole, visible: $root.CurrentNodeEditing() == true" title="Flag if this node is a gateway or regular node" />-->
-                                        <select class="input form-control" id="inNodeRole" data-bind="options: $root.NodeRoles, optionsText: 'title', optionsValue: 'code', value: $root.NodeRole, visible: $root.CurrentNodeEditing() == true" title="Flag if this node is a gateway or regular node"></select>
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeProject"> Project </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeProject, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeProject" type="text" data-bind="value: NodeProject, visible: $root.CurrentNodeEditing() == true" title="Project that this node is used for" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeScope"> Scope </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeScope, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeScope" type="text" data-bind="value: NodeScope, visible: $root.CurrentNodeEditing() == true" title="Scope for this node" />
-                                    </div>
-                                </div>
-
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeProject"> Project </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeProject, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeProject" type="text" data-bind="value: NodeProject, visible: $root.CurrentNodeEditing() == true" title="Project that this node is used for" />
-                                    </div>
-                                </div>
-
-                                                                    <!--<div class="list-group">
+                            <!--<div class="list-group">
                                                                         <label class="control-label" for="inNodeSource"> Source </label>
                                                                         <div class="controls">
                                                                             <span data-bind="text: NodeSource, visible: $root.CurrentNodeEditing() == false"></span>
                                                                             <input class="input" id="inNodeSource" type="text" data-bind="value: NodeSource, visible: $root.CurrentNodeEditing() == true" title="Source for this node" />
                                                                         </div>
                                                                     </div>-->
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeUserComment"> User comment </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeUserComment, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <textarea class="input form-control" id="inNodeUserComment" data-bind="value: NodeUserComment, visible: $root.CurrentNodeEditing() == true" rows="5" title="Users can manually insert some comment they find relevant."></textarea>
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeUserComment"> User comment </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeUserComment, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <textarea class="input form-control" id="inNodeUserComment" data-bind="value: NodeUserComment, visible: $root.CurrentNodeEditing() == true" rows="5" title="Users can manually insert some comment they find relevant."></textarea>
                                 </div>
+                            </div>
 
-                                <h2>System data</h2>
+                            <h2>System data</h2>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeNetworkAddress"> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Primary network address </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeNetworkAddress, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeNetworkAddress" type="text" data-bind="value: NodeNetworkAddress, visible: $root.CurrentNodeEditing() == true" title="Node's primary network address - depending on the cluster type this could be ID inside cluster, IP, or IPv6. This ID is used during network scan." />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeNetworkAddress"> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Primary network address </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeNetworkAddress, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeNetworkAddress" type="text" data-bind="value: NodeNetworkAddress, visible: $root.CurrentNodeEditing() == true" title="Node's primary network address - depending on the cluster type this could be ID inside cluster, IP, or IPv6. This ID is used during network scan." />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeNetworkAddress2"> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Alternative network address </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeNetworkAddress2, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeNetworkAddress2" type="text" data-bind="value: NodeNetworkAddress2, visible: $root.CurrentNodeEditing() == true" title="Node's alternative network address - could be ID inside cluster, IP, IPv6 or anything else. It is not used during network scan." />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeNetworkAddress2"> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Alternative network address </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeNetworkAddress2, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeNetworkAddress2" type="text" data-bind="value: NodeNetworkAddress2, visible: $root.CurrentNodeEditing() == true" title="Node's alternative network address - could be ID inside cluster, IP, IPv6 or anything else. It is not used during network scan." />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeMAC"> <span class="badge alert-info">auto</span> MAC </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeMAC, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeMAC" type="text" data-bind="value: NodeMAC, visible: $root.CurrentNodeEditing() == true" title="MAC address" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeMAC"> <span class="badge alert-info">auto</span> MAC </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeMAC, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeMAC" type="text" data-bind="value: NodeMAC, visible: $root.CurrentNodeEditing() == true" title="MAC address" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeSN"> Serial number </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeSN, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeSN" type="text" data-bind="value: NodeSN, visible: $root.CurrentNodeEditing() == true" title="Serial number of this node - might get redundant as we also keep track of  SNC component" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeSN"> Serial number </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeSN, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeSN" type="text" data-bind="value: NodeSN, visible: $root.CurrentNodeEditing() == true" title="Serial number of this node - might get redundant as we also keep track of  SNC component" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeFirmware"> <span class="badge alert-info">auto</span> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Firmware </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeFirmware, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeFirmware" type="text" data-bind="value: NodeFirmware, visible: $root.CurrentNodeEditing() == true" title="Firmware version that is installed on the node" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeFirmware"> <span class="badge alert-info">auto</span> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Firmware </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeFirmware, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeFirmware" type="text" data-bind="value: NodeFirmware, visible: $root.CurrentNodeEditing() == true" title="Firmware version that is installed on the node" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeBootloader"> <span class="badge alert-info">auto</span> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Bootloader </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeBootloader, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeBootloader" type="text" data-bind="value: NodeBootloader, visible: $root.CurrentNodeEditing() == true" title="Bootloader for this node" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeBootloader"> <span class="badge alert-info">auto</span> <span class="badge alert-warning" data-bind="visible: $root.CurrentNodeEditing() == true">*</span> Bootloader </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeBootloader, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeBootloader" type="text" data-bind="value: NodeBootloader, visible: $root.CurrentNodeEditing() == true" title="Bootloader for this node" />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeSetup"> Setup </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeSetup, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeSetup" type="text" data-bind="value: NodeSetup, visible: $root.CurrentNodeEditing() == true" title="This refers to the situation of the nodes, whether it's mounted or is in the office for repair, etc." />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeSetup"> Setup </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeSetup, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeSetup" type="text" data-bind="value: NodeSetup, visible: $root.CurrentNodeEditing() == true" title="This refers to the situation of the nodes, whether it's mounted or is in the office for repair, etc." />
                                 </div>
+                            </div>
 
-                                <div class="list-group">
-                                    <label class="control-label" for="inNodeBoxLabel"> Box-label </label>
-                                    <div class="controls">
-                                        <span data-bind="text: NodeBoxLabel, visible: $root.CurrentNodeEditing() == false"></span>
-                                        <input class="input form-control" id="inNodeBoxLabel" type="text" data-bind="value: NodeBoxLabel, visible: $root.CurrentNodeEditing() == true" title="Box-label for this node" />
-                                    </div>
+                            <div class="list-group">
+                                <label class="control-label" for="inNodeBoxLabel"> Box-label </label>
+                                <div class="controls">
+                                    <span data-bind="text: NodeBoxLabel, visible: $root.CurrentNodeEditing() == false"></span>
+                                    <input class="input form-control" id="inNodeBoxLabel" type="text" data-bind="value: NodeBoxLabel, visible: $root.CurrentNodeEditing() == true" title="Box-label for this node" />
                                 </div>
+                            </div>
 
-                                <h2>Components</h2>
+                            <h2>Components</h2>
 
 
-                                <div data-bind="foreach: Components">
-                                    <div style="padding:  5px;">
-                                        <button class="btn btn-default" data-bind="visible: $root.CurrentNodeEditing() == true, click: RemoveThisComponent"><i class="glyphicon glyphicon-remove"></i></button>
-                                        <a href="#" data-bind="attr: {href: Url}"><span data-bind="text: Id"></span></a>
-                                        <span class="badge alert-important" data-bind="visible: OtherNodesCount() > 0">Present at multiple nodes</span>
-                                    </div>
+                            <div data-bind="foreach: Components">
+                                <div style="padding:  5px;">
+                                    <button class="btn btn-default" data-bind="visible: $root.CurrentNodeEditing() == true, click: RemoveThisComponent"><i class="glyphicon glyphicon-remove"></i></button>
+                                    <a href="#" data-bind="attr: {href: Url}"><span data-bind="text: Id"></span></a>
+                                    <span class="badge alert-important" data-bind="visible: OtherNodesCount() > 0">Present at multiple nodes</span>
                                 </div>
-                                <div style="padding-bottom:  20px;">
-                                    <div id="the-basics">
-                                        <input class="typeahead form-control" type="text" data-bind="value: NodeEditComponentToAdd, visible: $root.CurrentNodeEditing() == true" title="Enter parts of the components ID (e.g. 'snc 001') and select from the list of matches" />
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-default" data-bind="visible: $root.CurrentNodeEditing() == true, click: AddNewComponent"><i class="glyphicon glyphicon-plus"></i></button>
-                                    </div>
+                            </div>
+                            <div style="padding-bottom:  20px;">
+                                <div id="the-basics">
+                                    <input class="typeahead form-control" type="text" data-bind="value: NodeEditComponentToAdd, visible: $root.CurrentNodeEditing() == true" title="Enter parts of the components ID (e.g. 'snc 001') and select from the list of matches" />
                                 </div>
                                 <div>
-                                    <button class="btn btn-default btn-primary" data-bind="click: $root.EndEditNode, visible: $root.CurrentNodeEditing() == true"><i class="glyphicon glyphicon-floppy-disk"></i> Save changes</button>
-                                    <button class="btn btn-danger" data-bind="click: $root.DeleteNode, visible: $root.CurrentNodeEditing() == true && $root.StdData.CurrentUserIsAdmin() == true"><i class="glyphicon glyphicon-trash"></i> Delete node</button>
+                                    <button class="btn btn-default" data-bind="visible: $root.CurrentNodeEditing() == true, click: AddNewComponent"><i class="glyphicon glyphicon-plus"></i></button>
                                 </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-default btn-primary" data-bind="click: $root.EndEditNode, visible: $root.CurrentNodeEditing() == true"><i class="glyphicon glyphicon-floppy-disk"></i> Save changes</button>
+                                <button class="btn btn-danger" data-bind="click: $root.DeleteNode, visible: $root.CurrentNodeEditing() == true && $root.StdData.CurrentUserIsAdmin() == true"><i class="glyphicon glyphicon-trash"></i> Delete node</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>

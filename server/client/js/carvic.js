@@ -17,7 +17,8 @@ Carvic.Model.StdData = function () {
     self.CurrentUserFullname = ko.observable("");
     self.CurrentUsername = ko.observable("");
     self.CurrentUserTooltip = ko.computed(function () {
-        return "Logged in: " + self.CurrentUserFullname() + " (" + self.CurrentUsername() + ")"; ateen
+        return "Logged in: " + self.CurrentUserFullname() + " (" + self.CurrentUsername() + ")";
+        ateen
     }, self);
     self.CurrentUserPage = function () {
         window.location = "user.html?u=" + self.CurrentUsername();
@@ -44,11 +45,17 @@ Carvic.Utils = {
 
     LoadClusterList: function (receiver, callback) {
         var query = {};
-        Carvic.Utils.Post({ action: "get_clusters", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_clusters",
+            data: query
+        }, function (data) {
             Carvic.Utils.ClusterLookupCache = []
             for (var i = 0; i < data.length; i++) {
                 var obj = data[i];
-                receiver.push({ code: obj.id, title: obj.name });
+                receiver.push({
+                    code: obj.id,
+                    title: obj.name
+                });
                 Carvic.Utils.ClusterLookupCache.push(obj.name);
             }
             if (callback) callback();
@@ -57,10 +64,16 @@ Carvic.Utils = {
 
     LoadUserList: function (receiver) {
         var query = {};
-        Carvic.Utils.Post({ action: "get_users", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_users",
+            data: query
+        }, function (data) {
             for (var i = 0; i < data.length; i++) {
                 var obj = data[i];
-                receiver.push({ code: obj.username, title: obj.full_name });
+                receiver.push({
+                    code: obj.username,
+                    title: obj.full_name
+                });
             }
         });
     },
@@ -99,7 +112,9 @@ Carvic.Utils = {
     ComponentLookup: function (s, callback) {
         var req = {
             action: "lookup_component",
-            data: { search_str: s }
+            data: {
+                search_str: s
+            }
         };
         Carvic.Utils.Post(req, function (data) {
             callback(data);
@@ -227,9 +242,9 @@ Carvic.Utils = {
             contentType: "application/json; charset=utf-8",
             success: function (result) {
                 var result_data = {};
-				if (result && result != "") {
-					result_data = JSON.parse(result);
-				}
+                if (result && result != "") {
+                    result_data = JSON.parse(result);
+                }
                 if (result_data.error == null) {
                     Carvic.Model.HasErrors(false);
                     callback(result_data);
@@ -320,15 +335,18 @@ Carvic.Model.UsersModel = function () {
         var d = {}
         self.UserTypes.removeAll();
         self.UserTypesMap = {};
-        Carvic.Utils.Post({ action: "get_all_user_types", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_user_types",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.UserTypes.push({
                     title: item.title,
                     code: item.code
                 });
                 self.UserTypesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -336,22 +354,28 @@ Carvic.Model.UsersModel = function () {
         self.UserStatuses.removeAll();
         self.UserStatusesMap = {};
         var d = {}
-        Carvic.Utils.Post({ action: "get_all_user_statuses", data: d }, function (data) {
-            data.forEach( function (item) {
+        Carvic.Utils.Post({
+            action: "get_all_user_statuses",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.UserStatuses.push({
                     title: item.title,
                     code: item.code
                 });
                 self.UserStatusesMap[item.code] = item;
             });
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
     self.LoadUsers = function () {
         self.UserList.removeAll();
         var query = {};
-        Carvic.Utils.Post({ action: "get_users", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_users",
+            data: query
+        }, function (data) {
             for (var i = 0; i < data.length; i++) {
                 var obj = data[i];
                 self.UserList.push({
@@ -383,11 +407,13 @@ Carvic.Model.UsersModel = function () {
             }
         };
         Carvic.Utils.Post(req, function (data) {
-            self.ShowUserDetails({ Username: req.data.username });
+            self.ShowUserDetails({
+                Username: req.data.username
+            });
         });
     };
-    self.getUserTypes( function() {
-        self.getUserStatuses ( function() {
+    self.getUserTypes(function () {
+        self.getUserStatuses(function () {
             self.LoadUsers();
         });
     });
@@ -460,15 +486,23 @@ Carvic.Model.UserModel = function () {
             after_sensor_scan: self.AfterSensorScan(),
             after_sensor_change: self.AfterSensorChange()
         };
-        Carvic.Utils.Post({ action: "change_notify", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "change_notify",
+            data: query
+        }, function (data) {
             alert("Notify changed successfully");
         });
 
     };
 
     self.Load = function (username) {
-        var query = { username: username };
-        Carvic.Utils.Post({ action: "get_notify", data: query }, function (data) {
+        var query = {
+            username: username
+        };
+        Carvic.Utils.Post({
+            action: "get_notify",
+            data: query
+        }, function (data) {
             var obj = data;
             self.Enabled(obj.enabled);
             self.Server(obj.server);
@@ -486,15 +520,18 @@ Carvic.Model.UserModel = function () {
         var d = {}
         self.UserTypes.removeAll();
         self.UserTypesMap = {};
-        Carvic.Utils.Post({ action: "get_all_user_types", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_user_types",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.UserTypes.push({
                     title: item.title,
                     code: item.code
                 });
                 self.UserTypesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -502,22 +539,29 @@ Carvic.Model.UserModel = function () {
         self.UserStatuses.removeAll();
         self.UserStatusesMap = {};
         var d = {}
-        Carvic.Utils.Post({ action: "get_all_user_statuses", data: d }, function (data) {
-            data.forEach( function (item) {
+        Carvic.Utils.Post({
+            action: "get_all_user_statuses",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.UserStatuses.push({
                     title: item.title,
                     code: item.code
                 });
                 self.UserStatusesMap[item.code] = item;
             });
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
     self.CurrentUserStartEditing = function () {
         self.CurrentUserEdit().FullName(self.CurrentUser().FullName());
-        self.CurrentUserEdit().Status(Carvic.Utils.GetMatches({ code: self.CurrentUser().Status() }, self.UserStatuses())[0]);
-        self.CurrentUserEdit().Type(Carvic.Utils.GetMatches({ code: self.CurrentUser().Type() }, self.UserTypes())[0]);
+        self.CurrentUserEdit().Status(Carvic.Utils.GetMatches({
+            code: self.CurrentUser().Status()
+        }, self.UserStatuses())[0]);
+        self.CurrentUserEdit().Type(Carvic.Utils.GetMatches({
+            code: self.CurrentUser().Type()
+        }, self.UserTypes())[0]);
         self.CurrentUserEditing(true);
     }
     self.CurrentUserStartEditingPwd = function () {
@@ -530,7 +574,10 @@ Carvic.Model.UserModel = function () {
             pwd1: self.EditUserPwd1(),
             pwd2: self.EditUserPwd2()
         };
-        Carvic.Utils.Post({ action: "change_pwd", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "change_pwd",
+            data: query
+        }, function (data) {
             alert("Password changed successfully");
             document.form.EditPwd1.value = "";
             document.form.EditPwd2.value = "";
@@ -539,11 +586,11 @@ Carvic.Model.UserModel = function () {
     }
 
     self.CurrentUserSave = function () {
-        if(!/^[0-9]*$/.test(self.Port())) {
+        if (!/^[0-9]*$/.test(self.Port())) {
             alert("Only numbers in port section");
             return;
         }
-        if(self.Port() < 0 || self.Port() > 65535) {
+        if (self.Port() < 0 || self.Port() > 65535) {
             alert("Port number must be between 0 and 65535");
             return;
         }
@@ -559,20 +606,26 @@ Carvic.Model.UserModel = function () {
             after_sensor_scan: self.AfterSensorScan(),
             after_sensor_change: self.AfterSensorChange()
         };
-        Carvic.Utils.Post({ action: "change_notify", data: query }, function (data) {
-        });
+        Carvic.Utils.Post({
+            action: "change_notify",
+            data: query
+        }, function (data) {});
 
         var errors = [];
         Carvic.Utils.CheckIfEmpty(self.CurrentUserEdit().FullName(), "Full name cannot be empty", errors);
         if (errors.length > 0) {
             var s = "Cannot save user:";
-            errors.forEach(function (item) { s += "\n- " + item });
+            errors.forEach(function (item) {
+                s += "\n- " + item
+            });
             alert(s);
             return;
         }
         var req = {
             action: "update_user",
-            data: { username: self.CurrentUser().Username() }
+            data: {
+                username: self.CurrentUser().Username()
+            }
         };
         if (self.CurrentUserEdit().FullName() !== self.CurrentUser().FullName())
             req.data.full_name = self.CurrentUserEdit().FullName();
@@ -596,7 +649,12 @@ Carvic.Model.UserModel = function () {
     }
 
     self.LoadUser = function (id) {
-        Carvic.Utils.Post({ action: "get_user", data: { username: id} }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_user",
+            data: {
+                username: id
+            }
+        }, function (data) {
             self.CurrentUser({
                 Username: ko.observable(data.username),
                 FullName: ko.observable(data.full_name),
@@ -679,7 +737,9 @@ Carvic.Model.UserModel = function () {
         if (confirm("Are you sure that you want to delete this user?")) {
             var req = {
                 action: "delete_user",
-                data: { username: self.CurrentUser().Username() }
+                data: {
+                    username: self.CurrentUser().Username()
+                }
             };
             Carvic.Utils.Post(req, function (data) {
                 alert("User successfully deleted.");
@@ -692,7 +752,9 @@ Carvic.Model.UserModel = function () {
         if (confirm("This user's token might be hard coded into an application. Regenerating it will block the application's access to SMS API. \nAre you sure you want to regenerate token for this user?")) {
             var req = {
                 action: "regenerate_token",
-                data: { username: self.CurrentUser().Username() }
+                data: {
+                    username: self.CurrentUser().Username()
+                }
             };
 
             Carvic.Utils.Post(req, function (data) {
@@ -713,9 +775,9 @@ Carvic.Model.UserModel = function () {
         self.ShowLogins(false);
         self.ShowChanges(true);
     }
-    self.getUserTypes( function() {
+    self.getUserTypes(function () {
         self.Load(Carvic.Utils.GetUrlParam("u"));
-        self.getUserStatuses( function() {
+        self.getUserStatuses(function () {
             var id = Carvic.Utils.GetUrlParam("u");
             if (id)
                 Carvic.Model.User.LoadUser(id);
@@ -767,15 +829,18 @@ Carvic.Model.NodesModel = function (callback) {
         var d = {}
         self.NodeStatuses.removeAll();
         self.NodeStatusesMap = {};
-        Carvic.Utils.Post({ action: "get_all_node_statuses", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_node_statuses",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.NodeStatuses.push({
                     title: item.title,
                     code: item.code
                 });
                 self.NodeStatusesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -822,41 +887,76 @@ Carvic.Model.NodesModel = function (callback) {
         self.SearchResult.removeAll();
         self.CheckedNodes.removeAll();
 
-        var query = { page: self.CurrPage() };
-        if (self.NodeSearchId() != "") { query.id = self.NodeSearchId(); }
-        if (self.NodeSearchName() != "") { query.name = self.NodeSearchName(); }
-        if (self.NodeSearchScope() != "") { query.scope = self.NodeSearchScope(); }
-        if (self.NodeSearchProject() != "") { query.project = self.NodeSearchProject(); }
-        if (self.NodeSearchSetup() != "") { query.setup = self.NodeSearchSetup(); }
-        if (self.NodeSearchBoxLabel() != "") { query.box_label = self.NodeSearchBoxLabel(); }
-        if (self.NodeSearchComment() != "") { query.comment = self.NodeSearchComment(); }
+        var query = {
+            page: self.CurrPage()
+        };
+        if (self.NodeSearchId() != "") {
+            query.id = self.NodeSearchId();
+        }
+        if (self.NodeSearchName() != "") {
+            query.name = self.NodeSearchName();
+        }
+        if (self.NodeSearchScope() != "") {
+            query.scope = self.NodeSearchScope();
+        }
+        if (self.NodeSearchProject() != "") {
+            query.project = self.NodeSearchProject();
+        }
+        if (self.NodeSearchSetup() != "") {
+            query.setup = self.NodeSearchSetup();
+        }
+        if (self.NodeSearchBoxLabel() != "") {
+            query.box_label = self.NodeSearchBoxLabel();
+        }
+        if (self.NodeSearchComment() != "") {
+            query.comment = self.NodeSearchComment();
+        }
 
         if (self.NodeSearchCluster() != "") {
             var s = self.NodeSearchCluster();
             $.each(
                 self.NodeSearchClusterList(),
                 function (index, val) {
-                if (val.title == s)
-                query.cluster = val.code; }
+                    if (val.title == s)
+                        query.cluster = val.code;
+                }
             );
             //query.cluster = self.NodeSearchCluster();
         }
 
-        if (self.NodeSearchStatus() != "") { query.status = self.NodeSearchStatus(); }
-        if (self.NodeSearchNetworkAddress() != "") { query.network_addr = self.NodeSearchNetworkAddress(); }
-        if (self.NodeSearchNetworkAddress2() != "") { query.network_addr2 = self.NodeSearchNetworkAddress2(); }
-        if (self.NodeSearchMAC() != "") { query.mac = self.NodeSearchMAC(); }
-        if (self.NodeSearchFirmware() != "") { query.firmware = self.NodeSearchFirmware(); }
-        if (self.NodeSearchBootloader() != "") { query.bootloader = self.NodeSearchBootloader(); }
+        if (self.NodeSearchStatus() != "") {
+            query.status = self.NodeSearchStatus();
+        }
+        if (self.NodeSearchNetworkAddress() != "") {
+            query.network_addr = self.NodeSearchNetworkAddress();
+        }
+        if (self.NodeSearchNetworkAddress2() != "") {
+            query.network_addr2 = self.NodeSearchNetworkAddress2();
+        }
+        if (self.NodeSearchMAC() != "") {
+            query.mac = self.NodeSearchMAC();
+        }
+        if (self.NodeSearchFirmware() != "") {
+            query.firmware = self.NodeSearchFirmware();
+        }
+        if (self.NodeSearchBootloader() != "") {
+            query.bootloader = self.NodeSearchBootloader();
+        }
 
-        Carvic.Utils.Post({ action: "get_nodes2", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_nodes2",
+            data: query
+        }, function (data) {
             self.RecCount(data.count);
             self.PageCount(Math.floor(data.count / data.page_size));
             self.UpdatePageButtons();
             for (var i = 0; i < data.records.length; i++) {
                 var obj = data.records[i];
                 var sensors = [];
-                Carvic.Utils.Post({ action: "get_sensors_for_node2", data: obj._id}, function (sensor_data) {
+                Carvic.Utils.Post({
+                    action: "get_sensors_for_node2",
+                    data: obj._id
+                }, function (sensor_data) {
                     sensor_data.forEach(function (item) {
                         sensors.push(item.quantity + " (" + item.type + ")");
                     });
@@ -887,41 +987,43 @@ Carvic.Model.NodesModel = function (callback) {
 
     self.DeleteNodeList = function () {
         switch (self.CheckedNodes().length > 0) {
-                case false:
-                    alert("There are no nodes chosen to delete!");
-                    break;
-                default:
-                    if (confirm("You are about to delete:\n" + self.CheckedNodes() + "\n" + "\n" + "Are you sure you want to delete these nodes?")) {
-                        for (i in self.CheckedNodes()) {
-                            var req = {
-                                action: "delete_node",
-                                data: { id: self.CheckedNodes()[i] }
-                            };
-                            Carvic.Utils.Post(req, function (data) {
-                                /*console.log("Node successfully deleted.")*/
-                           });
-                        }
-                        self.CheckedNodes.removeAll();
-                        self.SearchResult.removeAll();
-                        self.Search();
+            case false:
+                alert("There are no nodes chosen to delete!");
+                break;
+            default:
+                if (confirm("You are about to delete:\n" + self.CheckedNodes() + "\n" + "\n" + "Are you sure you want to delete these nodes?")) {
+                    for (i in self.CheckedNodes()) {
+                        var req = {
+                            action: "delete_node",
+                            data: {
+                                id: self.CheckedNodes()[i]
+                            }
+                        };
+                        Carvic.Utils.Post(req, function (data) {
+                            /*console.log("Node successfully deleted.")*/
+                        });
                     }
-                    break;
+                    self.CheckedNodes.removeAll();
+                    self.SearchResult.removeAll();
+                    self.Search();
+                }
+                break;
         }
     };
 
     self.ToggleAll = function () {
         self.CheckedNodes.removeAll();
-            for(i = 0; i < self.SearchResult().length; i++) {
-                self.CheckedNodes().push((typeof self.SearchResult()[i]().ID != 'string') ? JSON.stringify(self.SearchResult()[i]().ID) : self.SearchResult()[i]().ID);
-            }
+        for (i = 0; i < self.SearchResult().length; i++) {
+            self.CheckedNodes().push((typeof self.SearchResult()[i]().ID != 'string') ? JSON.stringify(self.SearchResult()[i]().ID) : self.SearchResult()[i]().ID);
+        }
         return self.CheckedNodes();
     };
 
     self.SelectAll = ko.dependentObservable({
-        read: function() {
+        read: function () {
             return self.CheckedNodes().length === self.SearchResult().length;
         },
-        write: function() {
+        write: function () {
             self.CheckedNodes(self.CheckedNodes().length === self.SearchResult().length ? [] : self.ToggleAll());
         },
         owner: self
@@ -935,7 +1037,7 @@ Carvic.Model.NodesModel = function (callback) {
         window.location = "new_node.html";
     };
 
-    self.getNodeStatuses( function() {
+    self.getNodeStatuses(function () {
         self.Search();
     });
 }
@@ -965,7 +1067,7 @@ Carvic.Model.SingleNodeModel = function () {
     self.NodeName = ko.observable("");
     self.NodeStatus = ko.observable("unknown");
     self.NodeStatusStr = ko.computed(function () {
-        return (typeof(self.NodeStatusesMap[self.NodeStatus()]) === "undefined") ? self.NodeStatus() :  self.NodeStatusesMap[self.NodeStatus()].title;
+        return (typeof (self.NodeStatusesMap[self.NodeStatus()]) === "undefined") ? self.NodeStatus() : self.NodeStatusesMap[self.NodeStatus()].title;
     }, this);
     self.NodeCluster = ko.observable();
     self.NodeClusterName = ko.observable();
@@ -982,7 +1084,7 @@ Carvic.Model.SingleNodeModel = function () {
     self.NodeSetup = ko.observable("");
     self.NodeRole = ko.observable("device");
     self.NodeRoleStr = ko.computed(function () {
-        return (typeof(self.NodeRolesMap[self.NodeRole()]) === "undefined") ? self.NodeRole() :  self.NodeRolesMap[self.NodeRole()].title;
+        return (typeof (self.NodeRolesMap[self.NodeRole()]) === "undefined") ? self.NodeRole() : self.NodeRolesMap[self.NodeRole()].title;
     }, this);
     self.NodeScope = ko.observable("");
     self.NodeProject = ko.observable("");
@@ -1015,15 +1117,18 @@ Carvic.Model.SingleNodeModel = function () {
         var d = {}
         self.NodeStatuses.removeAll();
         self.NodeStatusesMap = {};
-        Carvic.Utils.Post({ action: "get_all_node_statuses", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_node_statuses",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.NodeStatuses.push({
                     title: item.title,
                     code: item.code
                 });
                 self.NodeStatusesMap[item.code] = item;
             });
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -1031,15 +1136,18 @@ Carvic.Model.SingleNodeModel = function () {
         var d = {}
         self.NodeRoles.removeAll();
         self.NodeRolesMap = {};
-        Carvic.Utils.Post({ action: "get_all_node_roles", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_node_roles",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.NodeRoles.push({
                     title: item.title,
                     code: item.code
                 });
                 self.NodeRolesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -1079,7 +1187,12 @@ Carvic.Model.SingleNodeModel = function () {
             self.AddNewComponentId(cid);
         }
 
-        Carvic.Utils.Post({ action: "get_sensors_for_node", data: { node: data.id} }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_sensors_for_node",
+            data: {
+                node: data.id
+            }
+        }, function (data) {
             self.Sensors.removeAll();
             for (var i = 0; i < data.length; i++) {
                 var obj = data[i];
@@ -1092,7 +1205,12 @@ Carvic.Model.SingleNodeModel = function () {
         });
 
         self.ComponentsError(false);
-        Carvic.Utils.Post({ action: "get_nodes_with_same_components", data: { node: data.id} }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_nodes_with_same_components",
+            data: {
+                node: data.id
+            }
+        }, function (data) {
             for (var i = 0; i < data.length; i++) {
                 var obj = data[i];
                 for (var j = 0; j < self.Components().length; j++) {
@@ -1110,7 +1228,12 @@ Carvic.Model.SingleNodeModel = function () {
     };
 
     self.LoadNode = function (id) {
-        Carvic.Utils.Post({ action: "get_node", data: { id: id} }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_node",
+            data: {
+                id: id
+            }
+        }, function (data) {
             self.OriginalData = data;
             self.LoadDataFromObject(data);
         });
@@ -1126,7 +1249,9 @@ Carvic.Model.SingleNodeModel = function () {
             Id: ko.observable(id),
             OtherNodesCount: ko.observable(0),
             Url: ko.observable("component.html?id=" + encodeURI(id)),
-            RemoveThisComponent: function () { self.RemoveComponent(this.Id()); }
+            RemoveThisComponent: function () {
+                self.RemoveComponent(this.Id());
+            }
         };
         self.Components.push(obj);
         return obj;
@@ -1136,7 +1261,12 @@ Carvic.Model.SingleNodeModel = function () {
         if (id.length > 0) {
             var obj = self.AddNewComponentId(id);
 
-            var req = { action: "check_component_for_multiple_nodes", data: { component: id} };
+            var req = {
+                action: "check_component_for_multiple_nodes",
+                data: {
+                    component: id
+                }
+            };
             Carvic.Utils.Post(req, function (data) {
                 if (data.length > 0) {
                     obj.OtherNodesCount(data.length);
@@ -1174,7 +1304,9 @@ Carvic.Model.SingleNodeModel = function () {
         Carvic.Utils.CheckIfEmpty(self.NodeName(), "Name cannot be empty", errors);
         if (errors.length > 0) {
             var s = "Cannot update  node:";
-            errors.forEach(function (item) { s += "\n- " + item });
+            errors.forEach(function (item) {
+                s += "\n- " + item
+            });
             alert(s);
             return;
         }
@@ -1265,6 +1397,32 @@ Carvic.Model.SingleNodeModel = function () {
                     Css: (obj.code === "node_change" ? "icon-edit" : "icon-check")
                 }));
             }
+
+            //it starts from the page 1
+            //ten elements per page
+            paginate(0, 10);
+
+            $('#page-selection-nodeHistory').bootpag({
+
+                total: paginate(0, 10),
+                page: 1,
+                maxVisible: 3,
+                leaps: true,
+                firstLastUse: true,
+                first: 'First',
+                last: 'Last',
+                wrapClass: 'pagination',
+                activeClass: 'active',
+                disabledClass: 'disabled',
+                nextClass: 'next',
+                prevClass: 'prev',
+                lastClass: 'last',
+                firstClass: 'first'
+            }).on("page", function (event, num) {
+                //$('.history_border').html(); // or some ajax content loading...
+                paginate(num - 1, 10);
+
+            });
         });
     };
 
@@ -1330,17 +1488,17 @@ Carvic.Model.SingleNodeModel = function () {
         self.ShowSensorChart(false);
         self.ShowDownloadSensorData(true);
         $('#begindate').datepicker({
-          format: "yyyy-mm-dd",
-          autoclose: true
+            format: "yyyy-mm-dd",
+            autoclose: true
         });
         $('#enddate').datepicker({
-          format: "yyyy-mm-dd",
-          autoclose: true
+            format: "yyyy-mm-dd",
+            autoclose: true
         });
     };
 
-    self.getNodeStatuses( function() {
-        self.getNodeRoles( function() {
+    self.getNodeStatuses(function () {
+        self.getNodeRoles(function () {
             var id = Carvic.Utils.GetUrlParam("id");
             if (id) self.LoadNode(id);
             else selg.LoadNode(5);
@@ -1393,15 +1551,18 @@ Carvic.Model.NewNodeModel = function () {
         var d = {}
         self.NodeStatuses.removeAll();
         self.NodeStatusesMap = {};
-        Carvic.Utils.Post({ action: "get_all_node_statuses", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_node_statuses",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.NodeStatuses.push({
                     title: item.title,
                     code: item.code
                 });
                 self.NodeStatusesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -1409,15 +1570,18 @@ Carvic.Model.NewNodeModel = function () {
         var d = {}
         self.NodeRoles.removeAll();
         self.NodeRolesMap = {};
-        Carvic.Utils.Post({ action: "get_all_node_roles", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_node_roles",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.NodeRoles.push({
                     title: item.title,
                     code: item.code
                 });
                 self.NodeRolesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -1431,10 +1595,17 @@ Carvic.Model.NewNodeModel = function () {
             Id: ko.observable(id),
             Url: ko.observable("component.html?id=" + encodeURI(id)),
             AlreadyUsed: ko.observable(false),
-            RemoveThisComponent: function () { self.RemoveComponent(this.Id()); }
+            RemoveThisComponent: function () {
+                self.RemoveComponent(this.Id());
+            }
         };
         self.Components.push(obj);
-        var req = { action: "check_component_for_multiple_nodes", data: { component: id} };
+        var req = {
+            action: "check_component_for_multiple_nodes",
+            data: {
+                component: id
+            }
+        };
         Carvic.Utils.Post(req, function (data) {
             if (data.length > 0) {
                 obj.AlreadyUsed(true);
@@ -1450,7 +1621,9 @@ Carvic.Model.NewNodeModel = function () {
     }
 
     self.LoadLastNode = function () {
-        var req = { action: "get_last_node" };
+        var req = {
+            action: "get_last_node"
+        };
         Carvic.Utils.Post(req, function (data) {
 
             //self.NodeID(data.id);
@@ -1484,7 +1657,9 @@ Carvic.Model.NewNodeModel = function () {
         Carvic.Utils.CheckIfEmpty(self.NodeName(), "Name cannot be empty", errors);
         if (errors.length > 0) {
             var s = "Cannot create new node:";
-            errors.forEach(function (item) { s += "\n- " + item });
+            errors.forEach(function (item) {
+                s += "\n- " + item
+            });
             alert(s);
             return;
         }
@@ -1539,7 +1714,7 @@ Carvic.Model.NewNodeModel = function () {
         });
     };
 
-    self.getNodeStatuses(function() {
+    self.getNodeStatuses(function () {
         self.getNodeRoles();
     });
 }
@@ -1596,48 +1771,49 @@ Carvic.Model.NodeSensorModel = function (obj, parent) {
     };
 
     self.GetChart = function () {
-      if (self.sensorChart == null) {
-        var ctx = document.getElementById("sensorChart").getContext("2d");
-        var data = {
-        labels: [],
-        datasets: [
-            {
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: []
+        if (self.sensorChart == null) {
+            var ctx = document.getElementById("sensorChart").getContext("2d");
+            var data = {
+                labels: [],
+                datasets: [
+                    {
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        data: []
             }
-        ]};
-        self.sensorChart = new Chart(ctx).Line(data);
-        for (i = 0; i < self.History().length; i++) {
-          self.sensorChart.addData([self.sensorData[i].value], self.sensorData[i].ts);
+        ]
+            };
+            self.sensorChart = new Chart(ctx).Line(data);
+            for (i = 0; i < self.History().length; i++) {
+                self.sensorChart.addData([self.sensorData[i].value], self.sensorData[i].ts);
+            }
         }
-      }
     };
 
-    self.DownloadMeasurements = function() {
+    self.DownloadMeasurements = function () {
         var query = {};
         var d1 = self.From() + "T00:00:00.000Z";
         if (d1 && d1 != "") {
-          query.from = d1;
+            query.from = d1;
         } else {
-          alert("No begin date set!");
-          return;
+            alert("No begin date set!");
+            return;
         }
         var d2 = self.To() + "T23:59:59.000Z";
         if (d2 && d2 != "") {
-          query.to = d2;
+            query.to = d2;
         } else {
-          alert("No end date set!");
-          return;
+            alert("No end date set!");
+            return;
         }
         if (self.DownloadLimit() == "") {
-          query.limit = 10000;
+            query.limit = 10000;
         } else {
-          query.limit = self.DownloadLimit();
+            query.limit = self.DownloadLimit();
         }
         var req = {
             action: "download_measurements",
@@ -1648,34 +1824,34 @@ Carvic.Model.NodeSensorModel = function (obj, parent) {
                 limit: query.limit
             }
         };
-        Carvic.Utils.Post(req, function(data) {
-            var blob=new Blob([JSON.stringify(data)]);
-            var link=document.createElement('a');
-            link.href=window.URL.createObjectURL(blob);
-            link.download=self.ID;
+        Carvic.Utils.Post(req, function (data) {
+            var blob = new Blob([JSON.stringify(data)]);
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = self.ID;
             link.click();
-        }, function(err) {
+        }, function (err) {
             alert("No data!");
         });
     };
 
     var socket = io.connect('http://localhost:3000');
     socket.on(self.ID, function (data) {
-      for (var i = 0; i < data.length; i++) {
-          var obj = data[i];
-          if (self.sensorChart != null) {
-            self.sensorChart.addData([obj.value], obj.ts);
-          }
-          if (self.History().length <= 50) {
-            self.History.push(ko.observable({
-              Ts: new Date(Date.parse(obj.ts)),
-              Value: obj.value
-            }));
-          } else {
+        for (var i = 0; i < data.length; i++) {
+            var obj = data[i];
             if (self.sensorChart != null) {
-              self.sensorChart.removeData();
+                self.sensorChart.addData([obj.value], obj.ts);
             }
-          }
+            if (self.History().length <= 50) {
+                self.History.push(ko.observable({
+                    Ts: new Date(Date.parse(obj.ts)),
+                    Value: obj.value
+                }));
+            } else {
+                if (self.sensorChart != null) {
+                    self.sensorChart.removeData();
+                }
+            }
         }
     });
 };
@@ -1740,7 +1916,10 @@ Carvic.Model.ComponentsModel = function () {
         self.ComponentTypes.removeAll();
         self.ComponentTypesMap = {};
         var d = {}
-        Carvic.Utils.Post({ action: "get_all_component_types", data: d }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_all_component_types",
+            data: d
+        }, function (data) {
             data.forEach(function (item) {
                 self.ComponentTypes.push({
                     title: item.title,
@@ -1748,7 +1927,7 @@ Carvic.Model.ComponentsModel = function () {
                 });
                 self.ComponentTypesMap[item.code] = item;
             });
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -1756,15 +1935,18 @@ Carvic.Model.ComponentsModel = function () {
         var d = {}
         self.ComponentStatuses.removeAll();
         self.ComponentStatusesMap = {};
-        Carvic.Utils.Post({ action: "get_all_component_statuses", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_component_statuses",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.ComponentStatuses.push({
                     title: item.title,
                     code: item.code
                 });
                 self.ComponentStatusesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -1793,17 +1975,38 @@ Carvic.Model.ComponentsModel = function () {
         self.SearchResult.removeAll();
         self.CheckedComponents.removeAll();
 
-        var query = { page: self.CurrPage() };
-        if (self.SearchType() != undefined) { query.type = self.SearchType(); }
-        if (self.SearchPN() != "") { query.product_number = self.SearchPN(); }
-        if (self.SearchSN() != "") { query.serial_number = self.SearchSN(); }
-        if (self.SearchP() != "") { query.production = self.SearchP(); }
-        if (self.SearchS() != "") { query.series = self.SearchS(); }
-        if (self.SearchProject() != "") { query.project = self.SearchProject(); }
-        if (self.SearchComment() != "") { query.comment = self.SearchComment(); }
-        if (self.SearchStatus() != undefined) { query.status = self.SearchStatus(); }
+        var query = {
+            page: self.CurrPage()
+        };
+        if (self.SearchType() != undefined) {
+            query.type = self.SearchType();
+        }
+        if (self.SearchPN() != "") {
+            query.product_number = self.SearchPN();
+        }
+        if (self.SearchSN() != "") {
+            query.serial_number = self.SearchSN();
+        }
+        if (self.SearchP() != "") {
+            query.production = self.SearchP();
+        }
+        if (self.SearchS() != "") {
+            query.series = self.SearchS();
+        }
+        if (self.SearchProject() != "") {
+            query.project = self.SearchProject();
+        }
+        if (self.SearchComment() != "") {
+            query.comment = self.SearchComment();
+        }
+        if (self.SearchStatus() != undefined) {
+            query.status = self.SearchStatus();
+        }
 
-        Carvic.Utils.Post({ action: "get_components2", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_components2",
+            data: query
+        }, function (data) {
             self.RecCount(data.count);
             self.PageCount(Math.floor(data.count / data.page_size));
             self.UpdatePageButtons();
@@ -1835,13 +2038,16 @@ Carvic.Model.ComponentsModel = function () {
 
     self.EditTypeTitle = function (curr_component) {
         var title = prompt("Enter new type title");
-        if( title != null ) {
+        if (title != null) {
             var code = curr_component.code;
             var d = {
                 code: code,
                 title: title
             };
-            Carvic.Utils.Post({ action: "update_components_type", data: d }, function (data) {
+            Carvic.Utils.Post({
+                action: "update_components_type",
+                data: d
+            }, function (data) {
                 self.getComponentTypes();
             });
         }
@@ -1857,7 +2063,9 @@ Carvic.Model.ComponentsModel = function () {
         Carvic.Utils.CheckIfEmpty(self.NewSN2(), "'Serial number to' cannot be empty", errors);
         if (errors.length > 0) {
             var s = "Cannot create new components:";
-            errors.forEach(function (item) { s += "\n- " + item });
+            errors.forEach(function (item) {
+                s += "\n- " + item
+            });
             alert(s);
             return;
         }
@@ -1869,7 +2077,10 @@ Carvic.Model.ComponentsModel = function () {
             sn_from: self.NewSN1(),
             sn_to: self.NewSN2()
         };
-        Carvic.Utils.Post({ action: "add_components", data: d }, function (data) {
+        Carvic.Utils.Post({
+            action: "add_components",
+            data: d
+        }, function (data) {
             self.PageMode("search");
             self.NewPN("");
             self.NewP("");
@@ -1880,12 +2091,15 @@ Carvic.Model.ComponentsModel = function () {
         });
     };
 
-    self.SaveNewComponentType = function (curr_component){
+    self.SaveNewComponentType = function (curr_component) {
         var d = {
             code: self.NewCode(),
             title: self.NewTitle()
         };
-        Carvic.Utils.Post({ action: "add_new_component_type", data: d }, function (data) {
+        Carvic.Utils.Post({
+            action: "add_new_component_type",
+            data: d
+        }, function (data) {
             self.getComponentTypes();
             self.PageMode("manageType");
             self.NewCode("");
@@ -1895,17 +2109,17 @@ Carvic.Model.ComponentsModel = function () {
 
     self.ToggleAll = function () {
         self.CheckedComponents.removeAll();
-            for(i = 0; i < self.SearchResult().length; i++) {
-                self.CheckedComponents().push((typeof self.SearchResult()[i]().ID() != 'string') ? JSON.stringify(self.SearchResult()[i]().ID()) : self.SearchResult()[i]().ID());
-            }
+        for (i = 0; i < self.SearchResult().length; i++) {
+            self.CheckedComponents().push((typeof self.SearchResult()[i]().ID() != 'string') ? JSON.stringify(self.SearchResult()[i]().ID()) : self.SearchResult()[i]().ID());
+        }
         return self.CheckedComponents();
     };
 
     self.SelectAll = ko.dependentObservable({
-        read: function() {
+        read: function () {
             return self.CheckedComponents().length === self.SearchResult().length;
         },
-        write: function() {
+        write: function () {
             self.CheckedComponents(self.CheckedComponents().length === self.SearchResult().length ? [] : self.ToggleAll());
         },
         owner: self
@@ -1913,17 +2127,17 @@ Carvic.Model.ComponentsModel = function () {
 
     self.ToggleAllTypes = function () {
         self.CheckedComponentsTypes.removeAll();
-            for(i = 0; i < self.ComponentTypes().length; i++) {
-                self.CheckedComponentsTypes().push(self.ComponentTypes()[i].code);
-            }
+        for (i = 0; i < self.ComponentTypes().length; i++) {
+            self.CheckedComponentsTypes().push(self.ComponentTypes()[i].code);
+        }
         return self.CheckedComponentsTypes();
     };
 
     self.SelectAllTypes = ko.dependentObservable({
-        read: function() {
+        read: function () {
             return self.CheckedComponentsTypes().length === self.ComponentTypes().length;
         },
-        write: function() {
+        write: function () {
             self.CheckedComponentsTypes(self.CheckedComponentsTypes().length === self.ComponentTypes().length ? [] : self.ToggleAllTypes());
         },
         owner: self
@@ -1976,7 +2190,9 @@ Carvic.Model.ComponentsModel = function () {
                     for (i in self.CheckedComponents()) {
                         var req = {
                             action: "delete_component",
-                            data: { id: self.CheckedComponents()[i] }
+                            data: {
+                                id: self.CheckedComponents()[i]
+                            }
                         };
                         Carvic.Utils.Post(req, function (data) {
                             //console.log("Deleted component with ID: " + self.CheckedComponents()[i])
@@ -1998,13 +2214,14 @@ Carvic.Model.ComponentsModel = function () {
             default:
                 if (confirm("You chose:\n" + self.CheckedComponentsTypes() + "\n" + "\n" + "Are you sure you want to delete these components types?")) {
                     for (i in self.CheckedComponentsTypes()) {
-                        if(confirm("Some components can use that type:\n" + self.CheckedComponentsTypes()[i] + "\n" + "\n" + "Are you sure you want to delete this type?")) {
+                        if (confirm("Some components can use that type:\n" + self.CheckedComponentsTypes()[i] + "\n" + "\n" + "Are you sure you want to delete this type?")) {
                             var req = {
                                 action: "delete_component_type",
-                                data: { code: self.CheckedComponentsTypes()[i] }
+                                data: {
+                                    code: self.CheckedComponentsTypes()[i]
+                                }
                             };
-                            Carvic.Utils.Post(req, function (data) {
-                            });
+                            Carvic.Utils.Post(req, function (data) {});
                         }
                     }
                     self.CheckedComponentsTypes.removeAll();
@@ -2014,8 +2231,8 @@ Carvic.Model.ComponentsModel = function () {
         }
     };
 
-    self.getComponentTypes( function() {
-        self.getComponentStatuses( function() {
+    self.getComponentTypes(function () {
+        self.getComponentStatuses(function () {
             self.Search();
         });
     });
@@ -2052,8 +2269,13 @@ Carvic.Model.ComponentModel = function () {
     self.ComponentStatusesMap = {};
 
     self.Load = function (id) {
-        var query = { id: id };
-        Carvic.Utils.Post({ action: "get_component", data: query }, function (data) {
+        var query = {
+            id: id
+        };
+        Carvic.Utils.Post({
+            action: "get_component",
+            data: query
+        }, function (data) {
 
             var obj = data;
             self.Type(obj.type);
@@ -2090,7 +2312,9 @@ Carvic.Model.ComponentModel = function () {
         self.History.removeAll();
         var req = {
             action: "get_component_history",
-            data: { id: self.ID() }
+            data: {
+                id: self.ID()
+            }
         };
         Carvic.Utils.Post(req, function (data) {
             for (var i = 0; i < data.length; i++) {
@@ -2113,7 +2337,10 @@ Carvic.Model.ComponentModel = function () {
         self.ComponentTypes.removeAll();
         self.ComponentTypesMap = {};
         var d = {}
-        Carvic.Utils.Post({ action: "get_all_component_types", data: d }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_all_component_types",
+            data: d
+        }, function (data) {
             data.forEach(function (item) {
                 self.ComponentTypes.push({
                     title: item.title,
@@ -2121,7 +2348,7 @@ Carvic.Model.ComponentModel = function () {
                 });
                 self.ComponentTypesMap[item.code] = item;
             });
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -2129,15 +2356,18 @@ Carvic.Model.ComponentModel = function () {
         var d = {}
         self.ComponentStatuses.removeAll();
         self.ComponentStatusesMap = {};
-        Carvic.Utils.Post({ action: "get_all_component_statuses", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_component_statuses",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.ComponentStatuses.push({
                     title: item.title,
                     code: item.code
                 });
                 self.ComponentStatusesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -2148,7 +2378,7 @@ Carvic.Model.ComponentModel = function () {
         self.PageMode("search");
     };
 
-    self.ShowHistory = function (curr_component) { };
+    self.ShowHistory = function (curr_component) {};
 
     self.SaveComponent = function (curr_component) {
         var errors = [];
@@ -2158,11 +2388,15 @@ Carvic.Model.ComponentModel = function () {
         Carvic.Utils.CheckIfEmpty(self.SN(), "Serial number cannot be empty", errors);
         if (errors.length > 0) {
             var s = "Cannot save component:";
-            errors.forEach(function (item) { s += "\n- " + item });
+            errors.forEach(function (item) {
+                s += "\n- " + item
+            });
             alert(s);
             return;
         }
-        var d = { id: self.ID() };
+        var d = {
+            id: self.ID()
+        };
         if (self.LastData.type != self.Type())
             d.type = self.Type();
         if (self.LastData.product_number != self.PN())
@@ -2180,7 +2414,10 @@ Carvic.Model.ComponentModel = function () {
         if (self.LastData.comment != self.Comment())
             d.comment = self.Comment();
 
-        var req = { action: "update_component", data: d };
+        var req = {
+            action: "update_component",
+            data: d
+        };
         Carvic.Utils.Post(req, function (data) {
             //self.Load(data.id);
             document.location = "component.html?id=" + encodeURI(data.id);
@@ -2198,7 +2435,9 @@ Carvic.Model.ComponentModel = function () {
         if (confirm("Are you sure that you want to delete this component?")) {
             var req = {
                 action: "delete_component",
-                data: { id: self.ID() }
+                data: {
+                    id: self.ID()
+                }
             };
             Carvic.Utils.Post(req, function (data) {
                 alert("Component successfully deleted.");
@@ -2207,8 +2446,8 @@ Carvic.Model.ComponentModel = function () {
         }
     };
 
-    self.getComponentTypes( function() {
-        self.getComponentStatuses( function() {
+    self.getComponentTypes(function () {
+        self.getComponentStatuses(function () {
             var id = Carvic.Utils.GetUrlParam("id");
             self.Load(id);
         });
@@ -2248,15 +2487,18 @@ Carvic.Model.ClustersModel = function () {
         var d = {}
         self.ClusterTypes.removeAll();
         self.ClusterTypesMap = {};
-        Carvic.Utils.Post({ action: "get_all_cluster_types", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_cluster_types",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.ClusterTypes.push({
                     title: item.title,
                     code: item.code
                 });
                 self.ClusterTypesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
@@ -2269,7 +2511,10 @@ Carvic.Model.ClustersModel = function () {
         if (self.SearchId() != "") query.id = self.SearchId();
         if (self.SearchName() != "") query.name = self.SearchName();
         if (self.SearchType() != null) query.type = self.SearchType();
-        Carvic.Utils.Post({ action: "get_clusters", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_clusters",
+            data: query
+        }, function (data) {
             for (var i = 0; i < data.length; i++) {
                 var obj = data[i];
                 self.SearchResult.push(ko.observable({
@@ -2291,12 +2536,14 @@ Carvic.Model.ClustersModel = function () {
     self.SaveNewCluster = function (curr_component) {
         var errors = [];
         if (self.NewType() == "zigbee") {
-			Carvic.Utils.CheckIfEmpty(self.NewTag(), "Zigbee cluster must have a tag", errors);
-		}
+            Carvic.Utils.CheckIfEmpty(self.NewTag(), "Zigbee cluster must have a tag", errors);
+        }
         Carvic.Utils.CheckIfEmpty(self.NewName(), "Cluster must have a name", errors);
         if (errors.length > 0) {
             var s = "Cannot save cluster:";
-            errors.forEach(function (item) { s += "\n- " + item });
+            errors.forEach(function (item) {
+                s += "\n- " + item
+            });
             alert(s);
             return;
         }
@@ -2313,14 +2560,20 @@ Carvic.Model.ClustersModel = function () {
             interval: "",
             time: ""
         };
-        Carvic.Utils.Post({ action: "add_cluster", data: d }, function (data) {
+        Carvic.Utils.Post({
+            action: "add_cluster",
+            data: d
+        }, function (data) {
             self.Search();
             self.PageMode("search");
         });
     };
 
     self.ScanClusters = function () {
-        Carvic.Utils.Post({ action: "scan", data: {} }, function (data) {
+        Carvic.Utils.Post({
+            action: "scan",
+            data: {}
+        }, function (data) {
             alert("Network scan is running in background.");
         });
     }
@@ -2333,17 +2586,17 @@ Carvic.Model.ClustersModel = function () {
 
     self.ToggleAll = function () {
         self.CheckedClusters.removeAll();
-            for(i = 0; i < self.SearchResult().length; i++) {
-                self.CheckedClusters().push((typeof self.SearchResult()[i]().Id() != 'string') ? JSON.stringify(self.SearchResult()[i]().Id()) : self.SearchResult()[i]().Id());
-            }
+        for (i = 0; i < self.SearchResult().length; i++) {
+            self.CheckedClusters().push((typeof self.SearchResult()[i]().Id() != 'string') ? JSON.stringify(self.SearchResult()[i]().Id()) : self.SearchResult()[i]().Id());
+        }
         return self.CheckedClusters();
     }
 
     self.SelectAll = ko.dependentObservable({
-        read: function() {
+        read: function () {
             return self.CheckedClusters().length === self.SearchResult().length;
         },
-        write: function() {
+        write: function () {
             self.CheckedClusters(self.CheckedClusters().length === self.SearchResult().length ? [] : self.ToggleAll());
         },
         owner: self
@@ -2351,30 +2604,32 @@ Carvic.Model.ClustersModel = function () {
 
     self.DeleteClusterList = function () {
         switch (self.CheckedClusters().length > 0) {
-                case false:
-                    alert("There are no clusters chosen to delete!");
-                    break;
-                default:
-                    if (confirm("You are about to delete:\n" + self.CheckedClusters() + "\n" + "\n" + "Are you sure you want to delete these clusters?")) {
-                        for (i in self.CheckedClusters()) {
-                            if(confirm("This cluster might contain nodes:\n" + self.CheckedClusters()[i] + "\n" + "\n" + "Are you shure you want to delete this cluster?")) {
-                                var req = {
-                                    action: "delete_cluster",
-                                    data: { id: self.CheckedClusters()[i] }
-                                };
-                                Carvic.Utils.Post(req, function (data) {
-                                    //console.log("Cluster successfully deleted.")
-                               });
-                            }
+            case false:
+                alert("There are no clusters chosen to delete!");
+                break;
+            default:
+                if (confirm("You are about to delete:\n" + self.CheckedClusters() + "\n" + "\n" + "Are you sure you want to delete these clusters?")) {
+                    for (i in self.CheckedClusters()) {
+                        if (confirm("This cluster might contain nodes:\n" + self.CheckedClusters()[i] + "\n" + "\n" + "Are you shure you want to delete this cluster?")) {
+                            var req = {
+                                action: "delete_cluster",
+                                data: {
+                                    id: self.CheckedClusters()[i]
+                                }
+                            };
+                            Carvic.Utils.Post(req, function (data) {
+                                //console.log("Cluster successfully deleted.")
+                            });
                         }
-                        self.CheckedClusters.removeAll();
-                        self.SearchResult.removeAll();
-                        self.Search();
                     }
-                    break;
+                    self.CheckedClusters.removeAll();
+                    self.SearchResult.removeAll();
+                    self.Search();
+                }
+                break;
         }
     }
-    self.getClusterTypes( function() {
+    self.getClusterTypes(function () {
         self.Search();
     });
 }
@@ -2424,21 +2679,29 @@ Carvic.Model.ClusterModel = function () {
         var d = {}
         self.ClusterTypes.removeAll();
         self.ClusterTypesMap = {};
-        Carvic.Utils.Post({ action: "get_all_cluster_types", data: d }, function (data) {
-            data.forEach( function (item){
+        Carvic.Utils.Post({
+            action: "get_all_cluster_types",
+            data: d
+        }, function (data) {
+            data.forEach(function (item) {
                 self.ClusterTypes.push({
                     title: item.title,
                     code: item.code
                 });
                 self.ClusterTypesMap[item.code] = item;
             });;
-            if(callback) callback();
+            if (callback) callback();
         });
     }
 
     self.Load = function (id) {
-        var query = { id: id };
-        Carvic.Utils.Post({ action: "get_cluster", data: query }, function (data) {
+        var query = {
+            id: id
+        };
+        Carvic.Utils.Post({
+            action: "get_cluster",
+            data: query
+        }, function (data) {
 
             var obj = data;
             self.Type(obj.type);
@@ -2475,6 +2738,7 @@ Carvic.Model.ClusterModel = function () {
         };
         Carvic.Utils.Post(req, function (data) {
             for (var i = 0; i < data.length; i++) {
+
                 var obj = data[i];
                 self.Nodes.push(ko.observable({
                     ID: obj.id,
@@ -2485,7 +2749,34 @@ Carvic.Model.ClusterModel = function () {
                     Url: "node.html?id=" + encodeURI(obj.id)
                 }));
             }
+            //it starts from the page 1
+            //ten elements per page
+            paginate(0, 10);
+
+            $('#page-selection-nodes').bootpag({
+
+                total: paginate(0, 10),
+                page: 1,
+                maxVisible: 3,
+                leaps: true,
+                firstLastUse: true,
+                first: 'First',
+                last: 'Last',
+                wrapClass: 'pagination',
+                activeClass: 'active',
+                disabledClass: 'disabled',
+                nextClass: 'next',
+                prevClass: 'prev',
+                lastClass: 'last',
+                firstClass: 'first'
+            }).on("page", function (event, num) {
+                //$('.history_border').html(); // or some ajax content loading...
+                paginate(num - 1, 10);
+
+            });
+
         });
+
     }
 
     self.LoadHistory = function () {
@@ -2511,6 +2802,33 @@ Carvic.Model.ClusterModel = function () {
                     Css: (obj.code === "component_change" ? "icon-edit" : "icon-check")
                 }));
             }
+
+            //it starts from the page 1
+            //ten elements per page
+            paginate(0, 10);
+
+            $('#page-selection-history').bootpag({
+
+                total: paginate(0, 10),
+                page: 1,
+                maxVisible: 3,
+                leaps: true,
+                firstLastUse: true,
+                first: 'First',
+                last: 'Last',
+                wrapClass: 'pagination',
+                activeClass: 'active',
+                disabledClass: 'disabled',
+                nextClass: 'next',
+                prevClass: 'prev',
+                lastClass: 'last',
+                firstClass: 'first'
+            }).on("page", function (event, num) {
+                //$('.history_border').html(); // or some ajax content loading...
+                paginate(num - 1, 10);
+
+            });
+
         });
     }
 
@@ -2522,7 +2840,9 @@ Carvic.Model.ClusterModel = function () {
         Carvic.Utils.CheckIfEmpty(self.Name(), "Cluster must have a name", errors);
         if (errors.length > 0) {
             var s = "Cannot save cluster:";
-            errors.forEach(function (item) { s += "\n- " + item });
+            errors.forEach(function (item) {
+                s += "\n- " + item
+            });
             alert(s);
             return;
         }
@@ -2534,7 +2854,7 @@ Carvic.Model.ClusterModel = function () {
             return alert("Interval cannot be empty");
         if (self.Scan() == true && self.Scheduling() === "time_scheduling" && self.Time() === "")
             return alert("Exact time cannot be empty");
-        if (self.Scan() == true && self.Scheduling() === "recur_scheduling"){
+        if (self.Scan() == true && self.Scheduling() === "recur_scheduling") {
             if (parseInt(self.Interval()) < 1)
                 return alert("Interval must be higher then 0");
             var reg = new RegExp('^\\d+$');
@@ -2542,10 +2862,11 @@ Carvic.Model.ClusterModel = function () {
                 return alert("Insert numbers only");
         }
 
-        var d = { id: self.LastData.id };
+        var d = {
+            id: self.LastData.id
+        };
         var agendaChange = false;
-        if(self.LastData.scan != self.Scan() || self.LastData.scheduling != self.Scheduling() || self.LastData.interval != self.Interval()
-        || self.LastData.time != self.Time() || self.LastData.intervalUnit != self.IntervalUnit())
+        if (self.LastData.scan != self.Scan() || self.LastData.scheduling != self.Scheduling() || self.LastData.interval != self.Interval() || self.LastData.time != self.Time() || self.LastData.intervalUnit != self.IntervalUnit())
             agendaChange = true;
 
         if (self.LastData.type != self.Type())
@@ -2568,17 +2889,22 @@ Carvic.Model.ClusterModel = function () {
             d.time = self.Time();
         if (self.LastData.intervalUnit != self.IntervalUnit())
             d.intervalUnit = self.IntervalUnit();
-        var req = { action: "update_cluster", data: d };
+        var req = {
+            action: "update_cluster",
+            data: d
+        };
         Carvic.Utils.Post(req, function (data) {
-            if(agendaChange){
-                var req1 = { action: "update_agenda", data: d };
+            if (agendaChange) {
+                var req1 = {
+                    action: "update_agenda",
+                    data: d
+                };
                 Carvic.Utils.Post(req1, function (data) {
                     var id = Carvic.Utils.GetUrlParam("id");
                     Carvic.Model.Cluster.Load(id);
                     self.Editing(false);
                 });
-            }
-            else {
+            } else {
                 var id = Carvic.Utils.GetUrlParam("id");
                 Carvic.Model.Cluster.Load(id);
                 self.Editing(false);
@@ -2592,7 +2918,12 @@ Carvic.Model.ClusterModel = function () {
         self.Editing(true);
     }
     self.ScanCluster = function () {
-        Carvic.Utils.Post({ action: "scan", data: { id: self.Id()} }, function (data) {
+        Carvic.Utils.Post({
+            action: "scan",
+            data: {
+                id: self.Id()
+            }
+        }, function (data) {
             alert("Network scan is running in background.");
         });
     }
@@ -2605,7 +2936,9 @@ Carvic.Model.ClusterModel = function () {
 
         var req = {
             action: "delete_cluster",
-            data: { id: self.Id() }
+            data: {
+                id: self.Id()
+            }
         };
         Carvic.Utils.Post(req, function (data) {
             alert("Cluster successfully deleted.");
@@ -2613,7 +2946,7 @@ Carvic.Model.ClusterModel = function () {
         });
     };
 
-    self.getClusterTypes( function() {
+    self.getClusterTypes(function () {
         var id = Carvic.Utils.GetUrlParam("id");
         self.Load(id);
     });
@@ -2678,7 +3011,9 @@ Carvic.Model.HistoryModel = function () {
             self.UpdatePageButtons();
         }
         self.SearchResult.removeAll();
-        var query = { page: self.CurrPage() };
+        var query = {
+            page: self.CurrPage()
+        };
 
         if (self.User() != "") query.user = self.User();
         if (self.Component() != "") query.component = self.Component();
@@ -2691,7 +3026,10 @@ Carvic.Model.HistoryModel = function () {
         var d2 = self.To();
         if (d2 && d2 != "") query.ts_to = Carvic.Utils.ParseDate(d2);
 
-        Carvic.Utils.Post({ action: "get_history", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "get_history",
+            data: query
+        }, function (data) {
             self.RecCount(data.count);
             self.PageCount(Math.floor(data.count / data.page_size));
             self.UpdatePageButtons();
@@ -2732,7 +3070,10 @@ Carvic.Model.SettingsModel = function () {
         var query = {
             full_name: self.CurrentFullName()
         };
-        Carvic.Utils.Post({ action: "change_my_full_name", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "change_my_full_name",
+            data: query
+        }, function (data) {
             alert("Full name changed successfully");
         });
     };
@@ -2742,7 +3083,10 @@ Carvic.Model.SettingsModel = function () {
             pwd1: self.NewPwd1(),
             pwd2: self.NewPwd2()
         };
-        Carvic.Utils.Post({ action: "change_pwd", data: query }, function (data) {
+        Carvic.Utils.Post({
+            action: "change_pwd",
+            data: query
+        }, function (data) {
             alert("Password changed successfully");
             document.form.pwd1.value = "";
             document.form.pwd2.value = "";
@@ -2765,26 +3109,34 @@ Carvic.Model.Refresh = function () {
 }
 
 Carvic.ReloadStats = function () {
-    var req1 = { action: "get_node_stats" };
+    var req1 = {
+        action: "get_node_stats"
+    };
     Carvic.Utils.Post(req1, function (data) {
         Carvic.Model.Stats().Nodes().all(data.all);
         Carvic.Model.Stats().Nodes().active(data.active);
         Carvic.Model.Stats().Nodes().active_percent(data.active_percent);
     });
-    var req2 = { action: "get_sensor_stats" };
+    var req2 = {
+        action: "get_sensor_stats"
+    };
     Carvic.Utils.Post(req2, function (data) {
         Carvic.Model.Stats().Sensors().all(data.all);
         Carvic.Model.Stats().Sensors().active(data.active);
         Carvic.Model.Stats().Sensors().active_percent(data.active_percent);
     });
-    var req3 = { action: "get_user_stats" };
+    var req3 = {
+        action: "get_user_stats"
+    };
     Carvic.Utils.Post(req3, function (data) {
         Carvic.Model.Stats().Users().all(data.all);
         Carvic.Model.Stats().Users().active(data.active);
         Carvic.Model.Stats().Users().admins(data.admins);
     });
 
-    var req4 = { action: "get_cluster_stats" };
+    var req4 = {
+        action: "get_cluster_stats"
+    };
     Carvic.Utils.Post(req4, function (data) {
         for (var i in data) {
             var obj = data[i];
@@ -2809,9 +3161,9 @@ Carvic.InitUserList = function () {
 }
 
 Carvic.InitSingleUser = function () {
-     Carvic.Model.User = new Carvic.Model.UserModel();
-     Carvic.Utils.SetCurrentUser(Carvic.Model.User);
- }
+    Carvic.Model.User = new Carvic.Model.UserModel();
+    Carvic.Utils.SetCurrentUser(Carvic.Model.User);
+}
 
 Carvic.InitComponentList = function () {
     Carvic.Model.Components = new Carvic.Model.ComponentsModel();

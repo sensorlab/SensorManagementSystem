@@ -5,7 +5,11 @@
       "id": "10005",
       "name": "Polica",
       "type": "zigbee",
-      "scan": true,
+      "scan": false,
+      "scheduling": "",
+      "intervalUnit": "",
+      "interval": "",
+      "time": "",
       "comment": "",
       "url": "http://194.249.231.26:9004/communicator",
       "tag": "10005"
@@ -14,7 +18,11 @@
       "id": "X1",
       "name": "Test IPv6",
       "type": "ipv6",
-      "scan": true,
+      "scan": false,
+      "scheduling": "",
+      "intervalUnit": "",
+      "interval": "",
+      "time": "",
       "comment": "",
       "url": "e6hermes.ijs.si",
       "tag": ""
@@ -23,7 +31,11 @@
       "id": "10003",
       "name": "Vojkova",
       "type": "zigbee",
-      "scan": true,
+      "scan": false,
+      "scheduling": "",
+      "intervalUnit": "",
+      "interval": "",
+      "time": "",
       "comment": "",
       "url": "http://194.249.231.26:9001/communicator",
       "tag": "10003"
@@ -33,6 +45,10 @@
       "name": "Industrial zone",
       "type": "zigbee",
       "scan": false,
+      "scheduling": "",
+      "intervalUnit": "",
+      "interval": "",
+      "time": "",
       "comment": "",
       "url": "?",
       "tag": "3"
@@ -42,6 +58,10 @@
       "name": "City centre",
       "type": "zigbee",
       "scan": false,
+      "scheduling": "",
+      "intervalUnit": "",
+      "interval": "",
+      "time": "",
       "comment": "",
       "url": "?",
       "tag": "4"
@@ -51,6 +71,10 @@
       "name": "KabelNet",
       "type": "zigbee",
       "scan": false,
+      "scheduling": "",
+      "intervalUnit": "",
+      "interval": "",
+      "time": "",
       "comment": "",
       "url": "?",
       "tag": "5"
@@ -60,6 +84,10 @@
       "name": "JSI",
       "type": "zigbee",
       "scan": false,
+      "scheduling": "",
+      "intervalUnit": "",
+      "interval": "",
+      "time": "",
       "comment": "",
       "url": "http://194.249.231.26:9005/communicator",
       "tag": "10006"
@@ -5341,8 +5369,8 @@
       "full_name": "ado",
       "pwd_hash": "19e2e552bbaead6f79d1db5cca32a95f813ca6d7195e8eabc9dd826d90c1dc029e565158d0a26d8e0bbdedc40fb5e0c2277a2ca762254950f988d1dd39684ed1",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5351,8 +5379,8 @@
       "full_name": "blaz",
       "pwd_hash": "e3c7ed344139d955418a38706d2dfe36703cb2ec9d7d15b9a93b09a574df95d957510e4513926efda23f97ad3eec404db3f0923033bc91c2391f14c803cc958a",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5361,8 +5389,8 @@
       "full_name": "bostjan",
       "pwd_hash": "61bba41a18216100a88522b6e91e3a99be936a4e17c5438aeac622298bebdf9dd7c880890dbcc8e304a185289826c96f8862986dcf6073ce4dc964784bd23ea0",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5371,8 +5399,8 @@
       "full_name": "klemen",
       "pwd_hash": "7981071f67cdc07b978fab08e355e4b00c4c3858ddc352280eba72abe58efadd748e4ee95fb6857990aa89e937af96c873ad5dfc55450558d536b2e51a4c2437",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5381,8 +5409,8 @@
       "full_name": "mare",
       "pwd_hash": "5b92776e9e92db3f7d870e3ed7f3e6ad78ceb1362ed7dd02ebad00d837763e4f0b23b4348bf6bec35a013ce6d5b70f4919bfa1e38a70364f6f7878a1f882fa72",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5391,8 +5419,8 @@
       "full_name": "marko",
       "pwd_hash": "4be9d9f5874159bc525029d42e8f21007b642fd80992c3d7c57ddccd8da5e7f7d44bcd8c00f6242907e401f2afd1494176003a11928174f1e84a244a16e67b48",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5401,8 +5429,8 @@
       "full_name": "matevz",
       "pwd_hash": "2173507b1fe5fa43ace09df9b962a9513d63a7756f0670147dec826ede8b8d16876543035a1859db0227ca7e49280c67591ff2d9e9eb36d6e77add7d6b786ff3",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5411,8 +5439,8 @@
       "full_name": "miha",
       "pwd_hash": "24e07695eddffe8715587a787fe304e97bb4265bb39ebd1375e6f81ff170ab2ce26a773be223d187a34b85c08f638f729659c2ace42742372b7a3b60f31fba35",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5421,8 +5449,8 @@
       "full_name": "tomaz",
       "pwd_hash": "e89ce65ff709427787d2a0f914789bc522e5840b819209c96adb618a3c5a24ad4d5f87b0001045e68b969b61bddefa528f450125a350bbb90267097c78bb32bc",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     },
@@ -5431,11 +5459,107 @@
       "full_name": "vik",
       "pwd_hash": "837d5c9f5fa4a1a693941ef7933a781d31962067c72a75511f0f41553a2c047a2400d815baf8dff079aa4ebb9842bc9ade987b725ddc715ccf9033f996c72957",
       "status": "active",
-      "last_login": "2013-08-19T10:09:48.666Z",
-      "last_bad_login": "2013-08-19T10:09:48.666Z",
+      "last_login": "2015-07-15T13:27:22.519Z",
+      "last_bad_login": "2015-07-15T13:27:22.519Z",
       "bad_login_cnt": 0,
       "type": "admin"
     }
   ],
-  "logins": []
+  "logins": [],
+  "component_types": [
+    {
+      "code": "snr",
+      "title": "SNR"
+    },
+    {
+      "code": "sne",
+      "title": "SNE"
+    },
+    {
+      "code": "snc",
+      "title": "SNC"
+    }
+  ],
+  "cluster_types": [
+    {
+      "code": "zigbee",
+      "title": "ZigBee",
+      "uses_gateway": true
+    },
+    {
+      "code": "ipv6",
+      "title": "IPv6",
+      "uses_gateway": false
+    }
+  ],
+  "component_statuses": [
+    {
+      "code": "ok",
+      "title": "OK"
+    },
+    {
+      "code": "error",
+      "title": "Error"
+    },
+    {
+      "code": "in_reapir",
+      "title": "In repair"
+    }
+  ],
+  "node_roles": [
+    {
+      "code": "device",
+      "title": "Device"
+    },
+    {
+      "code": "gateway",
+      "title": "Gateway"
+    }
+  ],
+  "node_statuses": [
+    {
+      "code": "active",
+      "title": "Active"
+    },
+    {
+      "code": "inactive",
+      "title": "Inactive"
+    },
+    {
+      "code": "unreachable",
+      "title": "Unreachable"
+    },
+    {
+      "code": "unknown",
+      "title": "Unknown"
+    },
+    {
+      "code": "in_repair",
+      "title": "In repair"
+    }
+  ],
+  "user_statuses": [
+    {
+      "code": "active",
+      "title": "Active"
+    },
+    {
+      "code": "inactive",
+      "title": "Inactive"
+    },
+    {
+      "code": "locked",
+      "title": "Locked"
+    }
+  ],
+  "user_types": [
+    {
+      "code": "admin",
+      "title": "Administrator"
+    },
+    {
+      "code": "normal",
+      "title": "Normal user"
+    }
+  ]
 }
