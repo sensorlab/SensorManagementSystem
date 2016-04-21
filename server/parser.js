@@ -32,7 +32,7 @@ function parse_loc(s) {
 
         var res = {};
         res.lat = Number(v1);
-        res.lon = Number(v2);        
+        res.lon = Number(v2);
         return res;
     }
     return null;
@@ -227,16 +227,16 @@ exports.unit_tests = function (test) {
         var s = "123,567";
         var res = parse_loc(s);
         test.equal(typeof (res), "object", "obj");
-        test.equal(res.lon, 123, "obj.lon");
-        test.equal(res.lat, 567, "obj.lat");
+        test.equal(res.lat, 123, "obj.lat");
+        test.equal(res.lon, 567, "obj.lon");
     });
 
     test.test("Parse loc 2", function (test) {
         var s = "123.987,567.321";
         var res = parse_loc(s);
         test.equal(typeof (res), "object", "obj");
-        test.equal(res.lon, 123.987, "obj.lon");
-        test.equal(res.lat, 567.321, "obj.lat");
+        test.equal(res.lat, 123.987, "obj.lat");
+        test.equal(res.lon, 567.321, "obj.lon");
     });
 
     test.test("Parse loc - error 1", function (test) {
@@ -253,4 +253,3 @@ exports.unit_tests = function (test) {
 
     test.done();
 };
-

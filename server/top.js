@@ -46,7 +46,7 @@ if (options.cmd === "help") {
 
 } else if (options.cmd === "unit_tests") {
 
-    var tester = require('./test/cv_tester').get_tester();
+    var tester = require('./tests/cv_tester').get_tester();
     require("./parser").unit_tests(tester);
     require("./xutil").unit_tests(tester);
 
