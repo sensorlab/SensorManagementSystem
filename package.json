@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "start": "node app.js",
-		"test": "mocha tests/all.js"
+    "test": "mocha tests/all.js"
   },
   "keywords": [
     "sensor",
@@ -19,7 +19,7 @@
     "system"
   ],
   "dependencies": {
-		"test": "*",
+    "test": "*",
     "async": "*",
     "body-parser": "*",
     "express": "*",
